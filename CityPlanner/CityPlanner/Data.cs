@@ -1,6 +1,6 @@
 using System;
 
-public class Data
+public static class Data
 {
-    
+    public static enum GridType{ Housing, Commercial, Industry, Street };
 }
