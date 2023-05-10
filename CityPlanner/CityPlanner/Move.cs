@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CityPlanner
 {
-    class Move
+    public class Move
     {
         public int X { get; }
         public int Y { get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CityPlanner
 {
-    class AgentController
+    public class AgentController
     {
     }
 }
