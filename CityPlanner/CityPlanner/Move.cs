@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CityPlanner
 {
+    // könnte einfach nur eine auf ein objekt alten und das wäre dann eine move liste 
     public class Move
     {
         public int X { get; }
