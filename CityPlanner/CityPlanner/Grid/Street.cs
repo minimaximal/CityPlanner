@@ -2,7 +2,7 @@
 
 public class Street : GridElement
 {
-    
+    public Street(GridElement gridElement) : base(gridElement) {}
     public override int CalculateScore()
     {
         Score = -10;

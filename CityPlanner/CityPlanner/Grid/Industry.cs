@@ -2,7 +2,7 @@
 
 public class Industry : GridElement
 {
-    
+    public Industry(GridElement gridElement) : base(gridElement) {}
 
     public override int CalculateScore()
     {

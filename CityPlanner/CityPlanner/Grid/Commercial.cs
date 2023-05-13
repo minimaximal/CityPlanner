@@ -2,7 +2,7 @@
 
 public class Commercial : GridElement
 {
-    
+    public Commercial(GridElement gridElement) : base(gridElement) {}
 
     public override int CalculateScore()
     {
