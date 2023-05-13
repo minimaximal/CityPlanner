@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace CityPlanner.Grid;
+﻿namespace CityPlanner.Grid;
 
 public abstract class GridElement
 {
@@ -32,6 +28,11 @@ public abstract class GridElement
     public virtual Data.GridType GetGridType()
     {
         return Data.GridType.Empty;
+    }
+
+    public bool IsValidStreet()
+    {
+        return Dependency.Any(dependency => dependency is { Key: Data.GridType.Empty, Value: <= 1 });
     }
     
     
