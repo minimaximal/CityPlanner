@@ -39,7 +39,7 @@ namespace CityPlanner
             {
                 for (int y = 0; y < size_y; y++)
                 {
-                    if (map[x, y].getGridType() == Data.GridType.Empty)
+                    if (map[x, y].GetGridType() == Data.GridType.Empty)
                     {
                         _emptyMoves.Add(new Move(x, y));
                     }
@@ -55,20 +55,44 @@ namespace CityPlanner
             Data.GridType toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length));
             //end copy
 
-            int rand = random.Next(0, _emptyMoves.Count);
+            int rand = 0;
+            if (toBePlaced == Data.GridType.Street)
+            {
+                rand = _emptyMoves.IndexOf(getRandomStreet());
+            }
+            else
+            {
+                rand = random.Next(0, _emptyMoves.Count);
+            }
+            
             Move move = _emptyMoves[rand];
             move.GridType = toBePlaced;
             _emptyMoves.RemoveAt(rand);
             return move;
         }
 
-        void addMovetoMap(Move move)
+        Move getRandomStreet()
+        {
+            Random random = new Random();
+            
+            List<Move> limitedMoves = new List<Move>();
+            foreach (var possibleStreet in _emptyMoves)
+            {
+                if (Map[possibleStreet.X,possibleStreet.Y].IsValidStreet())
+                {
+                    limitedMoves.Add(possibleStreet);
+                }
+            }
+            int rand = random.Next(0, _emptyMoves.Count);
+            return limitedMoves[rand];
+        }
+        
+
+        void addMoveToMap(Move move)
         {
             // update GridElement to sup class
             Map[move.X, move.Y] = newGridElement(move.GridType, Map[move.X, move.Y]);
             //inform in range of this new exisitance
-            
-            
             
         }
 
