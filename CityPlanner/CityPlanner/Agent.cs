@@ -45,6 +45,13 @@ namespace CityPlanner
             }
         }
 
+        void makeOneMove()
+        {
+          Move move =  getRandomMove();
+            _moves.Add(move);
+        }
+        
+
         Move getRandomMove()
         {
             // copy pasted from https://stackoverflow.com/questions/3132126/how-do-i-select-a-random-value-from-an-enumeration
