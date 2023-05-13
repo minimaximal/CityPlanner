@@ -7,15 +7,11 @@ public abstract class GridElement
 
 
 
-    public void addScore(Data.GridType gridType)
+    public abstract bool addScore(Data.GridType gridType, int distance)
     {
         return 1;
     }
 
-    private void updateEnvironment()
-    {
-
-    }
     public int getScore()
     {
         return Score;
