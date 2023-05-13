@@ -1,20 +1,41 @@
-﻿namespace CityPlanner.Grid;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace CityPlanner.Grid;
 
 public abstract class GridElement
 {
-    private int Score;
-    private int Level = 1;
+    protected int Score = 0;
+    protected int Level = 1;
+    protected IDictionary<Data.GridType, double> Dependency = new Dictionary<Data.GridType, double>();
 
-
-
-    public abstract bool addScore(Data.GridType gridType, int distance)
+    public GridElement()
     {
-        return 1;
+        
+    }
+    public GridElement(GridElement gridElement)
+    {
+        Dependency = gridElement.Dependency;
     }
 
-    public int getScore()
+    public virtual int CalculateScore()
     {
-        return Score;
+        return 0;
+    }
+
+    public void AddDependency(Data.GridType gridType, int distance)
+    {
+        Dependency.Add(gridType, distance);
+    }
+
+    public virtual Data.GridType GetGridType()
+    {
+        return Data.GridType.Empty;
     }
     
+    
+    
+    
+
 }
