@@ -1,6 +1,6 @@
 ﻿namespace CityPlanner.Grid;
 
-public abstract class GridElement
+public class GridElement
 {
     protected int Score = 0;
     protected int Level = 1;
@@ -20,7 +20,9 @@ public abstract class GridElement
         return 0;
     }
 
-    public void AddDependency(Data.GridType gridType, int distance)
+    
+
+    public void AddDependency(Data.GridType gridType, double distance)
     {
         Dependency.Add(gridType, distance);
     }
