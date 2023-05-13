@@ -6,8 +6,12 @@ public class Map
 {
     private GridElement[,] map;
 
+    public int SizeX { get; }
+    public int SizeY { get; }
     public Map(int x, int y)
     {
+        SizeX = x;
+        SizeY = y;
         map = new GridElement[x, y];
     }
     
@@ -48,6 +52,10 @@ public class Map
 
     public GridElement GetGridElement(Move coordinates)
     {
-        return map[coordinates.X, coordinates.Y];
+        return GetGridElement(coordinates.X, coordinates.Y);
+    }
+    public GridElement GetGridElement(int x , int y)
+    {
+        return map[x,y];
     }
 }

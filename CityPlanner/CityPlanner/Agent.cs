@@ -24,22 +24,20 @@ namespace CityPlanner
 
     public class Agent
     {
-        GridElement[,] Map = new GridElement[100, 100];
+        private Map _map;
         private List<Move> _moves = new List<Move>();
         private List<Move> _emptyMoves = new List<Move>();
 
+        
 
-        public Agent(int size_x, int size_y) : this(size_x, size_y, new GridElement[100, 100])
+        public Agent(Map map)
         {
-        }
-
-        public Agent(int size_x, int size_y, GridElement[,] map)
-        {
-            for (int x = 0; x < size_x; x++)
+            _map = map;
+            for (int x = 0; x < map.SizeX; x++)
             {
-                for (int y = 0; y < size_y; y++)
+                for (int y = 0; y < map.SizeY; y++)
                 {
-                    if (map[x, y].GetGridType() == Data.GridType.Empty)
+                    if (map.GetGridElement(x,y).GetGridType() == Data.GridType.Empty)
                     {
                         _emptyMoves.Add(new Move(x, y));
                     }
@@ -78,7 +76,7 @@ namespace CityPlanner
             List<Move> limitedMoves = new List<Move>();
             foreach (var possibleStreet in _emptyMoves)
             {
-                if (Map[possibleStreet.X,possibleStreet.Y].IsValidStreet())
+                if (_map.GetGridElement(possibleStreet).IsValidStreet())
                 {
                     limitedMoves.Add(possibleStreet);
                 }
@@ -86,34 +84,6 @@ namespace CityPlanner
             int rand = random.Next(0, _emptyMoves.Count);
             return limitedMoves[rand];
         }
-        
-
-        void addMoveToMap(Move move)
-        {
-            // update GridElement to sup class
-            Map[move.X, move.Y] = newGridElement(move.GridType, Map[move.X, move.Y]);
-            //inform in range of this new exisitance
-            
-        }
-
-        GridElement newGridElement(Data.GridType gridType, GridElement old)
-        {
-            switch (gridType)
-            {
-                case Data.GridType.Housing:
-                    return new Housing(old);
-                case Data.GridType.Industry:
-                    return new Industry(old);
-                case Data.GridType.Street:
-                    return new Street(old);
-                case Data.GridType.Commercial:
-                    return new Commercial(old);
-                case Data.GridType.Empty:
-                    return old;
-            }
-            throw new Exception("In dem Switch case sollten alle GridTypes abgedeckt sein");
-        }
-        
 
     }
 }
