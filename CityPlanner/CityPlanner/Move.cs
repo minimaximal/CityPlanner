@@ -9,6 +9,7 @@ namespace CityPlanner
     // könnte einfach nur eine auf ein objekt alten und das wäre dann eine move liste 
     public class Move
     {
+        public Data.GridType GridType;
         public int X { get; }
         public int Y { get; }
 
