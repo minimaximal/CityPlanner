@@ -38,16 +38,24 @@ namespace CityPlanner
             }
 
             int currentLargestPopulation = 0;
-            while(currentLargestPopulation < _targetPopulation)
+            List<Agent> finishedAgents = new();
+
+            while(_agents.Count > 0)
             {
                 for(int moveNumber = 0; moveNumber < (_targetPopulation - currentLargestPopulation) / 200; moveNumber++)
                 {
                     _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
                 }
 
-                currentLargestPopulation = _agents.OrderByDescending(agent => agent.Population).FirstOrDefault().Population;
+                _agents = _agents.OrderByDescending(agent => agent.Population).ToList();
+                while (_agents.FirstOrDefault().Population > _targetPopulation)
+                {
+                    finishedAgents.Add(_agents.FirstOrDefault());
+                    _agents.RemoveAt(0);
+                }
             }
-            
+
+            _agents = finishedAgents;
         }
 
         private void CreateNewAgents(int amount)
