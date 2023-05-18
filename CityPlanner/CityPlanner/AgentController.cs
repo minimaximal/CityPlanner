@@ -22,7 +22,7 @@ namespace CityPlanner
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
-            _agentAmount = agentAmount;
+            _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             _Map = CreateNewMap();
         }
 
@@ -71,6 +71,19 @@ namespace CityPlanner
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             //todo implement gene algorithm (so next gen is based on last gen)
+            List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
+            _agents.Clear();
+            (int firstAgent, int secondAgent)[] combinations = new (int, int)[]{ (1, 2), (1, 3), (2, 3), (2, 1), (3, 1), (3, 2)};
+            for (int i = 0; i < amount; i++)
+            {
+                Map map = (Map)_Map.Clone();
+                _agents.Add(new Agent(map, bestThreeAgents[combinations[i % 6].firstAgent], bestThreeAgents[combinations[i % 6].secondAgent], (i+1)/(amount+1)));
+            }
+        }
+
+        private List<Agent> GetBestThreeAgents(IEnumerable<Agent> precedingAgents)
+        {
+            return precedingAgents.OrderByDescending(agent => agent.Score).Take(3).ToList();
         }
 
         private Map CreateNewMap()
