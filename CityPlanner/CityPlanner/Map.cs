@@ -89,7 +89,7 @@ public class Map : ICloneable
 
     public GridElement GetGridElement(int x, int y)
     {
-        if (x > 0 && x <= SizeX && y > 0 && y <= SizeY)
+        if (x > 0 && x < SizeX && y > 0 && y < SizeY)
         {
             return map[x, y];
         }
@@ -163,12 +163,13 @@ public class Map : ICloneable
                 }
             }
 
+            Console.Write("|\n");
             for (int x = 0; x < SizeY; x++)
             {
-                Console.Write("|\n");
                 Console.Write("_");
-                Console.Write("\n");
             }
+
+            Console.Write("\n");
         }
     }
 }

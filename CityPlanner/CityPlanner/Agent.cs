@@ -156,7 +156,7 @@ namespace CityPlanner
                 }
             }
 
-            int rand = random.Next(0, _emptyMoves.Count);
+            int rand = random.Next(0, limitedMoves.Count);
             return limitedMoves[rand];
         }
 

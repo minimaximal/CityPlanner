@@ -4,6 +4,7 @@ public class GridElement
 {
     protected int Score = 0;
     protected int Level = 1;
+    //Todo: This does not work / key cant be duplicated change to list<(key,value)>
     protected IDictionary<Data.GridType, double> Dependency = new Dictionary<Data.GridType, double>();
 
     public GridElement()
