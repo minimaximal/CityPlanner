@@ -89,4 +89,18 @@ public class Map
         }
         
     }
+
+    public Map Clone()
+    {
+        Map clone = new Map(SizeX, SizeY);
+        for (int i = 0; i < SizeX; i++)
+        {
+            for (int j = 0; j < SizeY; j++)
+            {
+                clone.map[i, j] = this.map[i, j];
+            }
+        }
+
+        return clone;
+    }
 }
