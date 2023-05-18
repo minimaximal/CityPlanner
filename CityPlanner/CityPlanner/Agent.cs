@@ -27,10 +27,19 @@ namespace CityPlanner
     {
         private Map _map;
         private List<Move> _moves = new List<Move>();
+        private int _moveCounter = 0;
         private List<Move> _emptyMoves = new List<Move>();
-        public int Population { get => _map.GetPeople(); }
-        public int Score { get => _map.CalculateScore(); }
-        
+
+        public int Population
+        {
+            get => _map.GetPeople();
+        }
+
+        public int Score
+        {
+            get => _map.CalculateScore();
+        }
+
 
         public Agent(Map map)
         {
@@ -47,23 +56,25 @@ namespace CityPlanner
             }
         }
 
-        public Agent(Map map, Agent parent1, Agent parent2, double split):this(map)
+        public Agent(Map map, Agent parent1, Agent parent2, double split) : this(map)
         {
-            if (split>=1)
+            if (split >= 1)
             {
                 split = 1;
             }
-            
+
             int shorterParentCount = parent1._moves.Count;
 
             if (parent2._moves.Count < parent1._moves.Count)
             {
                 shorterParentCount = parent2._moves.Count;
             }
-            for (int i = 0; i < shorterParentCount* split; i++)
+
+            for (int i = 0; i < shorterParentCount * split; i++)
             {
                 _moves.Add(parent1._moves.ElementAt(i));
             }
+
             //_moves.Count ==== shorterParentCount
             for (int i = _moves.Count; i < parent2._moves.Count; i++)
             {
@@ -81,10 +92,28 @@ namespace CityPlanner
 
         public void MakeOneMove()
         {
-            Move move = getRandomMove();
-            _moves.Add(move);
+            Random random = new Random();
+            Move move = _moves.ElementAt(_moveCounter);
+            if (move == null || random.NextDouble() < 0.015 ||
+                (!isLegalMove(move)) ||
+                (!isLegalStreet(move)))
+            {
+                move = getRandomMove();
+                _moves.Add(move);
+            }
+            
+            _map.AddMove(move);
+            _moveCounter++;
         }
 
+        private bool isLegalMove(Move move)
+        {
+            return _map.GetGridElement(move).GetGridType() == Data.GridType.Empty;
+        }
+        private bool isLegalStreet(Move move)
+        {
+            return !(move.GridType == Data.GridType.Street && !_map.validateStreet(move));
+        }
 
         Move getRandomMove()
         {
