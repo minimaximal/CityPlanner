@@ -11,21 +11,43 @@ namespace CityPlanner
     public class AgentController
     {
         private List<Agent> _agents = new();
+        private readonly int _agentAmount;
         private readonly (int x, int y) _mapSize;
         private readonly (int x, int y)[] _stratingPoints;
         private readonly int _targetPopulation;
+        private readonly Map _Map;
         
-        public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation)
+        public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation, int agentAmount)
         {
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
+            _agentAmount = agentAmount;
+            _Map = CreateNewMap();
         }
 
         public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
-            //todo decide on when to stop or rather: how often to check for populaiton; currently only one move per agent is made
-            _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+            if(_agents.Count == 0)
+            {
+                CreateNewAgents(_agentAmount);
+            }
+            else
+            {
+                CreateNewAgents(_agentAmount, _agents);
+            }
+
+            int currentLargestPopulation = 0;
+            while(currentLargestPopulation < _targetPopulation)
+            {
+                for(int moveNumber = 0; moveNumber < (_targetPopulation - currentLargestPopulation) / 200; moveNumber++)
+                {
+                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                }
+
+                currentLargestPopulation = _agents.OrderByDescending(agent => agent.Population).FirstOrDefault().Population;
+            }
+            
         }
 
         private void CreateNewAgents(int amount)
@@ -33,7 +55,7 @@ namespace CityPlanner
             _agents.Clear();
             for (int i = 0; i < amount; i++)
             {
-                Map map = CreateNewMap();
+                Map map = (Map)_Map.Clone();
                 _agents.Add(new Agent(map));
             }
         }
@@ -45,8 +67,6 @@ namespace CityPlanner
 
         private Map CreateNewMap()
         {
-            //todo decide wheter to generate new map everytime or to implement IClonable in Map and only wholly generate once
-
             Map map = new Map(_mapSize.x, _mapSize.y);
             foreach ((int x, int y) in _stratingPoints)
             {

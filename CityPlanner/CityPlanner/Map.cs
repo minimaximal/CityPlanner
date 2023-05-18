@@ -2,7 +2,7 @@
 
 namespace CityPlanner;
 
-public class Map
+public class Map : ICloneable
 {
     private GridElement[,] map;
     private const int Range = 5;
@@ -90,7 +90,7 @@ public class Map
         
     }
 
-    public Map Clone()
+    public object Clone()
     {
         Map clone = new Map(SizeX, SizeY);
         for (int i = 0; i < SizeX; i++)
