@@ -14,12 +14,14 @@ namespace CityPlanner
         private readonly (int x, int y) _mapSize;
         private readonly (int x, int y)[] _stratingPoints;
         private readonly int _targetPopulation;
+        private readonly Map _Map;
         
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation)
         {
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
+            _Map = CreateNewMap();
         }
 
         public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
@@ -33,7 +35,7 @@ namespace CityPlanner
             _agents.Clear();
             for (int i = 0; i < amount; i++)
             {
-                Map map = CreateNewMap();
+                Map map = (Map)_Map.Clone();
                 _agents.Add(new Agent(map));
             }
         }
@@ -45,8 +47,6 @@ namespace CityPlanner
 
         private Map CreateNewMap()
         {
-            //todo decide wheter to generate new map everytime or to implement IClonable in Map and only wholly generate once
-
             Map map = new Map(_mapSize.x, _mapSize.y);
             foreach ((int x, int y) in _stratingPoints)
             {
