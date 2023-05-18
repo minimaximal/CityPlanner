@@ -11,21 +11,32 @@ namespace CityPlanner
     public class AgentController
     {
         private List<Agent> _agents = new();
+        private readonly int _agentAmount;
         private readonly (int x, int y) _mapSize;
         private readonly (int x, int y)[] _stratingPoints;
         private readonly int _targetPopulation;
         private readonly Map _Map;
         
-        public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation)
+        public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation, int agentAmount)
         {
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
+            _agentAmount = agentAmount;
             _Map = CreateNewMap();
         }
 
         public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
+            if(_agents.Count == 0)
+            {
+                CreateNewAgents(_agentAmount);
+            }
+            else
+            {
+                CreateNewAgents(_agentAmount, _agents);
+            }
+
             int currentLargestPopulation = 0;
             while(currentLargestPopulation < _targetPopulation)
             {
