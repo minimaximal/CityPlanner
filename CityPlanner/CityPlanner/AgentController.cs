@@ -10,5 +10,14 @@ namespace CityPlanner
     
     public class AgentController
     {
+        // create X agents 
+        // {
+        // let them run for some moves 
+        // check their score 
+        // continue running } untill einwohner ?
+        // pick best 
+        // regenerate and mutate 
+        // repete 
+
     }
 }
