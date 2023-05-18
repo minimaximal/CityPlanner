@@ -27,7 +27,17 @@ namespace CityPlanner
         public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
             //todo decide on when to stop or rather: how often to check for populaiton; currently only one move per agent is made
-            _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+            int currentLargestPopulation = 0;
+            while(currentLargestPopulation < _targetPopulation)
+            {
+                for(int moveNumber = 0; moveNumber < (_targetPopulation - currentLargestPopulation) / 200; moveNumber++)
+                {
+                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                }
+
+                currentLargestPopulation = _agents.OrderByDescending(agent => agent.Population).FirstOrDefault().Population;
+            }
+            
         }
 
         private void CreateNewAgents(int amount)
