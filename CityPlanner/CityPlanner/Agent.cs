@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 using CityPlanner.Grid;
 
 namespace CityPlanner
@@ -38,7 +39,7 @@ namespace CityPlanner
             {
                 for (int y = 0; y < map.SizeY; y++)
                 {
-                    if (map.GetGridElement(x,y).GetGridType() == Data.GridType.Empty)
+                    if (map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
                     {
                         _emptyMoves.Add(new Move(x, y));
                     }
@@ -46,12 +47,44 @@ namespace CityPlanner
             }
         }
 
+        public Agent(Map map, Agent parent1, Agent parent2, double split):this(map)
+        {
+            if (split>=1)
+            {
+                split = 1;
+            }
+            
+            int shorterParentCount = parent1._moves.Count;
+
+            if (parent2._moves.Count < parent1._moves.Count)
+            {
+                shorterParentCount = parent2._moves.Count;
+            }
+            for (int i = 0; i < shorterParentCount* split; i++)
+            {
+                _moves.Add(parent1._moves.ElementAt(i));
+            }
+            //_moves.Count ==== shorterParentCount
+            for (int i = _moves.Count; i < parent2._moves.Count; i++)
+            {
+                _moves.Add(parent2._moves.ElementAt(i));
+            }
+
+            if (shorterParentCount == parent2._moves.Count) //parent2._moves.Count < parent1._moves.Count
+            {
+                for (int i = _moves.Count; i < parent1._moves.Count; i++)
+                {
+                    _moves.Add(parent1._moves.ElementAt(i));
+                }
+            }
+        }
+
         public void MakeOneMove()
         {
-            Move move =  getRandomMove();
+            Move move = getRandomMove();
             _moves.Add(move);
         }
-        
+
 
         Move getRandomMove()
         {
@@ -70,7 +103,7 @@ namespace CityPlanner
             {
                 rand = random.Next(0, _emptyMoves.Count);
             }
-            
+
             Move move = _emptyMoves[rand];
             move.GridType = toBePlaced;
             _emptyMoves.RemoveAt(rand);
@@ -80,7 +113,7 @@ namespace CityPlanner
         Move getRandomStreet()
         {
             Random random = new Random();
-            
+
             List<Move> limitedMoves = new List<Move>();
             foreach (var possibleStreet in _emptyMoves)
             {
@@ -89,9 +122,9 @@ namespace CityPlanner
                     limitedMoves.Add(possibleStreet);
                 }
             }
+
             int rand = random.Next(0, _emptyMoves.Count);
             return limitedMoves[rand];
         }
-
     }
 }
