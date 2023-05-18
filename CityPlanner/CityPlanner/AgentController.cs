@@ -70,7 +70,6 @@ namespace CityPlanner
 
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
-            //todo implement gene algorithm (so next gen is based on last gen)
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]{ (1, 2), (1, 3), (2, 3), (2, 1), (3, 1), (3, 2)};
