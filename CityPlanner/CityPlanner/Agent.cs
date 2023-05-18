@@ -45,9 +45,9 @@ namespace CityPlanner
             }
         }
 
-        void makeOneMove()
+        public void MakeOneMove()
         {
-          Move move =  getRandomMove();
+            Move move =  getRandomMove();
             _moves.Add(move);
         }
         
