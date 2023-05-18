@@ -28,6 +28,7 @@ namespace CityPlanner
         private List<Move> _moves = new List<Move>();
         private List<Move> _emptyMoves = new List<Move>();
         public int Population { get => _map.GetPeople(); }
+        public int Score { get => _map.CalculateScore(); }
         
 
         public Agent(Map map)
