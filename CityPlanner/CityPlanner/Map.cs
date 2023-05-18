@@ -16,6 +16,13 @@ public class Map : ICloneable
         SizeX = x;
         SizeY = y;
         map = new GridElement[x, y];
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                map[i, j] = new GridElement();
+            }
+        }
     }
 
     GridElement newGridElement(Data.GridType gridType, GridElement old)

@@ -26,7 +26,7 @@ namespace CityPlanner
             _Map = CreateNewMap();
         }
 
-        public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
+        public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
             if(_agents.Count == 0)
             {
@@ -56,6 +56,8 @@ namespace CityPlanner
             }
 
             _agents = finishedAgents;
+
+            return GetBestThreeAgents(finishedAgents)[0];
         }
 
         private void CreateNewAgents(int amount)

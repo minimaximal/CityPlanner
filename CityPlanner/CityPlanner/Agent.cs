@@ -93,7 +93,11 @@ namespace CityPlanner
         public void MakeOneMove()
         {
             Random random = new Random();
-            Move move = _moves.ElementAt(_moveCounter);
+            Move move = null;
+            if (_moves.Count > _moveCounter)
+            {
+                move = _moves.ElementAt(_moveCounter);
+            }
             if (move == null || random.NextDouble() < 0.015 ||
                 (!isLegalMove(move)) ||
                 (!isLegalStreet(move)))
@@ -154,6 +158,11 @@ namespace CityPlanner
 
             int rand = random.Next(0, _emptyMoves.Count);
             return limitedMoves[rand];
+        }
+
+        public void Display()
+        {
+            _map.Display();
         }
     }
 }
