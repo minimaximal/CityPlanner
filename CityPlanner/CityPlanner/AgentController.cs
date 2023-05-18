@@ -26,7 +26,6 @@ namespace CityPlanner
 
         public void ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
-            //todo decide on when to stop or rather: how often to check for populaiton; currently only one move per agent is made
             int currentLargestPopulation = 0;
             while(currentLargestPopulation < _targetPopulation)
             {
