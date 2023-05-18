@@ -103,4 +103,49 @@ public class Map : ICloneable
 
         return clone;
     }
+
+    //for backend testing only
+    public void Display()
+    {
+        for (int i = 0; i < SizeY; i++)
+        {
+            Console.Write("_");
+            Console.Write("\n");
+        }
+        for (int i = 0; i < SizeX; i++)
+        {
+            for (int j = 0; j < SizeY; j++)
+            {
+                Console.Write("|");
+                
+                if (map[i,j] is Housing) {
+                    Console.Write("H");
+                    Console.Write(map[i,j].GetLevel());
+                }
+                else if (map[i,j] is Commercial) {
+                    Console.Write("C");
+                    Console.Write(map[i,j].GetLevel());
+                }
+                else if (map[i,j] is Industry) {
+                    Console.Write("I");
+                    Console.Write(map[i,j].GetLevel());
+                }
+                else if (map[i,j] is Street) {
+                    Console.Write("S");
+                    Console.Write(map[i,j].GetLevel());
+                }
+                else {
+                    Console.Write("E");
+                    Console.Write("0");
+                }
+
+            }
+            for (int x = 0; x < SizeY; x++)
+            {
+                Console.Write("|\n");
+                Console.Write("_");
+                Console.Write("\n");
+            }
+        }
+    }
 }
