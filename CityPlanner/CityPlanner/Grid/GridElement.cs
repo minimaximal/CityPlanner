@@ -36,6 +36,11 @@ public class GridElement
     {
         return Dependency.Any(dependency => dependency is { Key: Data.GridType.Empty, Value: <= 1 });
     }
+
+    public int GetLevel()
+    {
+        return Level;
+    }
     
     
     
