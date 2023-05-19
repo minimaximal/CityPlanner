@@ -19,13 +19,14 @@
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
             <TextBlock HorizontalAlignment="Center" Text="Einwohnerzahl"/>
-            <TextBox HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl"/>
+            <NumberBox Value="{x:Bind Path=iEinwohnerzahl, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
             <TextBlock HorizontalAlignment="Center" Text="Kartenbreite"/>
-            <TextBox HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
+            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
             <TextBlock HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
-            <TextBox HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
+            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
             <TextBlock HorizontalAlignment="Center" Text="Importquote"/>
-            <TextBox HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
+            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
+            <Button Click="Button_Click" HorizontalAlignment="Right">Simulation starten</Button>
         </StackPanel>
 
     </Grid>

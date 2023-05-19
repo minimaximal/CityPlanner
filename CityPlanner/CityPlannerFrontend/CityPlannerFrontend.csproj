@@ -48,7 +48,13 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="MainPage.xaml" />
+    <None Remove="MapView.xaml" />
     <None Remove="Settings.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MapView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainPage.xaml">
