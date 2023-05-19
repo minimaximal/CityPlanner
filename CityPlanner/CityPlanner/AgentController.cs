@@ -42,17 +42,28 @@ namespace CityPlanner
 
             while(_agents.Count > 0)
             {
-                for(int moveNumber = 0; moveNumber < (_targetPopulation - currentLargestPopulation) / 200; moveNumber++)
+                int moveLimit = (_targetPopulation - currentLargestPopulation) / 200;
+                moveLimit = moveLimit > _agents[0].getMaxRemainingMoves()
+                    ? _agents[0].getMaxRemainingMoves()
+                    : moveLimit;
+                for(int moveNumber = 0; moveNumber < moveLimit ; moveNumber++)
                 {
-                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    foreach (Agent agent in _agents)
+                    {
+                        agent.MakeOneMove();
+                    }
+                   // _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
                 }
 
-                _agents = _agents.OrderByDescending(agent => agent.Population).ToList();
-                while (_agents.FirstOrDefault().Population > _targetPopulation)
+                for (int i = 0;i< _agents.Count(); i++)
                 {
-                    finishedAgents.Add(_agents.FirstOrDefault());
-                    _agents.RemoveAt(0);
+                    if (_agents[i].noMoreValidStreet || _agents[i].Population > _targetPopulation)
+                    {
+                        finishedAgents.Add(_agents[i]);
+                        _agents.Remove(_agents[i]);
+                    }
                 }
+                
             }
 
             _agents = finishedAgents;

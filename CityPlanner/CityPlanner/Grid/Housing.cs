@@ -3,74 +3,74 @@
 public class Housing : GridElement
 {
     private int people;
-    public Housing(GridElement gridElement) : base(gridElement) {}
+
+    public Housing(GridElement gridElement) : base(gridElement)
+    {
+    }
+
     public override int CalculateScore()
     {
-        IDictionary<Data.GridType, double> OrderedDependency = new Dictionary<Data.GridType, double>();
-        OrderedDependency = Dependency.OrderBy(key => key.Key).ToDictionary(obj => obj.Key, obj => obj.Value);
-        double closestStreet = 5;
-        foreach (var dependency in OrderedDependency)
+        /*
+        foreach (double Housing in Dependency[Data.GridType.Housing])
         {
-            //general dependencies
-            switch (dependency.Key)
+            //who knows...
+        }
+        */
+
+        foreach (double Commercial in Dependency[Data.GridType.Commercial])
+        {
+            if (Commercial <= 4.9)
             {
-                case Data.GridType.Housing:
-                    //who knows...
-                    break;
-                case Data.GridType.Commercial:
-                    if (dependency.Value <= 4.9)
-                    {
-                        Score += 5;
-                    }
-                    break;
-                case Data.GridType.Industry:  
-                    if (dependency.Value <= 4.9)
-                    {
-                        Score -= 15;
-                    }
-                    break;
-                case Data.GridType.Street: 
-                    if (dependency.Value < closestStreet)
-                    {
-                        closestStreet = dependency.Value;
-                    }
-                    break;
-                case Data.GridType.Empty:
-                    break;
-                
+                Score += 5;
             }
         }
-        //availability of street
-        if (closestStreet >= 5)
+
+        foreach (double Industry in Dependency[Data.GridType.Industry])
+        {
+            if (Industry <= 4.9)
+            {
+                Score -= 15;
+            }
+        }
+
+        Dependency[Data.GridType.Street].Sort();
+        if (Dependency[Data.GridType.Street].Count() > 0)
+        {
+            // Street in Range
+            Score += (int)(5 * (2 * Math.Sin(Dependency[Data.GridType.Street][0] - 0.5)));
+        }
+        else
         {
             //no Street in Range
             Score = 0;
         }
-        else
-        {
-            Score += (int)(5 * (2 * Math.Sin(closestStreet - 0.5)));
-        }
-            
+        
         //base cost
         Score -= 5;
-        
+
         //according Level
         if (Score <= 25)
         {
             Level = 1;
             people = 8;
-        } else if(Score is > 25 and <= 50)
+        }
+        else if (Score is > 25 and <= 50)
         {
             Level = 2;
             people = 95;
-        } else if(Score > 50)
+        }
+        else if (Score > 50)
         {
             Level = 3;
-            people = 200 ;
+            people = 200;
         }
+
         return Score;
+        
     }
-    
+
+
+
     public int GetPeople()
     {
         return people;

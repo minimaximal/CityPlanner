@@ -2,43 +2,33 @@
 
 public class Industry : GridElement
 {
-    public Industry(GridElement gridElement) : base(gridElement) {}
+    public Industry(GridElement gridElement) : base(gridElement)
+    {
+    }
 
     public override int CalculateScore()
     {
-        IDictionary<Data.GridType, double> OrderedDependency = new Dictionary<Data.GridType, double>();
-        OrderedDependency = Dependency.OrderBy(key => key.Key).ToDictionary(obj => obj.Key, obj => obj.Value);
-        double closestStreet = 5;
-        foreach (var dependency in OrderedDependency)
+        /*
+        foreach (double Housing in Dependency[Data.GridType.Housing])
         {
-            //general dependencies
-            switch (dependency.Key)
+            //who knows...
+        }
+        foreach (double Commercial in Dependency[Data.GridType.Commercial])
+        {
+            //who knows...
+        }
+        */
+        foreach (double Industry in Dependency[Data.GridType.Industry])
+        {
+            if (Industry <= 2.5)
             {
-                case Data.GridType.Housing:
-                    //who knows...
-                    break;
-                case Data.GridType.Commercial:
-                    //who knows...
-                    break;
-                case Data.GridType.Industry:  
-                    if (dependency.Value <= 2.5)
-                    {
-                        Score += 10;
-                    }
-                    break;
-                case Data.GridType.Street: 
-                    if (dependency.Value < closestStreet)
-                    {
-                        closestStreet = dependency.Value;
-                    }
-                    break;
-                case Data.GridType.Empty:
-                    break;
-                
+                Score += 10;
             }
         }
-        //availability of street
-        if (closestStreet <= 1)
+
+        Dependency[Data.GridType.Street].Sort();
+
+        if ( Dependency[Data.GridType.Street].Count()>0  && Dependency[Data.GridType.Street][0] > 1.0)
         {
             // Street in Range
             Score += 20;
@@ -48,10 +38,10 @@ public class Industry : GridElement
             //no Street in Range
             Score = 0;
         }
-            
+        
         //base cost
         Score -= 5;
-        
+
         return Score;
     }
 
@@ -59,5 +49,4 @@ public class Industry : GridElement
     {
         return Data.GridType.Industry;
     }
-    
 }

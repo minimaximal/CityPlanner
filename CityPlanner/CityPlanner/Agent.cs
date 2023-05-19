@@ -8,27 +8,13 @@ using CityPlanner.Grid;
 
 namespace CityPlanner
 {
-    // jeden move werden felder welche betroffen werden können informiert 
-    // agent pickt ein lehres feld 
-    // agent pickt ein gebeude welches plaziert werden soll
-    // von dem plazierten gebäude werden alle felder in range R aktualiesiert 
-    // bekommen die info gebeude bei X Y                    (das sollte vllt eine referenz sein)
-    // alle 20 moves wird der score berechnet und geschaut wie viele einwohner die stadt hat
-    //iteratiev durch das array gehen und caculateScore() aufrufen 
-    // jedes GridElement geht duch die liste der gebäude durch
-    // jenach relevanz wird der core berechenet
-    // alle Zellen scores addieren 
-
-
-    // ggf abruch
-
-
     public class Agent
     {
         private Map _map;
         private List<Move> _moves = new List<Move>();
         private int _moveCounter = 0;
         private List<Move> _emptyMoves = new List<Move>();
+        public bool noMoreValidStreet;
 
         public int Population
         {
@@ -43,6 +29,7 @@ namespace CityPlanner
 
         public Agent(Map map)
         {
+            noMoreValidStreet = false;
             _map = map;
             for (int x = 0; x < map.SizeX; x++)
             {
@@ -98,6 +85,7 @@ namespace CityPlanner
             {
                 move = _moves.ElementAt(_moveCounter);
             }
+
             if (move == null || random.NextDouble() < 0.015 ||
                 (!isLegalMove(move)) ||
                 (!isLegalStreet(move)))
@@ -105,7 +93,7 @@ namespace CityPlanner
                 move = getRandomMove();
                 _moves.Add(move);
             }
-            
+
             _map.AddMove(move);
             _moveCounter++;
         }
@@ -114,32 +102,41 @@ namespace CityPlanner
         {
             return _map.GetGridElement(move).GetGridType() == Data.GridType.Empty;
         }
+
         private bool isLegalStreet(Move move)
         {
             return !(move.GridType == Data.GridType.Street && !_map.validateStreet(move));
         }
+
 
         Move getRandomMove()
         {
             // copy pasted from https://stackoverflow.com/questions/3132126/how-do-i-select-a-random-value-from-an-enumeration
             Array values = Enum.GetValues(typeof(Data.GridType));
             Random random = new Random();
-            Data.GridType toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length));
+            Data.GridType toBePlaced;
+            do
+            {
+                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length));
+            } while (noMoreValidStreet && toBePlaced == Data.GridType.Street);
+
             //end copy
 
             int rand = 0;
-            if (toBePlaced == Data.GridType.Street)
+            Move move ;
+            if (!noMoreValidStreet && toBePlaced == Data.GridType.Street)
             {
-                rand = _emptyMoves.IndexOf(getRandomStreet());
+                move = getRandomStreet();
             }
             else
             {
                 rand = random.Next(0, _emptyMoves.Count);
+                move = _emptyMoves[rand];
             }
 
-            Move move = _emptyMoves[rand];
+            
             move.GridType = toBePlaced;
-            _emptyMoves.RemoveAt(rand);
+            _emptyMoves.Remove(move);
             return move;
         }
 
@@ -156,6 +153,12 @@ namespace CityPlanner
                 }
             }
 
+            if (limitedMoves.Count == 0)
+            {
+                noMoreValidStreet = true;
+                return getRandomMove(); //todo maybe no recursion ??
+            }
+
             int rand = random.Next(0, limitedMoves.Count);
             return limitedMoves[rand];
         }
@@ -163,6 +166,11 @@ namespace CityPlanner
         public void Display()
         {
             _map.Display();
+        }
+
+        public int getMaxRemainingMoves()
+        {
+            return _emptyMoves.Count();
         }
     }
 }

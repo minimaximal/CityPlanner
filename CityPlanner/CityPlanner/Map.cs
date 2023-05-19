@@ -46,6 +46,11 @@ public class Map : ICloneable
 
     public void AddMove(Move move)
     {
+        if (map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
+        {
+            Console.Write("Fuck");
+        }
+
         map[move.X, move.Y] = newGridElement(move.GridType, GetGridElement(move));
         for (int x = move.X - 5; x < move.X + 5; x++)
         {
@@ -109,24 +114,19 @@ public class Map : ICloneable
 
     public object Clone()
     {
-        Map clone = new Map(SizeX, SizeY);
-        for (int i = 0; i < SizeX; i++)
+        return new Map(this.SizeX, this.SizeY)
         {
-            for (int j = 0; j < SizeY; j++)
-            {
-                clone.map[i, j] = this.map[i, j];
-            }
-        }
-
-        return clone;
+            globalPeople = this.globalPeople,
+            map = (GridElement[,])map.Clone()
+        };
     }
 
     //for backend testing only
     public void Display()
     {
-        for (int i = 0; i < SizeY; i++)
+        for (int i = 0; i < SizeY*3; i++)
         {
-            Console.Write("_");
+            Console.Write("-");
             Console.Write("\n");
         }
 
@@ -156,17 +156,22 @@ public class Map : ICloneable
                     Console.Write("S");
                     Console.Write(map[i, j].GetLevel());
                 }
+                else if (map[i, j].GetGridType() == Data.GridType.Empty)
+                {
+                    Console.Write("_");
+                    Console.Write("_");
+                }
                 else
                 {
-                    Console.Write("E");
-                    Console.Write("0");
+                    Console.Write("X");
+                    Console.Write("X");
                 }
             }
 
             Console.Write("|\n");
-            for (int x = 0; x < SizeY; x++)
+            for (int x = 0; x < SizeY*3; x++)
             {
-                Console.Write("_");
+                Console.Write("-");
             }
 
             Console.Write("\n");

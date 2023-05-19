@@ -4,51 +4,36 @@ public class Commercial : GridElement
 {
     public Commercial(GridElement gridElement) : base(gridElement) {}
 
+    
     public override int CalculateScore()
     {
-        IDictionary<Data.GridType, double> OrderedDependency = new Dictionary<Data.GridType, double>();
-        OrderedDependency = Dependency.OrderBy(key => key.Key).ToDictionary(obj => obj.Key, obj => obj.Value);
-        double closestStreet = 5;
-        foreach (var dependency in OrderedDependency)
+        foreach (double Housing in Dependency[Data.GridType.Housing])
         {
-            //general dependencies
-            switch (dependency.Key)
+            if (Housing <= 4.9)
             {
-                case Data.GridType.Housing:
-                    if (dependency.Value <= 4.9)
-                    {
-                        Score += 2;
-                    }
-                    break;
-                case Data.GridType.Commercial:
-                    if (dependency.Value <= 2)
-                    {
-                        Score += 20;
-                    }
-                    else if (dependency.Value > 3.5)
-                    {
-                        Score -= 16;
-                    }
-                    break;
-                case Data.GridType.Industry:  
-                    if (dependency.Value <= 6)
-                    {
-                        Score += 10;
-                    }
-                    break;
-                case Data.GridType.Street: 
-                    if (dependency.Value < closestStreet)
-                    {
-                        closestStreet = dependency.Value;
-                    }
-                    break;
-                case Data.GridType.Empty:
-                    break;
-                
+                Score += 2;
             }
         }
-        //availability of street
-        if (closestStreet <= 1.5)
+        foreach (double Commercial in Dependency[Data.GridType.Commercial])
+        {
+            if (Commercial <= 2)
+            {
+                Score += 20;
+            }
+            else if (Commercial > 3.5)
+            {
+                Score -= 16;
+            }
+        }
+        foreach (double Industry in Dependency[Data.GridType.Industry])
+        {
+            if (Industry<= 6)
+            {
+                Score += 10;
+            }
+        }
+        Dependency[Data.GridType.Street].Sort();
+        if ( Dependency[Data.GridType.Street].Count()>0  && Dependency[Data.GridType.Street][0] > 1.0)
         {
             // Street in Range
             Score += 20;
@@ -58,12 +43,12 @@ public class Commercial : GridElement
             //no Street in Range
             Score = 0;
         }
-            
         //base cost
         Score -= 5;
         
         return Score;
     }
+  
 
     public override Data.GridType GetGridType()
     {
