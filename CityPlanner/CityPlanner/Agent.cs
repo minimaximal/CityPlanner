@@ -15,7 +15,7 @@ namespace CityPlanner
         private int _moveCounter = 0;
         private List<Move> _emptyMoves = new List<Move>();
         public bool noMoreValidStreet;
-
+        
         public int Population
         {
             get => _map.GetPeople();
@@ -81,9 +81,11 @@ namespace CityPlanner
         {
             Random random = new Random();
             Move move = null;
+            bool flag = false;
             if (_moves.Count > _moveCounter)
             {
                 move = _moves.ElementAt(_moveCounter);
+                flag = true;
                 foreach (Move findMove in _emptyMoves) //will be itterated Rand(0 , sizeX*SizeY) times O(log(n^2))
                 {
                     if (findMove.X == move.X && findMove.Y == move.Y)
@@ -98,6 +100,10 @@ namespace CityPlanner
                 (!isLegalMove(move)) ||
                 (!isLegalStreet(move)))
             {
+                if (flag)
+                {
+                    _emptyMoves.Add(move);
+                }
                 move = getRandomMove();
                 _moves.Add(move);
             }
@@ -127,13 +133,13 @@ namespace CityPlanner
             Data.GridType toBePlaced;
             do
             {
-                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length-1));
+                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length - 1));
             } while (noMoreValidStreet && toBePlaced == Data.GridType.Street);
 
             //end copy
 
             int rand = 0;
-            Move move ;
+            Move move;
             if (toBePlaced == Data.GridType.Street)
             {
                 move = getRandomStreet();
@@ -144,7 +150,7 @@ namespace CityPlanner
                 move = _emptyMoves[rand];
             }
 
-            
+
             move.GridType = toBePlaced;
             _emptyMoves.Remove(move);
             return move;
@@ -172,7 +178,7 @@ namespace CityPlanner
             int rand = random.Next(0, limitedMoves.Count);
             return limitedMoves[rand];
         }
-
+        
         public void Display()
         {
             _map.newDisplay();
