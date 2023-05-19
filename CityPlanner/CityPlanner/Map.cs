@@ -127,9 +127,9 @@ public class Map : ICloneable
         for (int i = 0; i < SizeY*3; i++)
         {
             Console.Write("-");
-            Console.Write("\n");
+           
         }
-
+        Console.Write("\n");
         for (int i = 0; i < SizeX; i++)
         {
             for (int j = 0; j < SizeY; j++)
