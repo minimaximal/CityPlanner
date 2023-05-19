@@ -52,12 +52,13 @@ public class Map : ICloneable
         }
 
         map[move.X, move.Y] = newGridElement(move.GridType, GetGridElement(move));
-        for (int x = move.X - 5; x < move.X + 5; x++)
+        int range = (int)Math.Ceiling( Data.GridTypeMax[move.GridType]);
+        for (int x = move.X - range; x < move.X + range; x++)
         {
-            for (int y = move.Y - 5; y < move.Y + 5; y++)
+            for (int y = move.Y - range; y < move.Y + range; y++)
             {
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                if (distance <= Range)
+                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X ==x &&move.Y ==y))
                 {
                     GetGridElement(x, y).AddDependency(move.GridType, distance);
                 }
@@ -106,21 +107,59 @@ public class Map : ICloneable
 
     public bool validateStreet(Move move)
     {
-        return GetGridElement(move.X - 1, move.Y).GetGridType() == Data.GridType.Street |
-               GetGridElement(move.X, move.Y - 1).GetGridType() == Data.GridType.Street |
-               GetGridElement(move.X + 1, move.Y).GetGridType() == Data.GridType.Street |
-               GetGridElement(move.X, move.Y + 1).GetGridType() == Data.GridType.Street;
+      return  GetGridElement(move).IsValidStreet();
     }
 
     public object Clone()
     {
-        return new Map(this.SizeX, this.SizeY)
+        Map clone = new Map(SizeX, SizeY);
+        for (int x = 0; x < SizeX; x++)
         {
-            globalPeople = this.globalPeople,
-            map = (GridElement[,])map.Clone()
-        };
+            for (int y = 0; y < SizeY; y++)
+            {
+                clone.map[x, y] = map[x, y].Clone();
+            }
+        }
+        clone.globalPeople = globalPeople;
+        return clone;
     }
 
+
+    public void newDisplay()
+    {            Console.Write("------------------------------\n");
+
+        for (int y = 0; y< SizeY; y++)
+        {
+            for (int x = 0; x < SizeX; x++)
+            {
+                switch (map[x,y].GetGridType())
+                {
+                    case Data.GridType.Commercial:
+                        Console.Write("C");
+
+                        break;
+                    case Data.GridType.Industry:
+                        Console.Write("I");
+
+                        break;
+                    case Data.GridType.Housing:
+                        Console.Write("H");
+
+                        break;
+                    case Data.GridType.Street:
+                        Console.Write("+");
+
+                        break;
+                    case Data.GridType.Empty:
+                        Console.Write("_");
+                        break;
+                }
+            }
+            Console.Write("\n");
+
+        }
+    }
+    
     //for backend testing only
     public void Display()
     {

@@ -13,7 +13,7 @@ namespace CityPlanner
         private readonly (int x, int y) _mapSize;
         private readonly (int x, int y)[] _stratingPoints;
         private readonly int _targetPopulation;
-        private readonly Map _Map;
+        private readonly Map _defaultMap;
 
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
@@ -22,7 +22,7 @@ namespace CityPlanner
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
-            _Map = CreateNewMap();
+            _defaultMap = CreateNewMap();
         }
 
         public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
@@ -51,11 +51,7 @@ namespace CityPlanner
 
                 for (int moveNumber = 0; moveNumber < moveLimit; moveNumber++)
                 {
-                    foreach (Agent agent in _agents)
-                    {
-                        agent.MakeOneMove();
-                    }
-                    // _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
                 }
 
                 for (int i = 0; i < _agents.Count(); i++)
@@ -78,7 +74,7 @@ namespace CityPlanner
             _agents.Clear();
             for (int i = 0; i < amount; i++)
             {
-                Map map = (Map)_Map.Clone();
+                Map map = (Map)_defaultMap.Clone();
                 _agents.Add(new Agent(map));
             }
         }
@@ -91,7 +87,7 @@ namespace CityPlanner
                 { (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1) };
             for (int i = 0; i < amount; i++)
             {
-                Map map = (Map)_Map.Clone();
+                Map map = (Map)_defaultMap.Clone();
                 _agents.Add(new Agent(map, bestThreeAgents[combinations[i % 6].firstAgent],
                     bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) / (amount + 1)));
             }

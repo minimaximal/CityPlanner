@@ -84,6 +84,14 @@ namespace CityPlanner
             if (_moves.Count > _moveCounter)
             {
                 move = _moves.ElementAt(_moveCounter);
+                foreach (Move findMove in _emptyMoves) //will be itterated Rand(0 , sizeX*SizeY) times O(log(n^2))
+                {
+                    if (findMove.X == move.X && findMove.Y == move.Y)
+                    {
+                        _emptyMoves.Remove(findMove);
+                        break;
+                    }
+                }
             }
 
             if (move == null || random.NextDouble() < 0.015 ||
@@ -105,7 +113,9 @@ namespace CityPlanner
 
         private bool isLegalStreet(Move move)
         {
-            return !(move.GridType == Data.GridType.Street && !_map.validateStreet(move));
+            //if not a street -> false
+            //if this move is a street ->  is leagl street?
+            return (move.GridType == Data.GridType.Street && _map.validateStreet(move));
         }
 
 
@@ -117,14 +127,14 @@ namespace CityPlanner
             Data.GridType toBePlaced;
             do
             {
-                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length));
+                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length-1));
             } while (noMoreValidStreet && toBePlaced == Data.GridType.Street);
 
             //end copy
 
             int rand = 0;
             Move move ;
-            if (!noMoreValidStreet && toBePlaced == Data.GridType.Street)
+            if (toBePlaced == Data.GridType.Street)
             {
                 move = getRandomStreet();
             }
@@ -165,7 +175,7 @@ namespace CityPlanner
 
         public void Display()
         {
-            _map.Display();
+            _map.newDisplay();
         }
 
         public int getMaxRemainingMoves()

@@ -13,7 +13,7 @@ public class AppController
 
 	public void Start()
 	{
-		AgentController agentController = new AgentController((50,50), new (int,int)[]{(15,15),(35,35)}, 5000, 10);
+		AgentController agentController = new AgentController((10,10), new (int,int)[]{(5,5)}, 500, 10);
 		while (true)
 		{
 			Agent bestAgent = agentController.ExecuteEvolutionStep();

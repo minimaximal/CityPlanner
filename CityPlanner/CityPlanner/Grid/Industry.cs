@@ -26,9 +26,9 @@ public class Industry : GridElement
             }
         }
 
-        Dependency[Data.GridType.Street].Sort();
+    
 
-        if ( Dependency[Data.GridType.Street].Count()>0  && Dependency[Data.GridType.Street][0] > 1.0)
+        if (IsValidStreet())
         {
             // Street in Range
             Score += 20;
