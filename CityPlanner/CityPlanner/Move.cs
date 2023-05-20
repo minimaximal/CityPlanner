@@ -3,8 +3,8 @@
     public class Move
     {
         public Data.GridType GridType;
-        public int X { get; }
-        public int Y { get; }
+        public readonly int X;
+        public readonly int Y;
 
         public Move(int x, int y)
         {

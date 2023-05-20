@@ -70,7 +70,7 @@
 
             if (_moves.Count> map.SizeX*map.SizeY)
             {
-                Console.Write("wierd but legal");
+              //  Console.Write("wierd but legal");
             }
         }
 
@@ -178,6 +178,7 @@
         
         public void Display()
         {
+            Console.Write( "Score:" +Score);
             _map.NewDisplay();
         }
 

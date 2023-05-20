@@ -7,8 +7,8 @@ public class Map : ICloneable
     private GridElement[,] map;
     private int _globalPeople;
 
-    public int SizeX { get; }
-    public int SizeY { get; }
+    public readonly int SizeX;
+    public readonly int SizeY;
 
     public Map(int x, int y)
     {

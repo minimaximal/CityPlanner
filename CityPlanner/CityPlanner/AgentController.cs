@@ -47,8 +47,8 @@ namespace CityPlanner
 
                 for (int moveNumber = 0; moveNumber < moveLimit; moveNumber++)
                 {
-                    //_agents.AsParallel().ForAll(agent => agent.MakeOneMove());
-                    _agents[0].MakeOneMove();
+                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    //_agents[0].MakeOneMove();
                 }
 
                 for (int i = 0; i < _agents.Count(); i++)
