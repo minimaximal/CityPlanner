@@ -39,9 +39,9 @@ namespace CityPlanner
             {
                 int moveLimit = (_targetPopulation - currentLargestPopulation) / 200;
          
-                if (moveLimit > _agents[0].getMaxRemainingMoves())
+                if (moveLimit > _agents[0].GetMaxRemainingMoves())
                 {
-                    moveLimit = _agents[0].getMaxRemainingMoves();
+                    moveLimit = _agents[0].GetMaxRemainingMoves();
                     lastRun = true;
                 }
 
@@ -53,7 +53,7 @@ namespace CityPlanner
 
                 for (int i = 0; i < _agents.Count(); i++)
                 {
-                    if (_agents[i].noMoreValidStreet || _agents[i].Population > _targetPopulation || lastRun)
+                    if (_agents[i].NoMoreValidStreet || _agents[i].Population > _targetPopulation || lastRun)
                     {
                         finishedAgents.Add(_agents[i]);
                         _agents.Remove(_agents[i]);

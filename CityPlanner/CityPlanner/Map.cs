@@ -5,8 +5,7 @@ namespace CityPlanner;
 public class Map : ICloneable
 {
     private GridElement[,] map;
-    private const int Range = 5;
-    private int globalPeople = 0;
+    private int _globalPeople;
 
     public int SizeX { get; }
     public int SizeY { get; }
@@ -25,33 +24,29 @@ public class Map : ICloneable
         }
     }
 
-    GridElement newGridElement(Data.GridType gridType, GridElement old)
+    private static GridElement NewGridElement(Data.GridType gridType, GridElement old)
     {
-        switch (gridType)
+        return gridType switch
         {
-            case Data.GridType.Housing:
-                return new Housing(old);
-            case Data.GridType.Industry:
-                return new Industry(old);
-            case Data.GridType.Street:
-                return new Street(old);
-            case Data.GridType.Commercial:
-                return new Commercial(old);
-            case Data.GridType.Empty:
-                return old;
-        }
-
-        throw new Exception("In dem Switch case sollten alle GridTypes abgedeckt sein");
+            Data.GridType.Housing => new Housing(old),
+            Data.GridType.Industry => new Industry(old),
+            Data.GridType.Street => new Street(old),
+            Data.GridType.Commercial => new Commercial(old),
+            Data.GridType.Empty => old,
+            _ => throw new Exception("This Switch case must be exhaustive!")
+        };
     }
 
     public void AddMove(Move move)
     {
-        if (map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
+        
+        if (GetGridElement(move) ==null 
+            || map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
         {
             Console.Write("Fuck");
         }
 
-        map[move.X, move.Y] = newGridElement(move.GridType, GetGridElement(move));
+        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         int range = (int)Math.Ceiling( Data.GridTypeMax[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
@@ -60,11 +55,7 @@ public class Map : ICloneable
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
                 if (distance <= Data.GridTypeMax[move.GridType] && !(move.X ==x &&move.Y ==y))
                 {
-                    GridElement gridElement = GetGridElement(x, y);
-                    if(gridElement!=null)
-                    {
-                        gridElement.AddDependency(move.GridType, distance);
-                    }
+                    GetGridElement(x, y)?.AddDependency(move.GridType, distance);
                 }
             }
         }
@@ -72,7 +63,7 @@ public class Map : ICloneable
 
     public int CalculateScore()
     {
-        globalPeople = 0;
+        _globalPeople = 0;
         int globalScore = 0;
         foreach (var gridElement in map)
         {
@@ -80,7 +71,7 @@ public class Map : ICloneable
 
             if (gridElement.GetGridType() == Data.GridType.Housing)
             {
-                globalPeople += ((Housing)gridElement).GetPeople();
+                _globalPeople += ((Housing)gridElement).GetPeople();
             }
         }
 
@@ -89,15 +80,15 @@ public class Map : ICloneable
 
     public int GetPeople()
     {
-        return globalPeople;
+        return _globalPeople;
     }
 
-    public GridElement GetGridElement(Move coordinates)
+    public GridElement? GetGridElement(Move coordinates)
     {
         return GetGridElement(coordinates.X, coordinates.Y);
     }
 
-    public GridElement GetGridElement(int x, int y)
+    public GridElement? GetGridElement(int x, int y)
     {
         if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
         {
@@ -109,9 +100,9 @@ public class Map : ICloneable
         }
     }
 
-    public bool validateStreet(Move move)
+    public bool ValidateStreet(Move move)
     {
-      return  GetGridElement(move).IsValidStreet();
+        return  GetGridElement(move)!.IsValidStreet();
     }
 
     public object Clone()
@@ -124,12 +115,12 @@ public class Map : ICloneable
                 clone.map[x, y] = map[x, y].Clone();
             }
         }
-        clone.globalPeople = globalPeople;
+        clone._globalPeople = _globalPeople;
         return clone;
     }
 
 
-    public void newDisplay()
+    public void NewDisplay()
     {            Console.Write("------------------------------\n");
 
         for (int y = 0; y< SizeY; y++)

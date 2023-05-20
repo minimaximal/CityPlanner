@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.XPath;
-using CityPlanner.Grid;
-
-namespace CityPlanner
+﻿namespace CityPlanner
 {
     public class Agent
     {
         private Map _map;
         private List<Move> _moves = new List<Move>();
-        private int _moveCounter = 0;
+        private int _moveCounter ;
         private List<Move> _emptyMoves = new List<Move>();
-        public bool noMoreValidStreet;
+        public bool NoMoreValidStreet;
         
         public int Population
         {
@@ -29,7 +21,7 @@ namespace CityPlanner
 
         public Agent(Map map)
         {
-            noMoreValidStreet = false;
+            NoMoreValidStreet = false;
             _map = map;
             for (int x = 0; x < map.SizeX; x++)
             {
@@ -78,7 +70,7 @@ namespace CityPlanner
 
             if (_moves.Count> map.SizeX*map.SizeY)
             {
-                Console.Write("komish aber ok");
+                Console.Write("wierd but legal");
             }
         }
 
@@ -91,7 +83,7 @@ namespace CityPlanner
             {
                 move = new Move( _moves.ElementAt(_moveCounter));
                 flag = true;
-                foreach (Move findMove in _emptyMoves) //will be itterated Rand(0 , sizeX*SizeY) times O(log(n^2))
+                foreach (Move findMove in _emptyMoves) //will be iterated Rand(0 , sizeX*SizeY) times O(log(n^2))
                 {
                     if (findMove.X == move.X && findMove.Y == move.Y)
                     {
@@ -102,14 +94,14 @@ namespace CityPlanner
             }
 
             if (move == null || random.NextDouble() < 0.015 ||
-                (!isLegalMove(move)) ||
-                (!isLegalStreet(move)))
+                (!IsLegalMove(move)) ||
+                (!IsLegalStreet(move)))
             {
-                if (flag && isLegalMove(move))
+                if (flag && IsLegalMove(move))
                 {
                     _emptyMoves.Add(move);
                 }
-                move = getRandomMove();
+                move = GetRandomMove();
               
             }
             
@@ -118,20 +110,20 @@ namespace CityPlanner
             _moveCounter++;
         }
 
-        private bool isLegalMove(Move move)
+        private bool IsLegalMove(Move move)
         {
             return _map.GetGridElement(move).GetGridType() == Data.GridType.Empty;
         }
 
-        private bool isLegalStreet(Move move)
+        private bool IsLegalStreet(Move move)
         {
             //if not a street -> false
-            //if this move is a street ->  is leagl street?
-            return (move.GridType == Data.GridType.Street && _map.validateStreet(move));
+            //if this move is a street ->  is legal street?
+            return (move.GridType == Data.GridType.Street && _map.ValidateStreet(move));
         }
 
 
-        Move getRandomMove()
+        private Move GetRandomMove()
         {
             // copy pasted from https://stackoverflow.com/questions/3132126/how-do-i-select-a-random-value-from-an-enumeration
             Array values = Enum.GetValues(typeof(Data.GridType));
@@ -139,20 +131,19 @@ namespace CityPlanner
             Data.GridType toBePlaced;
             do
             {
-                toBePlaced = (Data.GridType)values.GetValue(random.Next(values.Length - 1));
-            } while (noMoreValidStreet && toBePlaced == Data.GridType.Street);
+                toBePlaced = (Data.GridType)(values.GetValue(random.Next(values.Length - 1)));
+            } while (NoMoreValidStreet && toBePlaced == Data.GridType.Street);
 
             //end copy
 
-            int rand = 0;
             Move move;
             if (toBePlaced == Data.GridType.Street)
             {
-                move = getRandomStreet();
+                move = GetRandomStreet();
             }
             else
             {
-                rand = random.Next(0, _emptyMoves.Count);
+                var rand = random.Next(0, _emptyMoves.Count);
                 move = _emptyMoves[rand];
             }
 
@@ -162,7 +153,7 @@ namespace CityPlanner
             return move;
         }
 
-        Move getRandomStreet()
+        Move GetRandomStreet()
         {
             Random random = new Random();
 
@@ -177,8 +168,8 @@ namespace CityPlanner
 
             if (limitedMoves.Count == 0)
             {
-                noMoreValidStreet = true;
-                return getRandomMove(); //todo maybe no recursion ??
+                NoMoreValidStreet = true;
+                return GetRandomMove(); //todo maybe no recursion ??
             }
 
             int rand = random.Next(0, limitedMoves.Count);
@@ -187,10 +178,10 @@ namespace CityPlanner
         
         public void Display()
         {
-            _map.newDisplay();
+            _map.NewDisplay();
         }
 
-        public int getMaxRemainingMoves()
+        public int GetMaxRemainingMoves()
         {
             return _emptyMoves.Count();
         }

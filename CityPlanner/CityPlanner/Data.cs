@@ -1,6 +1,4 @@
-using System;
-using CityPlanner.Grid;
-
+namespace CityPlanner;
 public static class Data
 {
     //Empty must be the last in the list otherwise Agent.cs:getRandomMove() does not work
@@ -12,8 +10,8 @@ public static class Data
         Street,
         Empty
     };
-
-    public static Dictionary<GridType, double> GridTypeMax = new Dictionary<GridType, double>()
+    
+    public static readonly Dictionary<GridType, double> GridTypeMax = new Dictionary<GridType, double>()
     {
         { GridType.Housing, 5 },
         { GridType.Commercial, 9.9 },

@@ -18,9 +18,9 @@ public class Industry : GridElement
             //who knows...
         }
         */
-        foreach (double Industry in Dependency[Data.GridType.Industry])
+        foreach (double industry in Dependency[Data.GridType.Industry])
         {
-            if (Industry <= 2.5)
+            if (industry <= 2.5)
             {
                 Score += 10;
             }
