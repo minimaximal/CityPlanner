@@ -2,7 +2,7 @@
 
 public class GridElement
 {
-    protected int Score = 0;
+    protected int Score ;
     protected int Level = 1;
     //Todo: This does not work / key cant be duplicated change to list<(key,value)>
     protected IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
@@ -15,11 +15,11 @@ public class GridElement
         }
     }
 
-    public GridElement(GridElement oldGridElement)
+    protected GridElement(GridElement oldGridElement)
     {
-        foreach (var Depen in oldGridElement.Dependency)
+        foreach (var dependency in oldGridElement.Dependency)
         {
-            Dependency.Add( Depen.Key ,oldGridElement.Dependency[Depen.Key].ToArray().ToList());
+            Dependency.Add( dependency.Key ,oldGridElement.Dependency[dependency.Key].ToArray().ToList());
         }
         
         Score = oldGridElement.Score;
@@ -45,7 +45,7 @@ public class GridElement
     public bool IsValidStreet()
     {
         Dependency[Data.GridType.Street].Sort();
-        return Dependency[Data.GridType.Street].Count() > 0 && Dependency[Data.GridType.Street][0] <= 1.0;
+        return Dependency[Data.GridType.Street].Any() && Dependency[Data.GridType.Street][0] <= 1.0;
     }
 
     public int GetLevel()

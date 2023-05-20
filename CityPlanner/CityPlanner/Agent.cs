@@ -75,6 +75,11 @@ namespace CityPlanner
                     _moves.Add(parent1._moves.ElementAt(i));
                 }
             }
+
+            if (_moves.Count> map.SizeX*map.SizeY)
+            {
+                Console.Write("komish aber ok");
+            }
         }
 
         public void MakeOneMove()
@@ -84,7 +89,7 @@ namespace CityPlanner
             bool flag = false;
             if (_moves.Count > _moveCounter)
             {
-                move = _moves.ElementAt(_moveCounter);
+                move = new Move( _moves.ElementAt(_moveCounter));
                 flag = true;
                 foreach (Move findMove in _emptyMoves) //will be itterated Rand(0 , sizeX*SizeY) times O(log(n^2))
                 {
@@ -100,14 +105,15 @@ namespace CityPlanner
                 (!isLegalMove(move)) ||
                 (!isLegalStreet(move)))
             {
-                if (flag)
+                if (flag && isLegalMove(move))
                 {
                     _emptyMoves.Add(move);
                 }
                 move = getRandomMove();
-                _moves.Add(move);
+              
             }
-
+            
+            _moves.Insert(_moveCounter,move); 
             _map.AddMove(move);
             _moveCounter++;
         }
@@ -152,7 +158,7 @@ namespace CityPlanner
 
 
             move.GridType = toBePlaced;
-            _emptyMoves.Remove(move);
+            _emptyMoves.Remove(move); //in emptyMove are only new moves 
             return move;
         }
 

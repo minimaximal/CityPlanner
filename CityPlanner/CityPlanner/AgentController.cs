@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace CityPlanner
 {
@@ -51,7 +47,8 @@ namespace CityPlanner
 
                 for (int moveNumber = 0; moveNumber < moveLimit; moveNumber++)
                 {
-                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    //_agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    _agents[0].MakeOneMove();
                 }
 
                 for (int i = 0; i < _agents.Count(); i++)
@@ -89,7 +86,7 @@ namespace CityPlanner
             {
                 Map map = (Map)_defaultMap.Clone();
                 _agents.Add(new Agent(map, bestThreeAgents[combinations[i % 6].firstAgent],
-                    bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) / (amount + 1)));
+                    bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) /(double) (amount + 1)));
             }
         }
 

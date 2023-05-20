@@ -18,5 +18,14 @@ namespace CityPlanner
             X = x;
             Y = y;
         }
+
+        public Move(Move oldMove)
+        {
+            X = oldMove.X;
+            Y = oldMove.Y;
+            GridType = oldMove.GridType;
+        }
+        
+        
     }
 }

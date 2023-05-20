@@ -60,7 +60,11 @@ public class Map : ICloneable
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
                 if (distance <= Data.GridTypeMax[move.GridType] && !(move.X ==x &&move.Y ==y))
                 {
-                    GetGridElement(x, y).AddDependency(move.GridType, distance);
+                    GridElement gridElement = GetGridElement(x, y);
+                    if(gridElement!=null)
+                    {
+                        gridElement.AddDependency(move.GridType, distance);
+                    }
                 }
             }
         }
@@ -95,13 +99,13 @@ public class Map : ICloneable
 
     public GridElement GetGridElement(int x, int y)
     {
-        if (x > 0 && x < SizeX && y > 0 && y < SizeY)
+        if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
         {
             return map[x, y];
         }
         else
         {
-            return new GridElement();
+            return null;
         }
     }
 

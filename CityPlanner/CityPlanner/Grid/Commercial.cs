@@ -7,27 +7,27 @@ public class Commercial : GridElement
     
     public override int CalculateScore()
     {
-        foreach (double Housing in Dependency[Data.GridType.Housing])
+        foreach (double housing in Dependency[Data.GridType.Housing])
         {
-            if (Housing <= 4.9)
+            if (housing <= 4.9)
             {
                 Score += 2;
             }
         }
-        foreach (double Commercial in Dependency[Data.GridType.Commercial])
+        foreach (double commercial in Dependency[Data.GridType.Commercial])
         {
-            if (Commercial <= 2)
+            if (commercial <= 2)
             {
                 Score += 20;
             }
-            else if (Commercial > 3.5)
+            else if (commercial > 3.5)
             {
                 Score -= 16;
             }
         }
-        foreach (double Industry in Dependency[Data.GridType.Industry])
+        foreach (double industry in Dependency[Data.GridType.Industry])
         {
-            if (Industry<= 6)
+            if (industry<= 6)
             {
                 Score += 10;
             }
