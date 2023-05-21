@@ -46,20 +46,20 @@ namespace CityPlanner
                 if (_possibleMoves[i].indexNumber() - _possibleMoves[i + 1].indexNumber() < -1)
                 {
                     //Ein loch ist da 
-                    Move lochAnfang = _possibleMoves.ElementAt(i);
+                    Move holeBeginning = _possibleMoves.ElementAt(i);
                     int y;
-                    int lochOffset = 0;
+                    int holeOffset = 0;
                     do
                     {
-                        int x = (lochAnfang.X + lochOffset + 1) % _map.SizeX;
-                        y = x != 0 ? lochAnfang.Y : lochAnfang.Y + 1;
+                        int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
+                        y = x == 0 ? holeBeginning.Y+1 : holeBeginning.Y;
                         if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
                         {
                             _possibleMoves.Insert(i + 1, new Move(x, y));
                             break;
                         }
 
-                        lochOffset++;
+                        holeOffset++;
                     } while (y < _map.SizeY);
                 }
             }
