@@ -115,7 +115,7 @@ public class Map : ICloneable
               //todo this drops the type and does not work  
                 clone.map[x, y] = map[x, y].Clone();
 
-                //NewGridElement(map[x,y].GetGridType(), map[x, y]);
+              //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
             }
         }
         clone._globalPeople = _globalPeople;

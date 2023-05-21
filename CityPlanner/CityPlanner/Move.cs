@@ -19,7 +19,7 @@ public class Move : IComparable
         GridType = oldMove.GridType;
     }
 
-    public int indexNumber()
+    public int IndexNumber()
     {
         return X * (Data.SizeY) + Y;
     }
@@ -27,6 +27,6 @@ public class Move : IComparable
     public int CompareTo(object? obj)
     {
         Move comp = (Move)obj!;
-        return indexNumber() - comp.indexNumber();
+        return IndexNumber() - comp.IndexNumber();
     }
 }
