@@ -1,3 +1,5 @@
+using CityPlanner.Grid;
+
 namespace CityPlanner;
 public static class Data
 {
@@ -10,6 +12,9 @@ public static class Data
         Street,
         Empty
     };
+
+    //holds amount wthout Empty 
+    public static readonly int GridTypeAmount = Enum.GetValues(typeof(Data.GridType)).Length - 1;
     
     public static readonly Dictionary<GridType, double> GridTypeMax = new Dictionary<GridType, double>()
     {
@@ -19,4 +24,6 @@ public static class Data
         { GridType.Street, 3.5 },
         { GridType.Empty, 0 }
     };
+
+    public static int SizeY; // this is used in the sort move context // at that point we dont have acses to the map 
 }

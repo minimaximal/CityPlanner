@@ -14,6 +14,7 @@ namespace CityPlanner
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
         {
+            Data.SizeY = mapSize.y;
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;

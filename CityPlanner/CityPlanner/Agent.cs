@@ -1,13 +1,19 @@
-﻿namespace CityPlanner
+﻿using System.ComponentModel;
+using System.Drawing;
+
+namespace CityPlanner
 {
     public class Agent
     {
         private Map _map;
+        private List<Move> _parentMoves = new List<Move>();
         private List<Move> _moves = new List<Move>();
-        private int _moveCounter ;
-        private List<Move> _emptyMoves = new List<Move>();
+        private List<Move> _possibleMoves = new List<Move>();
+        private int _moveCounter;
         public bool NoMoreValidStreet;
-        
+        private static Move _firstPossibleMove = null!; //todo to be moved into data class
+        private static Move _lastPossibleMove = null!; //todo to be moved into data class
+
         public int Population
         {
             get => _map.GetPeople();
@@ -21,16 +27,58 @@
 
         public Agent(Map map)
         {
-            NoMoreValidStreet = false;
             _map = map;
-            for (int x = 0; x < map.SizeX; x++)
+            _firstPossibleMove = new Move(0, 0); //todo to be moved into data class
+            _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
+            NoMoreValidStreet = false;
+            _possibleMoves.AddRange(_parentMoves);
+            _possibleMoves.Sort();
+            fillTheHoles();
+        }
+
+        private void fillTheHoles()
+        {
+            _possibleMoves.Add(_firstPossibleMove);
+            _possibleMoves.Add(_lastPossibleMove);
+
+            for (int i = 0; i < _possibleMoves.Count - 1; i++)
             {
-                for (int y = 0; y < map.SizeY; y++)
+                if (_possibleMoves[i].indexNumber() - _possibleMoves[i + 1].indexNumber() < -1)
                 {
-                    if (map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+                    //Ein loch ist da 
+                    Move lochAnfang = _possibleMoves.ElementAt(i);
+                    int y;
+                    int lochOffset = 0;
+                    do
                     {
-                        _emptyMoves.Add(new Move(x, y));
-                    }
+                        int x = (lochAnfang.X + lochOffset + 1) % _map.SizeX;
+                        y = x != 0 ? lochAnfang.Y : lochAnfang.Y + 1;
+                        if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+                        {
+                            _possibleMoves.Insert(i + 1, new Move(x, y));
+                            break;
+                        }
+
+                        lochOffset++;
+                    } while (y < _map.SizeY);
+                }
+            }
+
+            _possibleMoves.Remove(_firstPossibleMove);
+            _possibleMoves.Remove(_lastPossibleMove);
+            if (_possibleMoves[0].indexNumber() != _firstPossibleMove.indexNumber())
+            {
+                if (_map.GetGridElement(_firstPossibleMove).GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(0, new Move(_firstPossibleMove));
+                }
+            }
+
+            if (_possibleMoves[^1].indexNumber() != _lastPossibleMove.indexNumber())
+            {
+                if (_map.GetGridElement(_lastPossibleMove).GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Add(new Move(_lastPossibleMove));
                 }
             }
         }
@@ -51,68 +99,85 @@
 
             for (int i = 0; i < shorterParentCount * split; i++)
             {
-                _moves.Add(parent1._moves.ElementAt(i));
+                _parentMoves.Add(new Move( parent1._moves.ElementAt(i)));
             }
 
             //_moves.Count ==== shorterParentCount
             for (int i = _moves.Count; i < parent2._moves.Count; i++)
             {
-                _moves.Add(parent2._moves.ElementAt(i));
+                _parentMoves.Add(new Move( parent2._moves.ElementAt(i)));
             }
 
             if (shorterParentCount == parent2._moves.Count) //parent2._moves.Count < parent1._moves.Count
             {
                 for (int i = _moves.Count; i < parent1._moves.Count; i++)
                 {
-                    _moves.Add(parent1._moves.ElementAt(i));
+                    _parentMoves.Add(new Move( parent1._moves.ElementAt(i)));
                 }
             }
 
-            if (_moves.Count> map.SizeX*map.SizeY)
+            if (_moves.Count > map.SizeX * map.SizeY)
             {
-              //  Console.Write("wierd but legal");
+                //  Console.Write("wierd but legal");
+
+                //ich glaube ich fixe grade dieses problem
             }
         }
 
         public void MakeOneMove()
         {
             Random random = new Random();
-            Move move = null;
-            bool flag = false;
-            if (_moves.Count > _moveCounter)
+            Move? move = null;
+            if (_parentMoves.Count > 0)
             {
-                move = new Move( _moves.ElementAt(_moveCounter));
-                flag = true;
-                foreach (Move findMove in _emptyMoves) //will be iterated Rand(0 , sizeX*SizeY) times O(log(n^2))
-                {
-                    if (findMove.X == move.X && findMove.Y == move.Y)
-                    {
-                        _emptyMoves.Remove(findMove);
-                        break;
-                    }
-                }
+                move =  _parentMoves[0];
+                _parentMoves.RemoveAt(0);
             }
 
             if (move == null || random.NextDouble() < 0.015 ||
                 (!IsLegalMove(move)) ||
                 (!IsLegalStreet(move)))
             {
-                if (flag && IsLegalMove(move))
-                {
-                    _emptyMoves.Add(move);
-                }
                 move = GetRandomMove();
-              
             }
-            
-            _moves.Insert(_moveCounter,move); 
+
+            RemovePossibleMoves(move);
+            _moves.Add(move);
             _map.AddMove(move);
             _moveCounter++;
         }
 
+        private void RemovePossibleMoves(Move move)
+        {
+            int index = _possibleMoves.IndexOf(move);
+            // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
+            if (index > 0)  //index- 1 >= 0 
+            {
+                Move ontTop = _possibleMoves[index- 1];
+                if (ontTop.X == move.X &&
+                    ontTop.Y == move.Y)
+                {
+                    _possibleMoves.Remove(ontTop);
+                }
+            }
+
+            if (index+ 1 < _possibleMoves.Count)
+            {
+                Move justBelow = _possibleMoves[index + 1];
+                if (justBelow.X == move.X &&
+                    justBelow.Y == move.Y)
+                {
+                    _possibleMoves.Remove(justBelow);
+                }
+            }
+
+            _possibleMoves.Remove(move);
+        }
+
+
         private bool IsLegalMove(Move move)
         {
-            return _map.GetGridElement(move).GetGridType() == Data.GridType.Empty;
+            return _possibleMoves.Contains(move);
         }
 
         private bool IsLegalStreet(Move move)
@@ -125,16 +190,16 @@
 
         private Move GetRandomMove()
         {
-            // copy pasted from https://stackoverflow.com/questions/3132126/how-do-i-select-a-random-value-from-an-enumeration
-            Array values = Enum.GetValues(typeof(Data.GridType));
+            // get a tandom type to be placed
             Random random = new Random();
             Data.GridType toBePlaced;
             do
             {
-                toBePlaced = (Data.GridType)(values.GetValue(random.Next(values.Length - 1)));
+                toBePlaced = (Data.GridType)Enum.GetValues(typeof(Data.GridType))
+                    .GetValue(random.Next(Data.GridTypeAmount));
             } while (NoMoreValidStreet && toBePlaced == Data.GridType.Street);
 
-            //end copy
+            // wenn straße dann spetzial fall 
 
             Move move;
             if (toBePlaced == Data.GridType.Street)
@@ -143,13 +208,11 @@
             }
             else
             {
-                var rand = random.Next(0, _emptyMoves.Count);
-                move = _emptyMoves[rand];
+                move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
             }
 
-
+            // fürge wo und wass zusammen und gib dies zurück
             move.GridType = toBePlaced;
-            _emptyMoves.Remove(move); //in emptyMove are only new moves 
             return move;
         }
 
@@ -158,7 +221,7 @@
             Random random = new Random();
 
             List<Move> limitedMoves = new List<Move>();
-            foreach (var possibleStreet in _emptyMoves)
+            foreach (var possibleStreet in _possibleMoves)
             {
                 if (_map.GetGridElement(possibleStreet).IsValidStreet())
                 {
@@ -175,16 +238,16 @@
             int rand = random.Next(0, limitedMoves.Count);
             return limitedMoves[rand];
         }
-        
+
         public void Display()
         {
-            Console.Write( "Score:" +Score);
+            Console.Write("Score:" + Score);
             _map.NewDisplay();
         }
 
         public int GetMaxRemainingMoves()
         {
-            return _emptyMoves.Count();
+            return _possibleMoves.Count();
         }
     }
 }
