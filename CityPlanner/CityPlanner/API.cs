@@ -59,11 +59,11 @@ public class API
                 switch (input.GetLevel())
                 {
                     case 1:
-                        return 11;
+                        return 111;
                     case 2:
-                        return 12;
+                        return 112;
                     case 3:
-                        return 13;
+                        return 113;
                 }
                 break;
             case Data.GridType.Commercial:
@@ -72,11 +72,11 @@ public class API
                 switch (input.GetLevel())
                 {
                     case 1:
-                        return 21;
+                        return 121;
                     case 2:
-                        return 22;
+                        return 122;
                     case 3:
-                        return 23;
+                        return 123;
                 }
                 break;
             case Data.GridType.Industry:
@@ -84,16 +84,16 @@ public class API
                 switch (input.GetLevel())
                 {
                     case 1:
-                        return 31;
+                        return 131;
                     case 2:
-                        return 32;
+                        return 132;
                     case 3:
-                        return 33;
+                        return 133;
                 }
                 break;
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
-                return 1;
+                return 11;
             case Data.GridType.Empty:
                 stats[Data.GridType.Empty]++;
                 return 0;
