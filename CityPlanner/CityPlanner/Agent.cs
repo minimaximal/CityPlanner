@@ -72,6 +72,9 @@ namespace CityPlanner
         }
         private void FillTheHoles()
         {
+            
+            //todo bug letzte zeile wird nie befült auser das letzt letze element 
+            
             _possibleMoves.Add(_firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
 
@@ -94,7 +97,7 @@ namespace CityPlanner
                         }
 
                         holeOffset++;
-                    } while (y < _map.SizeY);
+                    } while (y <= _map.SizeY);/// todo fix idee anstelle von < ein <= nutzen //muss geprüft werden ob das sin macht
                 }
             }
 
