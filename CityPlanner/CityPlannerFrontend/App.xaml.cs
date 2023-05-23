@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -59,6 +60,7 @@ namespace CityPlannerFrontend
             m_window.Activate();
             
         }
+        public static Window MainWindow { get; } = new MainWindow();
 
         private Window m_window;
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
