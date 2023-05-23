@@ -10,11 +10,12 @@ namespace CityPlanner
         private readonly (int x, int y)[] _stratingPoints;
         private readonly int _targetPopulation;
         private readonly Map _defaultMap;
+        private Agent _bestOfAllTime;
 
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
         {
-            Data.SizeY = mapSize.y;
+            Data.SizeX = mapSize.x;
             _mapSize = mapSize;
             _stratingPoints = startingPoints;
             _targetPopulation = targetPopulation;
@@ -63,7 +64,13 @@ namespace CityPlanner
             }
 
             _agents = finishedAgents;
-
+            
+            //todo muss rewritten werden um nich ein bgde zu sein
+            
+            if (_bestOfAllTime ==null || _bestOfAllTime.Score < GetBestThreeAgents(finishedAgents)[0].Score);
+            {
+                _bestOfAllTime = GetBestThreeAgents(finishedAgents)[0];
+            }
             return GetBestThreeAgents(finishedAgents)[0];
         }
 
@@ -80,6 +87,7 @@ namespace CityPlanner
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
+            bestThreeAgents[2] = _bestOfAllTime;
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
                 { (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1) };

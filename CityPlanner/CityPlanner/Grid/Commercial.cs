@@ -7,6 +7,7 @@ public class Commercial : GridElement
     
     public override int CalculateScore()
     {
+        Score = 0;
         foreach (double housing in Dependency[Data.GridType.Housing])
         {
             if (housing <= 4.9)
@@ -33,7 +34,7 @@ public class Commercial : GridElement
             }
         }
     
-        if ( IsValidStreet())
+        if (IsValidStreet())
         {
             // Street in Range
             Score += 20;

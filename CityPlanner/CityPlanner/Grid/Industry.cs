@@ -8,6 +8,8 @@ public class Industry : GridElement
 
     public override int CalculateScore()
     {
+        Score = 0;
+
         /*
         foreach (double Housing in Dependency[Data.GridType.Housing])
         {
@@ -25,9 +27,6 @@ public class Industry : GridElement
                 Score += 10;
             }
         }
-
-    
-
         if (IsValidStreet())
         {
             // Street in Range
@@ -40,7 +39,7 @@ public class Industry : GridElement
         }
         
         //base cost
-        Score -= 5;
+        Score -= 50;
 
         return Score;
     }

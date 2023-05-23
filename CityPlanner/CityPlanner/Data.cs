@@ -25,5 +25,5 @@ public static class Data
         { GridType.Empty, 0 }
     };
 
-    public static int SizeY; // this is used in the sort move context // at that point we dont have acses to the map 
+    public static int SizeX; // this is used in the sort move context // at that point we dont have acses to the map 
 }

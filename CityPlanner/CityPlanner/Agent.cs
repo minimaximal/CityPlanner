@@ -26,6 +26,18 @@ namespace CityPlanner
 
         public Agent(Map map)
         {
+            BasicSetup(map);
+        }
+
+
+        public Agent(Map map, Agent parent1, Agent parent2, double split)
+        {
+            _parentMoves = GenerateParentList(parent1, parent2, split);
+            BasicSetup(map);
+        }
+
+        private void BasicSetup(Map map)
+        {
             _map = map;
             _firstPossibleMove = new Move(0, 0); //todo to be moved into data class
             _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
@@ -33,12 +45,12 @@ namespace CityPlanner
             _possibleMoves.AddRange(_parentMoves);
             _possibleMoves.Sort();
             FillTheHoles();
+            
         }
 
-       
-
-        public Agent(Map map, Agent parent1, Agent parent2, double split) : this(map)
+        private List<Move> GenerateParentList(Agent parent1, Agent parent2, double split)
         {
+            List<Move> result = new List<Move>();
             if (split >= 1)
             {
                 split = 1;
@@ -53,29 +65,28 @@ namespace CityPlanner
 
             for (int i = 0; i < shorterParentCount * split; i++)
             {
-                _parentMoves.Add(new Move( parent1._moves.ElementAt(i)));
+                result.Add(new Move(parent1._moves.ElementAt(i)));
             }
 
             //_moves.Count ==== shorterParentCount
             for (int i = _moves.Count; i < parent2._moves.Count; i++)
             {
-                _parentMoves.Add(new Move( parent2._moves.ElementAt(i)));
+                result.Add(new Move(parent2._moves.ElementAt(i)));
             }
 
             if (shorterParentCount == parent2._moves.Count) //parent2._moves.Count < parent1._moves.Count
             {
                 for (int i = _moves.Count; i < parent1._moves.Count; i++)
                 {
-                    _parentMoves.Add(new Move( parent1._moves.ElementAt(i)));
+                    result.Add(new Move(parent1._moves.ElementAt(i)));
                 }
             }
+            return result;
         }
+        
         private void FillTheHoles()
         {
-            
-            //todo bug letzte zeile wird nie befült auser das letzt letze element 
-            
-            _possibleMoves.Add(_firstPossibleMove);
+            _possibleMoves.Insert(0,_firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
 
             for (int i = 0; i < _possibleMoves.Count - 1; i++)
@@ -89,7 +100,7 @@ namespace CityPlanner
                     do
                     {
                         int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
-                        y = x == 0 ? holeBeginning.Y+1 : holeBeginning.Y;
+                        y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
                         if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
                         {
                             _possibleMoves.Insert(i + 1, new Move(x, y));
@@ -97,7 +108,7 @@ namespace CityPlanner
                         }
 
                         holeOffset++;
-                    } while (y <= _map.SizeY);/// todo fix idee anstelle von < ein <= nutzen //muss geprüft werden ob das sin macht
+                    } while(y < _map.SizeY); 
                 }
             }
 
@@ -105,7 +116,7 @@ namespace CityPlanner
             _possibleMoves.Remove(_lastPossibleMove);
             if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
             {
-                if (_map.GetGridElement(_firstPossibleMove).GetGridType() == Data.GridType.Empty)
+                if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
                 {
                     _possibleMoves.Insert(0, new Move(_firstPossibleMove));
                 }
@@ -113,7 +124,7 @@ namespace CityPlanner
 
             if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
             {
-                if (_map.GetGridElement(_lastPossibleMove).GetGridType() == Data.GridType.Empty)
+                if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
                 {
                     _possibleMoves.Add(new Move(_lastPossibleMove));
                 }
@@ -126,15 +137,31 @@ namespace CityPlanner
             Move? move = null;
             if (_parentMoves.Count > 0)
             {
-                move =  _parentMoves[0];
-                _parentMoves.RemoveAt(0);
+                int i = 0;
+                do
+                {
+                    move = _parentMoves[0];
+                    _parentMoves.RemoveAt(0);
+                    //if parent move is bloced continue on with the next
+                } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
+
             }
 
-            if (move == null || random.NextDouble() < 0.015 ||
-                (!IsLegalMove(move)) ||
-                (!IsLegalStreet(move)))
+            if (move == null || random.NextDouble() < 0.03 ||
+                (!_possibleMoves.Contains(move)) ||
+                (IsNotLegalStreet(move)))
             {
-                move = GetRandomMove();
+                if (_possibleMoves.Count>0)
+                {
+                    move = GetRandomMove();
+                }
+                else
+                {
+                    NoMoreValidStreet = true; // boge work
+                    //if there are no more valid moves at all we nead to stop the call of this funktion
+                    // todo add AgentControlr: stopAgent(Agent)
+                    return;
+                }
             }
 
             RemovePossibleMoves(move);
@@ -146,9 +173,9 @@ namespace CityPlanner
         {
             int index = _possibleMoves.IndexOf(move);
             // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
-            if (index > 0)  //index- 1 >= 0 
+            if (index > 0) //index- 1 >= 0 
             {
-                Move ontTop = _possibleMoves[index- 1];
+                Move ontTop = _possibleMoves[index - 1];
                 if (ontTop.X == move.X &&
                     ontTop.Y == move.Y)
                 {
@@ -156,7 +183,7 @@ namespace CityPlanner
                 }
             }
 
-            if (index+ 1 < _possibleMoves.Count)
+            if (index + 1 < _possibleMoves.Count)
             {
                 Move justBelow = _possibleMoves[index + 1];
                 if (justBelow.X == move.X &&
@@ -168,17 +195,14 @@ namespace CityPlanner
 
             _possibleMoves.Remove(move);
         }
-        
-        private bool IsLegalMove(Move move)
-        {
-            return _possibleMoves.Contains(move);
-        }
 
-        private bool IsLegalStreet(Move move)
+        private bool IsNotLegalStreet(Move move)
         {
             //if not a street -> false
             //if this move is a street ->  is legal street?
-            return (move.GridType == Data.GridType.Street && _map.ValidateStreet(move));
+
+            if (move.GridType != Data.GridType.Street) return false;
+            return !_map.ValidateStreet(move);
         }
 
 
@@ -242,6 +266,25 @@ namespace CityPlanner
         public int GetMaxRemainingMoves()
         {
             return _possibleMoves.Count();
+            // this is not true 
+            // in 1 move  1or2 moves may be removed from _possibleMoves 
+            
+        }
+
+        
+        
+        //DEBUG helper funktions
+        public int isinList(Move move)
+        {
+            foreach (var m in _possibleMoves)
+            {
+                if (m.X == move.X && m.Y == move.Y)
+                {
+                    return _possibleMoves.IndexOf(m);
+                }
+            }
+
+            return -1;
         }
     }
 }

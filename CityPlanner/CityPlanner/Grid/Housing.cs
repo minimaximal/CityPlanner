@@ -10,6 +10,8 @@ public class Housing : GridElement
 
     public override int CalculateScore()
     {
+        Score = 0;
+
         /*
         foreach (double Housing in Dependency[Data.GridType.Housing])
         {
@@ -42,7 +44,7 @@ public class Housing : GridElement
         else
         {
             //no Street in Range
-            Score = 0;
+            Score  = 0;
         }
         
         //base cost

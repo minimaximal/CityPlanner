@@ -43,7 +43,8 @@ public class Map : ICloneable
         if (GetGridElement(move) ==null 
             || map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
         {
-            Console.Write("Fuck");
+          // Console.Write("Fuck");
+          return;
         }
 
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
@@ -153,6 +154,14 @@ public class Map : ICloneable
                         break;
                 }
             }
+            /*
+            Console.Write("\t\t");
+
+            for (int x = 0; x < SizeX; x++)
+            {
+                Console.Write(map[x, y].getSore() +"|");
+            }
+*/
             Console.Write("\n");
 
         }

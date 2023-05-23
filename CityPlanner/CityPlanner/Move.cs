@@ -21,7 +21,7 @@ public class Move : IComparable
 
     public int IndexNumber()
     {
-        return X * (Data.SizeY) + Y;
+        return Y * (Data.SizeX)+X ;
     }
 
     public int CompareTo(object? obj)

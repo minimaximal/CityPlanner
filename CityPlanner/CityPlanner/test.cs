@@ -29,7 +29,7 @@ public class test
     
 bool testMoveSort()
 {
-    Data.SizeY = 5;
+    Data.SizeX = 5;
     List<Move> istListe = new List<Move>();
 
     istListe.Add(new Move(3, 1));
