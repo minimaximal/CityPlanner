@@ -56,4 +56,9 @@ public class Commercial : GridElement
         return Data.GridType.Commercial;
     }
  
+    public override Commercial Clone()
+    {
+        return new Commercial(this);
+    }
+    
 }

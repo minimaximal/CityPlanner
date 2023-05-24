@@ -50,7 +50,11 @@
 
                 for (int moveNumber = 0; moveNumber < moveLimit; moveNumber++)
                 {
-                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
+                    foreach (var agent in _agents)
+                    {
+                        agent.MakeOneMove();
+                    }
+                    //_agents.AsParallel().ForAll(agent => agent.MakeOneMove());
                     //_agents[0].MakeOneMove();
                 }
 

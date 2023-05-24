@@ -45,7 +45,6 @@ namespace CityPlanner
             _possibleMoves.AddRange(_parentMoves);
             _possibleMoves.Sort();
             FillTheHoles();
-            
         }
 
         private List<Move> GenerateParentList(Agent parent1, Agent parent2, double split)
@@ -69,24 +68,26 @@ namespace CityPlanner
             }
 
             //_moves.Count ==== shorterParentCount
-            for (int i = _moves.Count; i < parent2._moves.Count; i++)
+            for (int i = result.Count; i < parent2._moves.Count; i++)
             {
                 result.Add(new Move(parent2._moves.ElementAt(i)));
             }
 
+
             if (shorterParentCount == parent2._moves.Count) //parent2._moves.Count < parent1._moves.Count
             {
-                for (int i = _moves.Count; i < parent1._moves.Count; i++)
+                for (int i = result.Count; i < parent1._moves.Count; i++)
                 {
                     result.Add(new Move(parent1._moves.ElementAt(i)));
                 }
             }
+
             return result;
         }
-        
+
         private void FillTheHoles()
         {
-            _possibleMoves.Insert(0,_firstPossibleMove);
+            _possibleMoves.Insert(0, _firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
 
             for (int i = 0; i < _possibleMoves.Count - 1; i++)
@@ -108,7 +109,7 @@ namespace CityPlanner
                         }
 
                         holeOffset++;
-                    } while(y < _map.SizeY); 
+                    } while (y < _map.SizeY);
                 }
             }
 
@@ -144,14 +145,13 @@ namespace CityPlanner
                     _parentMoves.RemoveAt(0);
                     //if parent move is bloced continue on with the next
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
-
             }
 
             if (move == null || random.NextDouble() < 0.03 ||
                 (!_possibleMoves.Contains(move)) ||
                 (IsNotLegalStreet(move)))
             {
-                if (_possibleMoves.Count>0)
+                if (_possibleMoves.Count > 0)
                 {
                     move = GetRandomMove();
                 }
@@ -165,6 +165,8 @@ namespace CityPlanner
             }
 
             RemovePossibleMoves(move);
+
+
             _moves.Add(move);
             _map.AddMove(move);
         }
@@ -241,6 +243,9 @@ namespace CityPlanner
             List<Move> limitedMoves = new List<Move>();
             foreach (var possibleStreet in _possibleMoves)
             {
+                if (limitedMoves.Count > 0 && limitedMoves[^1].X == possibleStreet.X &&
+                    limitedMoves[^1].Y == possibleStreet.Y) continue; // ensures that every field has the same chance
+
                 if (_map.GetGridElement(possibleStreet).IsValidStreet())
                 {
                     limitedMoves.Add(possibleStreet);
@@ -269,23 +274,22 @@ namespace CityPlanner
             return _possibleMoves.Count();
             // this is not true 
             // in 1 move  1or2 moves may be removed from _possibleMoves 
-            
         }
 
-        
-        
+
         //DEBUG helper funktions
-        public int isinList(Move move)
+        public List<int> isinList(Move move)
         {
+            List<int> hits = new List<int>();
             foreach (var m in _possibleMoves)
             {
                 if (m.X == move.X && m.Y == move.Y)
                 {
-                    return _possibleMoves.IndexOf(m);
+                    hits.Add(_possibleMoves.IndexOf(m));
                 }
             }
 
-            return -1;
+            return hits;
         }
     }
 }

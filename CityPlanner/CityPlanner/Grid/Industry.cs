@@ -48,4 +48,8 @@ public class Industry : GridElement
     {
         return Data.GridType.Industry;
     }
+    public override Industry Clone()
+    {
+        return new Industry(this);
+    }
 }

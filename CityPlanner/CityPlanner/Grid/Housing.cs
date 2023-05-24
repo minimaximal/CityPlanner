@@ -82,4 +82,8 @@ public class Housing : GridElement
     {
         return Data.GridType.Housing;
     }
+    public override Housing Clone()
+    {
+        return new Housing(this);
+    }
 }

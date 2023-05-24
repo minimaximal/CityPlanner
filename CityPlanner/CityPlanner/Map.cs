@@ -37,24 +37,29 @@ public class Map : ICloneable
         };
     }
 
+    public bool fuck(Move move)
+    {
+        if (move == null)
+            return true;
+        return ( GetGridElement(move) == null || map[move.X, move.Y].GetGridType() != Data.GridType.Empty);
+    }
+
     public void AddMove(Move move)
     {
-        
-        if (GetGridElement(move) ==null 
-            || map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
+        if (fuck(move))
         {
-          Console.Write("Fuck");
-          return;
+            Console.Write("Fuck");
+            return;
         }
 
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
-        int range = (int)Math.Ceiling( Data.GridTypeMax[move.GridType]);
+        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
             for (int y = move.Y - range; y < move.Y + range; y++)
             {
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X ==x &&move.Y ==y))
+                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
                 {
                     GetGridElement(x, y)?.AddDependency(move.GridType, distance);
                 }
@@ -65,7 +70,7 @@ public class Map : ICloneable
     public int CalculateScore()
     {
         //todo es könte sinfol sein das ergebnis zwichen zu speichern
-        
+
         _globalPeople = 0;
         int globalScore = 0;
         foreach (var gridElement in map)
@@ -105,7 +110,7 @@ public class Map : ICloneable
 
     public bool ValidateStreet(Move move)
     {
-        return  GetGridElement(move)!.IsValidStreet();
+        return GetGridElement(move)!.IsValidStreet();
     }
 
     public object Clone()
@@ -115,26 +120,28 @@ public class Map : ICloneable
         {
             for (int y = 0; y < SizeY; y++)
             {
-              //todo this drops the type and does not work  
-              //not sure on this one write a test for that
+                //todo this drops the type and does not work  
+                //not sure on this one write a test for that
                 clone.map[x, y] = map[x, y].Clone();
 
-              //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
+                //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
             }
         }
+
         clone._globalPeople = _globalPeople;
         return clone;
     }
 
 
     public void NewDisplay()
-    {            Console.Write("------------------------------\n");
+    {
+        Console.Write("------------------------------\n");
 
-        for (int y = 0; y< SizeY; y++)
+        for (int y = 0; y < SizeY; y++)
         {
             for (int x = 0; x < SizeX; x++)
             {
-                switch (map[x,y].GetGridType())
+                switch (map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
                         Console.Write("C");
@@ -157,6 +164,7 @@ public class Map : ICloneable
                         break;
                 }
             }
+
             /*
             Console.Write("\t\t");
 
@@ -166,18 +174,17 @@ public class Map : ICloneable
             }
 */
             Console.Write("\n");
-
         }
     }
-    
+
     //for backend testing only
     public void Display()
     {
-        for (int i = 0; i < SizeY*3; i++)
+        for (int i = 0; i < SizeY * 3; i++)
         {
             Console.Write("-");
-           
         }
+
         Console.Write("\n");
         for (int i = 0; i < SizeX; i++)
         {
@@ -218,7 +225,7 @@ public class Map : ICloneable
             }
 
             Console.Write("|\n");
-            for (int x = 0; x < SizeY*3; x++)
+            for (int x = 0; x < SizeY * 3; x++)
             {
                 Console.Write("-");
             }
