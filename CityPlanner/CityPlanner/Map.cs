@@ -48,7 +48,10 @@ public class Map : ICloneable
     {
         if (fuck(move))
         {
-            Console.Write("Fuck");
+            Console.Write("Fuck"); 
+            //todo this shoud be a log
+            //if all code is corect this youd never be caled 
+            // but otherwith we have a failsave
             return;
         }
 

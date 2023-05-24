@@ -35,6 +35,8 @@ public class GridElement
 
     public void AddDependency(Data.GridType gridType, double distance)
     {
+        //todo dise funkon hat gerade den 2te größten percormance impact 
+        //dabei ist der get call der intensiveste
         Dependency[gridType].Add(distance);
     }
 

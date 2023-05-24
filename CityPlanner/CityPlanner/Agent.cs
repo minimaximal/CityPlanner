@@ -109,7 +109,9 @@ namespace CityPlanner
                         }
 
                         holeOffset++;
-                    } while (y < _map.SizeY);
+                        //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
+                        //(das elemet existert und wir machen weiter mit i)
+                    } while (holeBeginning.X+ holeOffset+1 < _possibleMoves[i+1].X); 
                 }
             }
 

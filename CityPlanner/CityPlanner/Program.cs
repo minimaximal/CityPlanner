@@ -4,10 +4,10 @@ using CityPlanner;
 
 
 
-var test = new test();
+//var test = new test();
 
-Console.WriteLine(test.testCopyofGrid_Deep());
-Console.WriteLine(test.testMoveSort());
+//Console.WriteLine(test.testCopyofGrid_Deep());
+//Console.WriteLine(test.testMoveSort());
 
 
 AppController appController = new AppController();
