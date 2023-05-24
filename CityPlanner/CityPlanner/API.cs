@@ -32,7 +32,7 @@ public class API
     // function call looks like : API.ToFrontend(map)
     public void ToFrontend(Map inMap)
     {
-        Score = inMap.CalculateScore();// todo vl zwichen speichern stadt fukction call
+        Score = inMap.CalculateScore(); //todo wird score wird erneut für dasfrontend berechnet 
         People = inMap.GetPeople(); 
         foreach (var stat in stats.Keys)
         {

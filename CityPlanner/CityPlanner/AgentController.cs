@@ -1,6 +1,4 @@
-﻿
-
-namespace CityPlanner
+﻿namespace CityPlanner
 {
     public class AgentController
     {
@@ -36,11 +34,14 @@ namespace CityPlanner
 
             int currentLargestPopulation = 0;
             List<Agent> finishedAgents = new();
-            bool lastRun=false;
+            bool lastRun = false;
             while (_agents.Count > 0)
             {
                 int moveLimit = (_targetPopulation - currentLargestPopulation) / 200;
-         
+
+                
+                // todo moveLimit wird hier nicht korekt berechnet / über diesen weg ist es nicht mehr möglich
+                // schau in funktion GetMaxRemainingMoves()
                 if (moveLimit > _agents[0].GetMaxRemainingMoves())
                 {
                     moveLimit = _agents[0].GetMaxRemainingMoves();
@@ -64,10 +65,10 @@ namespace CityPlanner
             }
 
             _agents = finishedAgents;
-            
-            //todo muss rewritten werden um nich ein bgde zu sein
-            
-            if (_bestOfAllTime ==null || _bestOfAllTime.Score < GetBestThreeAgents(finishedAgents)[0].Score);
+
+            //todo muss rewritten werden um nicht ein bogde zu sein
+
+            if (_bestOfAllTime == null || _bestOfAllTime.Score < GetBestThreeAgents(finishedAgents)[0].Score) ;
             {
                 _bestOfAllTime = GetBestThreeAgents(finishedAgents)[0];
             }
@@ -95,7 +96,7 @@ namespace CityPlanner
             {
                 Map map = (Map)_defaultMap.Clone();
                 _agents.Add(new Agent(map, bestThreeAgents[combinations[i % 6].firstAgent],
-                    bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) /(double) (amount + 1)));
+                    bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) / (double)(amount + 1)));
             }
         }
 

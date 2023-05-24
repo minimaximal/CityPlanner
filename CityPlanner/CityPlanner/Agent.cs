@@ -251,6 +251,7 @@ namespace CityPlanner
             {
                 NoMoreValidStreet = true;
                 return GetRandomMove(); //todo maybe no recursion ??
+                //recurion ist sogar ok diese wird max einmal pro agent aufgerufen
             }
 
             int rand = random.Next(0, limitedMoves.Count);

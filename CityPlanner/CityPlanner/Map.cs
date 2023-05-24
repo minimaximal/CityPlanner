@@ -43,7 +43,7 @@ public class Map : ICloneable
         if (GetGridElement(move) ==null 
             || map[move.X, move.Y].GetGridType() != Data.GridType.Empty)
         {
-          // Console.Write("Fuck");
+          Console.Write("Fuck");
           return;
         }
 
@@ -64,6 +64,8 @@ public class Map : ICloneable
 
     public int CalculateScore()
     {
+        //todo es könte sinfol sein das ergebnis zwichen zu speichern
+        
         _globalPeople = 0;
         int globalScore = 0;
         foreach (var gridElement in map)
@@ -114,6 +116,7 @@ public class Map : ICloneable
             for (int y = 0; y < SizeY; y++)
             {
               //todo this drops the type and does not work  
+              //not sure on this one write a test for that
                 clone.map[x, y] = map[x, y].Clone();
 
               //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
