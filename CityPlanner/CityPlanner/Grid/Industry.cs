@@ -39,7 +39,7 @@ public class Industry : GridElement
         }
         
         //base cost
-        Score -= 50;
+        Score -= 30;
 
         return Score;
     }

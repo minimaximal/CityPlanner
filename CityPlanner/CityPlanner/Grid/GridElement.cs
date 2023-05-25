@@ -16,6 +16,11 @@ public class GridElement
         }
     }
 
+    public int getScore()
+    {
+        return Score;
+    }
+
     protected GridElement(GridElement oldGridElement)
     {
         foreach (var dependency in oldGridElement.Dependency)

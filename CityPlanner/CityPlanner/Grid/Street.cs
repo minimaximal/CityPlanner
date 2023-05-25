@@ -20,11 +20,11 @@ public class Street : GridElement
 
         if (nearbyStreet > 4)
         {
-            Score -= (nearbyStreet - 4) * 5;
+            Score -= (nearbyStreet - 4) * 50;
         }
         else
         {
-            Score += 20;
+            Score += 500;
         }
         return Score;
     }

@@ -159,14 +159,14 @@ public class Map : ICloneable
                 }
             }
 
-            /*
+            
             Console.Write("\t\t");
 
             for (int x = 0; x < SizeX; x++)
             {
-                Console.Write(map[x, y].getSore() +"|");
+                Console.Write(map[x, y].getScore() +"|");
             }
-*/
+
             Console.Write("\n");
         }
     }
