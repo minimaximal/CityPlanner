@@ -7,7 +7,25 @@ public class Street : GridElement
     {
         // todo change score caculation 
         // idee: prositiv starten und exponetiell schlimmer deto mehr straßen in der nähe sind
-        Score = -10;
+        Score = 0;
+
+        int nearbyStreet = 0;
+        foreach (double street in Dependency[Data.GridType.Street])
+        {
+            if (street <= 1.5)
+            {
+                nearbyStreet++;
+            }
+        }
+
+        if (nearbyStreet > 4)
+        {
+            Score -= (nearbyStreet - 4) * 5;
+        }
+        else
+        {
+            Score += 20;
+        }
         return Score;
     }
 
