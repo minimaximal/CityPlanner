@@ -51,6 +51,11 @@ public class Housing : GridElement
         Score -= 5;
 
         //according Level
+        if (Score <= 0)
+        {
+            Level = 1;
+            people = 0;
+        }
         if (Score <= 25)
         {
             Level = 1;
