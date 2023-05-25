@@ -10,7 +10,7 @@ using CityPlanner;
 //Console.WriteLine(test.testMoveSort());
 
 
-AppController appController = new AppController();
+AppController appController = new AppController(100);
 
 appController.Start();
 

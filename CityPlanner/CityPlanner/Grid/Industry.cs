@@ -24,7 +24,7 @@ public class Industry : GridElement
         {
             if (industry <= 2.5)
             {
-                Score += 15;
+                Score += 50;
             }
         }
         if (IsValidStreet())
@@ -39,7 +39,7 @@ public class Industry : GridElement
         }
         
         //base cost
-        Score -= 30;
+        Score -= 20;
 
         return Score;
     }

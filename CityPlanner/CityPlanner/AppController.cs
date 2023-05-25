@@ -3,8 +3,9 @@
 public class AppController
 {
 	
-	public AppController()
+	public AppController(int importQuota)
 	{
+		Data.ImportQuota = importQuota;
 	}
 
 	public void Start()

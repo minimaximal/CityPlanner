@@ -26,4 +26,5 @@ public static class Data
     };
 
     public static int SizeX; // this is used in the sort move context // at that point we dont have acses to the map 
+    public static int ImportQuota;
 }
