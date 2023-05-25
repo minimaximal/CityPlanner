@@ -24,7 +24,7 @@ public class Street : GridElement
         }
         else
         {
-            Score += 500;
+            Score += 50;
         }
         return Score;
     }

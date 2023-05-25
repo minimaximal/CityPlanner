@@ -27,14 +27,6 @@ public class Housing : GridElement
             }
         }
 
-        foreach (double Industry in Dependency[Data.GridType.Industry])
-        {
-            if (Industry <= 4.9)
-            {
-                Score -= 15;
-            }
-        }
-
         Dependency[Data.GridType.Street].Sort();
         if (Dependency[Data.GridType.Street].Count() > 0)
         {
@@ -45,6 +37,14 @@ public class Housing : GridElement
         {
             //no Street in Range
             Score  = 0;
+        }
+        
+        foreach (double Industry in Dependency[Data.GridType.Industry])
+        {
+            if (Industry <= 4.9)
+            {
+                Score -= 15;
+            }
         }
         
         //base cost

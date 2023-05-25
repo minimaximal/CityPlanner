@@ -24,7 +24,7 @@ public class Industry : GridElement
         {
             if (industry <= 2.5)
             {
-                Score += 10;
+                Score += 15;
             }
         }
         if (IsValidStreet())
