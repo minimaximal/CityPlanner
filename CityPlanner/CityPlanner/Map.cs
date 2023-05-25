@@ -37,23 +37,8 @@ public class Map : ICloneable
         };
     }
 
-    public bool fuck(Move move)
-    {
-        if (move == null)
-            return true;
-        return ( GetGridElement(move) == null || map[move.X, move.Y].GetGridType() != Data.GridType.Empty);
-    }
-
     public void AddMove(Move move)
     {
-        if (fuck(move))
-        {
-            Console.Write("Fuck"); 
-            //todo this shoud be a log
-            //if all code is corect this youd never be caled 
-            // but otherwith we have a failsave
-            return;
-        }
 
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
@@ -85,6 +70,8 @@ public class Map : ICloneable
                 _globalPeople += ((Housing)gridElement).GetPeople();
             }
         }
+        
+        
 
         return globalScore;
     }
