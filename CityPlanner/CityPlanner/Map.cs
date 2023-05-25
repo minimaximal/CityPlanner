@@ -64,6 +64,7 @@ public class Map : ICloneable
         _population = 0;
         int globalScore = 0;
         int industryAmount = 0;
+        int commercialAmount = 0;
         foreach (var gridElement in map)
         {
             globalScore += gridElement.CalculateScore();
@@ -76,6 +77,10 @@ public class Map : ICloneable
             {
                 industryAmount++;
             }
+            if (gridElement.GetGridType() == Data.GridType.Commercial)
+            {
+                commercialAmount++;
+            }
         }
 
         if (_targetPopulation > _population)
@@ -83,10 +88,15 @@ public class Map : ICloneable
             globalScore -= _targetPopulation - _population;
         }
         
-        //Importratio
+        //Importquota
         if (_targetPopulation * (Data.ImportQuota / 100) / 2000 < industryAmount)
         {
             globalScore +=  (int)((_targetPopulation * (Data.ImportQuota / 100) / 2000) - industryAmount) * 150;
+        }
+        //commercialquota
+        if (_targetPopulation / 500 < commercialAmount)
+        {
+            globalScore +=  (int)((_targetPopulation / 500 - commercialAmount) * 100);
         }
         return globalScore;
     }

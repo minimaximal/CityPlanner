@@ -19,11 +19,11 @@ public class Commercial : GridElement
         {
             if (commercial <= 2)
             {
-                Score += 25;
+                Score += 30;
             }
             else if (commercial > 3.5)
             {
-                Score -= 5;
+                Score -= 10;
             }
         }
         foreach (double industry in Dependency[Data.GridType.Industry])
