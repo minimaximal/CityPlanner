@@ -214,55 +214,40 @@ namespace CityPlanner
         {
             // get a tandom type to be placed
             Random random = new Random();
-            Data.GridType toBePlaced;
-            do
-            {
-                toBePlaced = (Data.GridType)Enum.GetValues(typeof(Data.GridType))
-                    .GetValue(random.Next(Data.GridTypeAmount));
-            } while (NoMoreValidStreet && toBePlaced == Data.GridType.Street);
 
-            // wenn straße dann spetzial fall 
+            // wenn straße dann spetzial fall
 
-            Move move;
-            if (toBePlaced == Data.GridType.Street)
+            Move move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
+            Data.GridType toBePlaced = Data.GridType.Housing;
+        
+            if (_map.ValidateStreet(move) && random.NextDouble() < 0.4 ) // staßen changese wenn sie möglich ist
             {
-                move = GetRandomStreet();
+                toBePlaced = Data.GridType.Street;
+
             }
             else
             {
-                move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
+                double rand = random.NextDouble();
+                if(rand < 0.5)
+                {
+                    toBePlaced = Data.GridType.Housing;
+                }
+                else if(rand< 0.8)
+                {
+                    toBePlaced = Data.GridType.Commercial;
+                }
+                else
+                {
+                    toBePlaced = Data.GridType.Industry;
+                }
             }
+
+
+       
 
             // fürge wo und wass zusammen und gib dies zurück
             move.GridType = toBePlaced;
             return move;
-        }
-
-        Move GetRandomStreet()
-        {
-            Random random = new Random();
-
-            List<Move> limitedMoves = new List<Move>();
-            foreach (var possibleStreet in _possibleMoves)
-            {
-                if (limitedMoves.Count > 0 && limitedMoves[^1].X == possibleStreet.X &&
-                    limitedMoves[^1].Y == possibleStreet.Y) continue; // ensures that every field has the same chance
-
-                if (_map.GetGridElement(possibleStreet).IsValidStreet())
-                {
-                    limitedMoves.Add(possibleStreet);
-                }
-            }
-
-            if (limitedMoves.Count == 0)
-            {
-                NoMoreValidStreet = true;
-                return GetRandomMove(); //todo maybe no recursion ??
-                //recurion ist sogar ok diese wird max einmal pro agent aufgerufen
-            }
-
-            int rand = random.Next(0, limitedMoves.Count);
-            return limitedMoves[rand];
         }
 
         public void Display()
