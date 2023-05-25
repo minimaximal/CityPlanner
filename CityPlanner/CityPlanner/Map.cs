@@ -5,13 +5,15 @@ namespace CityPlanner;
 public class Map : ICloneable
 {
     private GridElement[,] map;
-    private int _globalPeople;
+    private int _population;
+    private int _targetPopulation;
 
     public readonly int SizeX;
     public readonly int SizeY;
 
-    public Map(int x, int y)
+    public Map(int x, int y, int targetPopulation)
     {
+        _targetPopulation = targetPopulation;
         SizeX = x;
         SizeY = y;
         map = new GridElement[x, y];
@@ -59,7 +61,7 @@ public class Map : ICloneable
     {
         //todo es könte sinfol sein das ergebnis zwichen zu speichern
 
-        _globalPeople = 0;
+        _population = 0;
         int globalScore = 0;
         foreach (var gridElement in map)
         {
@@ -67,18 +69,20 @@ public class Map : ICloneable
 
             if (gridElement.GetGridType() == Data.GridType.Housing)
             {
-                _globalPeople += ((Housing)gridElement).GetPeople();
+                _population += ((Housing)gridElement).GetPeople();
             }
         }
-        
-        
 
+        if (_targetPopulation > _population)
+        {
+            globalScore -= _targetPopulation - _population;
+        }
         return globalScore;
     }
 
     public int GetPeople()
     {
-        return _globalPeople;
+        return _population;
     }
 
     public GridElement? GetGridElement(Move coordinates)
@@ -105,7 +109,7 @@ public class Map : ICloneable
 
     public object Clone()
     {
-        Map clone = new Map(SizeX, SizeY);
+        Map clone = new Map(SizeX, SizeY, _targetPopulation);
         for (int x = 0; x < SizeX; x++)
         {
             for (int y = 0; y < SizeY; y++)
@@ -118,7 +122,7 @@ public class Map : ICloneable
             }
         }
 
-        clone._globalPeople = _globalPeople;
+        clone._population = _population;
         return clone;
     }
 

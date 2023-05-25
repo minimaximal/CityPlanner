@@ -107,7 +107,7 @@
 
         private Map CreateNewMap()
         {
-            Map map = new Map(_mapSize.x, _mapSize.y);
+            Map map = new Map(_mapSize.x, _mapSize.y, _targetPopulation);
             foreach ((int x, int y) in _stratingPoints)
             {
                 Move move = new Move(x, y)
