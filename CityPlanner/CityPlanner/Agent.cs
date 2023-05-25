@@ -149,7 +149,7 @@ namespace CityPlanner
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
-            if (move == null || random.NextDouble() < 0.005 ||
+            if (move == null || random.NextDouble() < 0.02 ||
                 (!_possibleMoves.Contains(move)) ||
                 (IsNotLegalStreet(move)))
             {
@@ -220,7 +220,7 @@ namespace CityPlanner
             Move move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
             Data.GridType toBePlaced = Data.GridType.Housing;
         
-            if (_map.ValidateStreet(move) && random.NextDouble() < 0.4 ) // staßen changese wenn sie möglich ist
+            if (_map.ValidateStreet(move) && random.NextDouble() < 0.99 ) // staßen changese wenn sie möglich ist
             {
                 toBePlaced = Data.GridType.Street;
 
@@ -252,7 +252,8 @@ namespace CityPlanner
 
         public void Display()
         {
-            Console.Write("Score:" + Score);
+            Console.WriteLine("Score:" + Score);
+            Console.WriteLine("Population: " + _map.GetPeople());
             _map.NewDisplay();
         }
 
