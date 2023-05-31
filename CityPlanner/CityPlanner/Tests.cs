@@ -77,7 +77,79 @@ namespace CityPlanner{
                 Assert.AreEqual(expectedList[i].Y, actualList[i].Y);
                 Assert.AreEqual(expectedList[i].GridType, actualList[i].GridType);
             }
-            
+        }
+        
+        //Test to see if Agent executes every Move
+        [Test]
+        public void ValidAgent()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent agent = new Agent(newMap);
+
+            for (int i = 0; i < 2499; i++)
+            {
+                agent.MakeOneMove();
+            }
+
+            int moveCount = 0;
+
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    if (newMap.GetGridElement(i,j)!.GetGridType() != Data.GridType.Empty)
+                    {
+                        moveCount++;
+                    }
+                }
+                
+            }
+            Assert.AreEqual(2500, moveCount);
+        }
+        
+        //Test to see if Agent executes Parent Moves
+        [Test]
+        public void CheckIfAgentIsChild()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent parentAgent = new Agent((Map)newMap.Clone());
+            Agent parentAgent2 = new Agent((Map)newMap.Clone());
+
+            for (int i = 0; i < 10; i++)
+            {
+                parentAgent.MakeOneMove();
+                parentAgent2.MakeOneMove();
+            }
+
+            Agent childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
+
+            Assert.AreEqual(childAgent.isinList(new Move(1, 1)), parentAgent.isinList(new Move(1, 1)));
+        }
+        
+        
+        //Test to see if Agent places Streets correctly
+        [Test]
+        public void ValidStreets()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent agent = new Agent(newMap);
+
+            for (int i = 0; i < 2499; i++)
+            {
+                agent.MakeOneMove();
+            }
+
+            //need Map
+            Assert.Fail();
         }
     }
 }
