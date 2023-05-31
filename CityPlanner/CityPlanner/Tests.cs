@@ -4,13 +4,12 @@ using NUnit.Framework;
 namespace CityPlanner{
     
     public class Tests
-    {
+    { 
+        //Test to make sure that Grids are not cloned by reference -> Deep clone instead
         [Test]
         public void CopyofGrid_Deep()
         {
             GridElement n1 = new GridElement();
-            Housing haus = new Housing(n1);
-            haus.AddDependency(Data.GridType.Street, 1);
             GridElement n2 = n1.Clone();
             Industry industry = new Industry(n2);
             GridElement industry2 = industry.Clone();
@@ -18,7 +17,34 @@ namespace CityPlanner{
             Assert.AreEqual(industry.GetGridType(), industry2.GetGridType());
             Assert.AreNotSame(industry, industry2);
         }
+        
+        //Test to make sure that Maps are not cloned by reference -> Deep clone instead
+        [Test]
+        public void CopyofMap_Deep()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(49, 49);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            nextMove = new Move(49,48);
+            nextMove.GridType = Data.GridType.Commercial;
+            newMap.AddMove(nextMove);
+            Map clonedMap = (Map) newMap.Clone();
 
+            for(int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    Assert.AreEqual(newMap.GetGridElement(i,j)!.GetGridType(), clonedMap.GetGridElement(i,j)!.GetGridType());
+                    Assert.AreEqual(newMap.GetGridElement(i,j)!.GetLevel(), clonedMap.GetGridElement(i,j)!.GetLevel());
+                    Assert.AreNotSame(newMap.GetGridElement(i,j), clonedMap.GetGridElement(i,j));
+                }
+            }
+            Assert.AreNotSame(newMap, clonedMap);
+        }
+        
+        
+        //Test for sorting moves according to position on Map
         [Test]
         public void MoveSort()
         {
@@ -51,7 +77,79 @@ namespace CityPlanner{
                 Assert.AreEqual(expectedList[i].Y, actualList[i].Y);
                 Assert.AreEqual(expectedList[i].GridType, actualList[i].GridType);
             }
-            
+        }
+        
+        //Test to see if Agent executes every Move
+        [Test]
+        public void ValidAgent()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent agent = new Agent(newMap);
+
+            for (int i = 0; i < 2499; i++)
+            {
+                agent.MakeOneMove();
+            }
+
+            int moveCount = 0;
+
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    if (newMap.GetGridElement(i,j)!.GetGridType() != Data.GridType.Empty)
+                    {
+                        moveCount++;
+                    }
+                }
+                
+            }
+            Assert.AreEqual(2500, moveCount);
+        }
+        
+        //Test to see if Agent executes Parent Moves
+        [Test]
+        public void CheckIfAgentIsChild()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent parentAgent = new Agent((Map)newMap.Clone());
+            Agent parentAgent2 = new Agent((Map)newMap.Clone());
+
+            for (int i = 0; i < 10; i++)
+            {
+                parentAgent.MakeOneMove();
+                parentAgent2.MakeOneMove();
+            }
+
+            Agent childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
+
+            Assert.AreEqual(childAgent.isinList(new Move(1, 1)), parentAgent.isinList(new Move(1, 1)));
+        }
+        
+        
+        //Test to see if Agent places Streets correctly
+        [Test]
+        public void ValidStreets()
+        {
+            Map newMap = new Map(50, 50, 5000);
+            Move nextMove = new Move(24, 24);
+            nextMove.GridType = Data.GridType.Street;
+            newMap.AddMove(nextMove);
+            Agent agent = new Agent(newMap);
+
+            for (int i = 0; i < 2499; i++)
+            {
+                agent.MakeOneMove();
+            }
+
+            //need Map
+            Assert.Fail();
         }
     }
 }
