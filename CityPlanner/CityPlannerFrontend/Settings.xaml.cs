@@ -28,7 +28,7 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class Settings : Page
     {
-        public int iEinwohnerzahl ;
+        public int IEinwohnerzahl ;
         public Settings()
         {
             this.InitializeComponent();
@@ -41,7 +41,7 @@ namespace CityPlannerFrontend
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MapView));
-            Debug.WriteLine(iEinwohnerzahl);
+            Debug.WriteLine(IEinwohnerzahl);
         }
     }
 }

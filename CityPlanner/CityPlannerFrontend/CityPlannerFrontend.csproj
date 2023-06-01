@@ -47,9 +47,53 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\Grid\111.png" />
+    <None Remove="Assets\Grid\112.png" />
+    <None Remove="Assets\Grid\113.png" />
+    <None Remove="Assets\Grid\121.png" />
+    <None Remove="Assets\Grid\122.png" />
+    <None Remove="Assets\Grid\123.png" />
+    <None Remove="Assets\Grid\131.png" />
+    <None Remove="Assets\Grid\132.png" />
+    <None Remove="Assets\Grid\133.png" />
+    <None Remove="Assets\Grid\31.png" />
     <None Remove="MainPage.xaml" />
     <None Remove="MapView.xaml" />
     <None Remove="Settings.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Grid\111.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\112.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\113.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\121.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Grid\122.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\123.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\131.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\132.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\133.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Grid\31.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MapView.xaml">

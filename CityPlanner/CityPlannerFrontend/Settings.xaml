@@ -19,7 +19,7 @@
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
             <TextBlock HorizontalAlignment="Center" Text="Einwohnerzahl"/>
-            <NumberBox Value="{x:Bind Path=iEinwohnerzahl, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
+            <NumberBox Value="{x:Bind Path=IEinwohnerzahl, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
             <TextBlock HorizontalAlignment="Center" Text="Kartenbreite"/>
             <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
             <TextBlock HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>

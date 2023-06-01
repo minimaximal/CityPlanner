@@ -45,7 +45,7 @@ namespace CityPlannerFrontend
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
+            _mWindow = new MainWindow();
 
             // Create a Frame to act as the navigation context and navigate to the first page
             Frame rootFrame = new Frame();
@@ -55,14 +55,14 @@ namespace CityPlannerFrontend
             rootFrame.Navigate(typeof(MainPage), args.Arguments);
 
             // Place the frame in the current Window
-            m_window.Content = rootFrame;
+            _mWindow.Content = rootFrame;
             // Ensure the MainWindow is active
-            m_window.Activate();
+            _mWindow.Activate();
             
         }
         public static Window MainWindow { get; } = new MainWindow();
 
-        private Window m_window;
+        private Window _mWindow;
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
