@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CityPlannerFrontend (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "CityPlannerFrontend (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
