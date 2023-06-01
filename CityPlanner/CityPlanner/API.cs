@@ -35,6 +35,7 @@ public class API
     public void nextGeneration()
     {
         Map newMap = appctrl.nextGeneration();
+        if(currentMap == null&&newMap!=null) { setNewMap(newMap);return; }
         if (newMap.getScore() > currentMap.getScore())
         {
             setNewMap(newMap);

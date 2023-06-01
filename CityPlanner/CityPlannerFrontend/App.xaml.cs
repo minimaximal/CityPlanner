@@ -62,7 +62,7 @@ namespace CityPlannerFrontend
         }
         public static Window MainWindow { get; } = new MainWindow();
 
-        private Window _mWindow;
+        public Window _mWindow;
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);

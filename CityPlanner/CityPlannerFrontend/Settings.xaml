@@ -21,11 +21,11 @@
             <TextBlock HorizontalAlignment="Center" Text="Einwohnerzahl"/>
             <NumberBox Value="{x:Bind Path=IEinwohnerzahl, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
             <TextBlock HorizontalAlignment="Center" Text="Kartenbreite"/>
-            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
+            <NumberBox Value="{x:Bind Path=X, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
             <TextBlock HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
-            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
+            <NumberBox Value="{x:Bind Path=Y, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
             <TextBlock HorizontalAlignment="Center" Text="Importquote"/>
-            <NumberBox HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
+            <NumberBox Value="{x:Bind Path=Importquota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
             <Button Click="Button_Click" HorizontalAlignment="Right">Simulation starten</Button>
         </StackPanel>
 

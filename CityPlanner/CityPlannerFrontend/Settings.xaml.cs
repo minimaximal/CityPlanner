@@ -17,6 +17,7 @@ using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using System.Diagnostics;
+using Windows.ApplicationModel.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,7 +29,10 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class Settings : Page
     {
-        public int IEinwohnerzahl ;
+        public int IEinwohnerzahl=10000;
+        public int X=10;
+        public int Y=10;
+        public int Importquota = 10;//0 bis 100 (prozent)
         public Settings()
         {
             this.InitializeComponent();
@@ -40,8 +44,15 @@ namespace CityPlannerFrontend
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MapView));
-            Debug.WriteLine(IEinwohnerzahl);
+            if (X != 0 && Y != 0)
+            {
+                API Interface = new API(IEinwohnerzahl, X, Y, Importquota);
+                MapView.Interface = Interface;
+                Frame.Navigate(typeof(MapView));
+            }
+            else { 
+            // TODO Warning Popup that Map needs at least size ...
+            }
         }
     }
 }
