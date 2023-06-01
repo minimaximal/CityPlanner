@@ -2,6 +2,7 @@
 
 using CityPlanner;
 using CityPlanner.Grid;
+using Microsoft.VisualBasic.CompilerServices;
 
 public class API
 {
@@ -11,9 +12,10 @@ public class API
     private AppController appctrl;
     private bool newMapFlag;
     private Map currentMap;
-    public Byte[,] ByteMap;
-    public int Score;
-    public int People;
+    private Byte[,] ByteMap;
+    private int Score;
+    private int People;
+    private int placedBuildings;
     public Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
 
 
@@ -45,6 +47,7 @@ public class API
     {
         currentMap = newMap;
         newMapFlag = true;
+        getMapToFrontend();
     }
 
     public bool existsNewMap()
@@ -80,16 +83,34 @@ public class API
         return Score;
     }
 
+    //returns average building Level, has to be called after getPlacedBuildings()
     public int getAverageBuildLevel()
     {
-        //todo average build Levels
-        return 0;
+        int average = 0;
+        foreach (var num in ByteMap)
+        {
+            int level = Int32.Parse(num.ToString().Substring(2, 2));
+            if (level != 5)
+            {
+                average += level;
+            }
+        }
+
+        average /= getPlacedBuildings();
+        return average;
     }
 
     public int getPlacedBuildings()
     {
-        //todo count placed buildings
-        return 0;
+        int buildings = 0;
+        foreach (var num in ByteMap)
+        {
+            if (num != 255)
+            {
+                buildings++;
+            }
+        }
+        return buildings;
     }
 
     public int getPopulation()
