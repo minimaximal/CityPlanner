@@ -2,25 +2,19 @@
 
 public class AppController
 {
+	private AgentController agentController;
 	
-	public AppController(int importQuota)
+	public AppController(int population, int sizeX, int sizeY, int importQuota)
 	{
 		Data.ImportQuota = importQuota;
+		agentController = new AgentController((sizeX,sizeY), new (int,int)[]{(sizeX/2,sizeY/2)}, population, 10);
 	}
 
-	public void Start()
+	
+	public Map nextGeneration()
 	{
-		AgentController agentController = new AgentController((50,20), new (int,int)[]{(9,9)}, 5000, 10);
-		
-		for (int i = 0; i < 100; i++)
-		{			
-			Agent bestAgent = agentController.ExecuteEvolutionStep();
-
-			if (i % 10 != 0) continue;
-			Console.WriteLine("iteration:" +i);
-			bestAgent.Display();
-
-
-		}
+		Agent bestAgent = agentController.ExecuteEvolutionStep();
+		return bestAgent.getMap();
 	}
+	
 }

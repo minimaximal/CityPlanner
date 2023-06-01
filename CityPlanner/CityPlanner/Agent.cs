@@ -279,5 +279,10 @@ namespace CityPlanner
 
             return hits;
         }
+
+        public Map getMap()
+        {
+            return _map;
+        }
     }
 }

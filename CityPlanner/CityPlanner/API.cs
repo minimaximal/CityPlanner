@@ -8,45 +8,71 @@ public class API
     //start 18:22 -10min
     // end 19:02
 
-    public Byte[,] map;
+    private AppController appctrl;
+    private bool newMapFlag;
+    private Map currentMap;
+    public Byte[,] ByteMap;
     public int Score;
     public int People;
     public Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
 
 
-    public API(int people, int sizeX, int sizeY, int importQuota)
+    // do one time setup on start of application
+    // pull map preferences
+    public API(int population, int sizeX, int sizeY, int importQuota)
     {
-        // do one time setup on start of alication
-        // pull map ans set size 
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
         {
             stats.Add(gridType, 0);
         }
-        map = new byte[sizeX, sizeY];
+        ByteMap = new byte[sizeX, sizeY];
         Score = 0;
         People = 0;
+        appctrl = new AppController(population, sizeX, sizeY, importQuota);
+    }
 
+    public void nextGeneration()
+    {
+        Map newMap = appctrl.nextGeneration();
+        if (newMap.getScore() > currentMap.getScore())
+        {
+            setNewMap(newMap);
+        }
+    }
+
+    private void setNewMap(Map newMap)
+    {
+        currentMap = newMap;
+        newMapFlag = true;
+    }
+
+    public bool existsNewMap()
+    {
+        return newMapFlag;
     }
 
     // function call looks like : API.ToFrontend(map)
-    public void ToFrontend(Map inMap)
+    public Byte[,] getMapToFrontend()
     {
-        Score = inMap.CalculateScore(); //todo wird score wird erneut für dasfrontend berechnet 
-        People = inMap.GetPeople(); 
+        Score = currentMap.CalculateScore(); //todo wird score wird erneut für dasfrontend berechnet 
+        People = currentMap.GetPeople(); 
         foreach (var stat in stats.Keys)
         {
             stats[stat] = 0;
         }
         
         
-        for (int x = 0; x < inMap.SizeX; x++)
+        for (int x = 0; x < currentMap.SizeX; x++)
         {
-            for (int y = 0; y < inMap.SizeY; y++)
+            for (int y = 0; y < currentMap.SizeY; y++)
             {
-                map[x, y] = transform(inMap.GetGridElement(x, y));
+                ByteMap[x, y] = transform(currentMap.GetGridElement(x, y));
             }
         }
+
+        newMapFlag = false;
+        return ByteMap;
     }
 
 

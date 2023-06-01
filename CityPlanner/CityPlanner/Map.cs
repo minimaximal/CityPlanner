@@ -7,6 +7,7 @@ public class Map : ICloneable
     private GridElement[,] map;
     private int _population;
     private int _targetPopulation;
+    private int Score;
 
     public readonly int SizeX;
     public readonly int SizeY;
@@ -98,6 +99,8 @@ public class Map : ICloneable
         {
             globalScore +=  (int)((_targetPopulation / 500 - commercialAmount) * 100);
         }
+
+        Score = globalScore;
         return globalScore;
     }
 
@@ -145,6 +148,11 @@ public class Map : ICloneable
 
         clone._population = _population;
         return clone;
+    }
+
+    public int getScore()
+    {
+        return Score;
     }
 
 
