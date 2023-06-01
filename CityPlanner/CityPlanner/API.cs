@@ -75,6 +75,28 @@ public class API
         return ByteMap;
     }
 
+    public int getSatisfaction()
+    {
+        return Score;
+    }
+
+    public int getAverageBuildLevel()
+    {
+        //todo calculate population
+        return 0;
+    }
+
+    public int getPlacedBuildings()
+    {
+        //todo count placed buildings
+        return 0;
+    }
+
+    public int getPopulation()
+    {
+        return currentMap.GetPeople();
+    }
+
 
     public Byte transform(GridElement input)
     {
