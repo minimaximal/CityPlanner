@@ -46,9 +46,11 @@ namespace CityPlanner
             _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
             NoMoreValidStreet = false;
             _possibleMoves.AddRange(_parentMoves);
-            _possibleMoves.Sort();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
+       
             FillTheHoles();
-            ReorderPossibleMoves();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter(_listStartingStreets)).ToList();
+
         }
 
        
@@ -141,23 +143,7 @@ namespace CityPlanner
                 }
             }
         }
-        private void ReorderPossibleMoves()
-        {
-            foreach (var possibleMove in _possibleMoves)
-            {
-                possibleMove.ICH_BIN_EINE_DUMME_LÖSUNG = true;
-                possibleMove.ICH_BIN_EINE_DUMME_REFERENCE = _listStartingStreets;
-            }
-            
-            
-            _possibleMoves.Sort();
-            
-            foreach (var possibleMove in _possibleMoves)
-            {
-                possibleMove.ICH_BIN_EINE_DUMME_LÖSUNG = false;
-            }
-            
-        }
+        
         public void MakeOneMove()
         {
             Random random = new Random();
@@ -173,7 +159,7 @@ namespace CityPlanner
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
-            if (move == null || random.NextDouble() < 0.05 ||
+            if (move == null || random.NextDouble() < 0.02 ||
                 (!_possibleMoves.Contains(move)) ||
                 (IsNotLegalStreet(move)))
             {
@@ -233,7 +219,7 @@ namespace CityPlanner
             return !_map.ValidateStreet(move);
         }
 
-
+    
         private Move GetRandomMove()
         {
             // get a tandom type to be placed
@@ -247,8 +233,9 @@ namespace CityPlanner
             Data.GridType toBePlaced = Data.GridType.Housing;
         
             
-            if (_map.ValidateStreet(move) // staßen changese wenn sie möglich ist
-                && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
+            if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
+               // && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
+            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
             {
                 toBePlaced = Data.GridType.Street;
 

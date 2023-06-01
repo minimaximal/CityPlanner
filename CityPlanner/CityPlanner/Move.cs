@@ -5,11 +5,6 @@ public class Move : IComparable
     public Data.GridType GridType;
     public readonly int X;
     public readonly int Y;
-
-    public bool ICH_BIN_EINE_DUMME_LÖSUNG = false;
-    public List<(int,int)> ICH_BIN_EINE_DUMME_REFERENCE = new List<(int, int)>();
-
-
     public Move(int x, int y)
     {
         X = x;
@@ -28,11 +23,11 @@ public class Move : IComparable
         return Y * (Data.SizeX)+X ;
     }
 
-    public double DistanceToCenter()
+    public double DistanceToCenter(List<(int, int)>? initialStreets)
     {
         double minDistance = 1000;
         double distance = 1000;
-        foreach (var (x,y) in ICH_BIN_EINE_DUMME_REFERENCE)
+        foreach (var (x,y) in initialStreets)
         {
              distance = Math.Sqrt(Math.Pow(X - x, 2) + Math.Pow(Y - y, 2));
              if (distance < minDistance)
@@ -47,11 +42,6 @@ public class Move : IComparable
     {
         Move comp = (Move)obj!;
 
-        if (ICH_BIN_EINE_DUMME_LÖSUNG)
-        {
-            return (int) Math.Round( DistanceToCenter()*1000 - comp.DistanceToCenter()*1000);
-        }
-        
         return IndexNumber() - comp.IndexNumber();
     }
 }
