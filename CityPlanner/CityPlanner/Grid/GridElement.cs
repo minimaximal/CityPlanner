@@ -66,4 +66,10 @@ public class GridElement
     {
         return new GridElement(this);
     }
+
+    public int getStraßenAnz()
+    {
+        return Dependency[Data.GridType.Street].Count;
+    }
+    
 }

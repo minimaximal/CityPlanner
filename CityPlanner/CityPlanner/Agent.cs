@@ -246,7 +246,9 @@ namespace CityPlanner
              
             Data.GridType toBePlaced = Data.GridType.Housing;
         
-            if (_map.ValidateStreet(move) && random.NextDouble() < 0.99 ) // staßen changese wenn sie möglich ist
+            
+            if (_map.ValidateStreet(move) // staßen changese wenn sie möglich ist
+                && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
             {
                 toBePlaced = Data.GridType.Street;
 
