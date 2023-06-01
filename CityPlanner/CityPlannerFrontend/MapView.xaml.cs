@@ -29,20 +29,15 @@ namespace CityPlannerFrontend
         
         public static API Interface { get; set; }
 
-        public byte[,] Map = new byte[3, 3] { { 31, 31, 31 }, { 122, 121, 121 }, { 133, 133, 133 } };
 
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MapView()
         {
             this.InitializeComponent();
-            Grid mapGrid = GridGenerator(Map.GetLength(0), Map.GetLength(1), Map);
-            mapGrid.SetValue(Grid.ColumnProperty, 1);
-            LayoutRoot.Children.Add(mapGrid);
-            
-            Task task = new Task(() => { BackendLoopAsync(); });
+
+            Task task = new(() => { _ = BackendLoopAsync(); });
             task.Start();
-            //Task.Run(() => { BackendLoop(); });
-            
+
         }
 
         private async Task BackendLoopAsync()
@@ -57,39 +52,24 @@ namespace CityPlannerFrontend
                     Debug.WriteLine(Interface.existsNewMap());
                     if (Interface.existsNewMap()){
                         Debug.WriteLine("New Map");
-                        
-                        
                         Rastercount = Interface.getPlacedBuildings();
                         Population = Interface.getPopulation();
                         //Buildinglevel = Interface.getAverageBuildLevel();
+                        
                         _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        // Update UI elements with the updated variable values
-                        var Map2 = Interface.getMapToFrontend();
-                        Grid mapGrid = GridGenerator(Map2.GetLength(0), Map2.GetLength(1), Map2);
-                        mapGrid.SetValue(Grid.ColumnProperty, 1);
-                        LayoutRoot.Children.Add(mapGrid);
-                        satisfaction.Text = Interface.getSatisfaction().ToString();
-                        Rasternazhl.Text = Interface.getPlacedBuildings().ToString();
-                        // Update other UI elements here
+                            {
+                            // Update UI elements with the updated variable values
+                            FillGrid(Interface.getMapToFrontend());    
+                            satisfaction.Text = Interface.getSatisfaction().ToString();
+                            Rasternazhl.Text = Interface.getPlacedBuildings().ToString();
                     });
-                }
+                    }
                     Thread.Sleep(1000);
-                    
                 }
-                
             }
         }
 
-        private void setVariables()
-        {
-            Interface.getMapToFrontend();
-            Satisfaction = Interface.getSatisfaction();
-            Rastercount = Interface.getPlacedBuildings();
-            Buildinglevel = Interface.getAverageBuildLevel();
-            Population = Interface.getPopulation();
-
-        }
+ 
 
         private void Pause_onclick(object sender, RoutedEventArgs e) {
             if (pause)
@@ -103,9 +83,19 @@ namespace CityPlannerFrontend
             Frame.Navigate(typeof(Settings));
         }
 
-        private static Grid GridGenerator(int rows, int cols, byte[,] map)
+        private void FillGrid(byte[,] map)
+        {
+            var mapGrid = GridGenerator(map);
+            MapGridScrollViewer.Content = mapGrid;;
+        }
+
+
+        private static Grid GridGenerator(byte[,] map)
         {
             var grid = new Grid();
+            var rows = map.GetLength(0);
+            var cols = map.GetLength(1);
+
 
             // 1. prepare RowDefinitions
             for (var i = 0; i < rows; i++)
@@ -138,7 +128,7 @@ namespace CityPlannerFrontend
                     };
                     grid.Children.Add(tile);
                     Grid.SetColumn(tile, j);
-                    Grid.SetRow(tile, i); // Set row too!
+                    Grid.SetRow(tile, i); // set row too!
                 }
             }
             return grid;

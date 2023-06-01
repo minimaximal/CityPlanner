@@ -160,7 +160,7 @@ public class API
                 break;
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
-                return 11;
+                return 31;
             case Data.GridType.Empty:
                 stats[Data.GridType.Empty]++;
                 return 0;

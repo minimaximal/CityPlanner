@@ -36,9 +36,7 @@
                       IsTabStop="True" IsVerticalScrollChainingEnabled="True"
                       HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto"
                       VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
-                      ManipulationMode="TranslateX,TranslateY"
-                      
-                      >
+                      ManipulationMode="TranslateX,TranslateY">
         </ScrollViewer>
 
 
