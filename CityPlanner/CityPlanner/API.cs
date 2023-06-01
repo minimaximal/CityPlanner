@@ -1,8 +1,5 @@
-﻿//über den namen darf disgutiert werden
-
-using CityPlanner;
+﻿using CityPlanner;
 using CityPlanner.Grid;
-using Microsoft.VisualBasic.CompilerServices;
 
 public class API
 {
@@ -16,7 +13,7 @@ public class API
     private int Score;
     private int People;
     private int placedBuildings;
-    public Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
+    private Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
 
 
     // do one time setup on start of application
