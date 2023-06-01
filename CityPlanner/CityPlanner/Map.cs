@@ -156,30 +156,42 @@ public class Map : ICloneable
         {
             for (int x = 0; x < SizeX; x++)
             {
+                if (map[x, y].getScore()<-4500)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.Write(".");
+                    continue;
+                }
                 switch (map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
+                        Console.BackgroundColor = ConsoleColor.Blue;
                         Console.Write("C");
 
                         break;
                     case Data.GridType.Industry:
+                        Console.BackgroundColor = ConsoleColor.Red;
                         Console.Write("I");
 
                         break;
                     case Data.GridType.Housing:
+                        Console.BackgroundColor = ConsoleColor.Green;
                         Console.Write("H");
 
                         break;
                     case Data.GridType.Street:
+                        Console.BackgroundColor = ConsoleColor.Black;
                         Console.Write("+");
 
                         break;
                     case Data.GridType.Empty:
+                        Console.BackgroundColor = ConsoleColor.White;
                         Console.Write("_");
                         break;
                 }
+               
             }
-
+            Console.ResetColor();
             /*
             Console.Write("\t\t");
 

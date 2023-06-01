@@ -13,6 +13,9 @@ namespace CityPlanner
         private static Move _firstPossibleMove = null!; //todo to be moved into data class
         private static Move _lastPossibleMove = null!; //todo to be moved into data class
 
+        private static List<(int x, int y)> _listStartingStreets = new List<(int x, int y)>();
+
+
         public int Population
         {
             get => _map.GetPeople();
@@ -43,10 +46,14 @@ namespace CityPlanner
             _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
             NoMoreValidMoves = false;
             _possibleMoves.AddRange(_parentMoves);
-            _possibleMoves.Sort();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
+       
             FillTheHoles();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter(_listStartingStreets)).ToList();
+
         }
 
+       
         private List<Move> GenerateParentList(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
@@ -105,6 +112,9 @@ namespace CityPlanner
                         {
                             _possibleMoves.Insert(i + 1, new Move(x, y));
                             break;
+                        }else if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
+                        { 
+                            _listStartingStreets.Add((x, y));
                         }
 
                         holeOffset++;
@@ -132,7 +142,7 @@ namespace CityPlanner
                 }
             }
         }
-
+        
         public void MakeOneMove()
         {
             Random random = new Random();
@@ -170,7 +180,7 @@ namespace CityPlanner
         
         private void RemovePossibleMoves(Move move)
         {
-            int index = _possibleMoves.IndexOf(move);
+            int index = _possibleMoves.IndexOf(move); // index scoud be always 0
             // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
             if (index > 0) //index- 1 >= 0 
             {
@@ -204,7 +214,7 @@ namespace CityPlanner
             return !_map.ValidateStreet(move);
         }
 
-
+    
         private Move GetRandomMove()
         {
             // get a tandom type to be placed
@@ -212,10 +222,15 @@ namespace CityPlanner
 
             // wenn straße dann spetzial fall
 
-            Move move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
+            Move move = _possibleMoves.ElementAt(0);
+            
+             
             Data.GridType toBePlaced = Data.GridType.Housing;
         
-            if (_map.ValidateStreet(move) && random.NextDouble() < 1.1 ) // staßen changese wenn sie möglich ist
+            
+            if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
+               // && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
+            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
             {
                 toBePlaced = Data.GridType.Street;
 
