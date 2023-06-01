@@ -56,7 +56,7 @@
 
                 for (int i = 0; i < _agents.Count(); i++)
                 {
-                    if (_agents[i].NoMoreValidStreet || _agents[i].Population > _targetPopulation || lastRun)
+                    if (_agents[i].NoMoreValidMoves || _agents[i].Population > _targetPopulation || lastRun)
                     {
                         finishedAgents.Add(_agents[i]);
                         _agents.Remove(_agents[i]);

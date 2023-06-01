@@ -9,7 +9,7 @@ namespace CityPlanner
         private List<Move> _parentMoves = new List<Move>();
         private List<Move> _moves = new List<Move>();
         private List<Move> _possibleMoves = new List<Move>();
-        public bool NoMoreValidStreet;
+        public bool NoMoreValidMoves;
         private static Move _firstPossibleMove = null!; //todo to be moved into data class
         private static Move _lastPossibleMove = null!; //todo to be moved into data class
 
@@ -41,7 +41,7 @@ namespace CityPlanner
             _map = map;
             _firstPossibleMove = new Move(0, 0); //todo to be moved into data class
             _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
-            NoMoreValidStreet = false;
+            NoMoreValidMoves = false;
             _possibleMoves.AddRange(_parentMoves);
             _possibleMoves.Sort();
             FillTheHoles();
@@ -84,7 +84,6 @@ namespace CityPlanner
 
             return result;
         }
-
         private void FillTheHoles()
         {
             _possibleMoves.Insert(0, _firstPossibleMove);
@@ -140,7 +139,6 @@ namespace CityPlanner
             Move? move = null;
             if (_parentMoves.Count > 0)
             {
-                int i = 0;
                 do
                 {
                     move = _parentMoves[0];
@@ -150,7 +148,6 @@ namespace CityPlanner
             }
 
             if (move == null || random.NextDouble() < 0.02 ||
-                (!_possibleMoves.Contains(move)) ||
                 (IsNotLegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
@@ -159,7 +156,7 @@ namespace CityPlanner
                 }
                 else
                 {
-                    NoMoreValidStreet = true; // boge work
+                    NoMoreValidMoves = true; // boge work
                     //if there are no more valid moves at all we nead to stop the call of this funktion
                     // todo add AgentControlr: stopAgent(Agent)
                     return;
@@ -167,12 +164,10 @@ namespace CityPlanner
             }
 
             RemovePossibleMoves(move);
-
-
             _moves.Add(move);
             _map.AddMove(move);
         }
-
+        
         private void RemovePossibleMoves(Move move)
         {
             int index = _possibleMoves.IndexOf(move);
@@ -220,7 +215,7 @@ namespace CityPlanner
             Move move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
             Data.GridType toBePlaced = Data.GridType.Housing;
         
-            if (_map.ValidateStreet(move) && random.NextDouble() < 0.99 ) // staßen changese wenn sie möglich ist
+            if (_map.ValidateStreet(move) && random.NextDouble() < 1.1 ) // staßen changese wenn sie möglich ist
             {
                 toBePlaced = Data.GridType.Street;
 
@@ -241,10 +236,7 @@ namespace CityPlanner
                     toBePlaced = Data.GridType.Industry;
                 }
             }
-
-
-       
-
+            
             // fürge wo und wass zusammen und gib dies zurück
             move.GridType = toBePlaced;
             return move;
