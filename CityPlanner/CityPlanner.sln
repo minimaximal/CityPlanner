@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPlanner", "CityPlanner\CityPlanner.csproj", "{9ECB64AF-76EA-4DDA-A70F-A9086D2E02EF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityPlannerFrontend", "CityPlannerFrontend\CityPlannerFrontend.csproj", "{B261B814-1CA4-4299-8C6B-CA9B1416FBC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9ECB64AF-76EA-4DDA-A70F-A9086D2E02EF} = {9ECB64AF-76EA-4DDA-A70F-A9086D2E02EF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
