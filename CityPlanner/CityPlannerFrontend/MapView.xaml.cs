@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -30,48 +31,52 @@ namespace CityPlannerFrontend
 
         public byte[,] Map = new byte[3, 3] { { 31, 31, 31 }, { 122, 121, 121 }, { 133, 133, 133 } };
 
+        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MapView()
         {
             this.InitializeComponent();
             Grid mapGrid = GridGenerator(Map.GetLength(0), Map.GetLength(1), Map);
             mapGrid.SetValue(Grid.ColumnProperty, 1);
             LayoutRoot.Children.Add(mapGrid);
-            Task task = new Task(() => { BackendLoop(); });
+            
+            Task task = new Task(() => { BackendLoopAsync(); });
             task.Start();
             //Task.Run(() => { BackendLoop(); });
             
         }
 
-        private void BackendLoop()
+        private async Task BackendLoopAsync()
         {
             Debug.WriteLine("entered BackendLoop");
             if (Interface != null)
             {
-                //while (!pause)
-                //{
+                while (!pause)
+                {
                     Debug.WriteLine("Next Generation");
                     Interface.nextGeneration();
+                    Debug.WriteLine(Interface.existsNewMap());
                     if (Interface.existsNewMap()){
                         Debug.WriteLine("New Map");
-                        Interface.getMapToFrontend();
-                        Satisfaction = Interface.getSatisfaction();
+                        
+                        
                         Rastercount = Interface.getPlacedBuildings();
-                        Buildinglevel = Interface.getAverageBuildLevel();
                         Population = Interface.getPopulation();
-                        Debug.WriteLine(Interface.getSatisfaction());
-
-                    Rasternazhl.Text = Interface.getSatisfaction().ToString();
-                    /*.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        //Buildinglevel = Interface.getAverageBuildLevel();
+                        _dispatcherQueue.TryEnqueue(() =>
                     {
-
-                        setVariables();
-                    });*/
-                    Task.Run(() => { BackendLoop(); });
-                    return;
+                        // Update UI elements with the updated variable values
+                        var Map2 = Interface.getMapToFrontend();
+                        Grid mapGrid = GridGenerator(Map2.GetLength(0), Map2.GetLength(1), Map2);
+                        mapGrid.SetValue(Grid.ColumnProperty, 1);
+                        LayoutRoot.Children.Add(mapGrid);
+                        satisfaction.Text = Interface.getSatisfaction().ToString();
+                        Rasternazhl.Text = Interface.getPlacedBuildings().ToString();
+                        // Update other UI elements here
+                    });
                 }
                     Thread.Sleep(1000);
                     
-               // }
+                }
                 
             }
         }
@@ -89,7 +94,7 @@ namespace CityPlannerFrontend
         private void Pause_onclick(object sender, RoutedEventArgs e) {
             if (pause)
             {
-                Task.Run(() => { BackendLoop(); });
+                Task.Run(() => { BackendLoopAsync(); });
             }
             pause = !pause;
         }

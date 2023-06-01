@@ -45,7 +45,7 @@ public class API
     {
         currentMap = newMap;
         newMapFlag = true;
-        getMapToFrontend();
+        //getMapToFrontend();
     }
 
     public bool existsNewMap()
