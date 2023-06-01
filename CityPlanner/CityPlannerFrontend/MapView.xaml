@@ -30,5 +30,17 @@
             <TextBlock Margin="1,0,1,5" Text="{x:Bind Buildinglevel, Mode=TwoWay}">0</TextBlock>
             <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
         </StackPanel>
+
+
+        <ScrollViewer x:Name="MapGridScrollViewer" Grid.Column="1" ZoomMode="Enabled"
+                      IsTabStop="True" IsVerticalScrollChainingEnabled="True"
+                      HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
+                      ManipulationMode="TranslateX,TranslateY"
+                      
+                      >
+        </ScrollViewer>
+
+
     </Grid>
 </Page>

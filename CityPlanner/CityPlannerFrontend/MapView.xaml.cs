@@ -20,7 +20,7 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class MapView : Page
     {
-        public int Satisfaction = 0; 
+        public int Satisfaction = 0;
         public int Buildinglevel = 0;
         public int Rastercount = 0;
         public int Population = 0;
@@ -98,11 +98,11 @@ namespace CityPlannerFrontend
             Frame.Navigate(typeof(Settings));
         }
 
-        public Grid GridGenerator(int rows, int cols, byte[,] map)
+        private static Grid GridGenerator(int rows, int cols, byte[,] map)
         {
             var grid = new Grid();
 
-            // 1.Prepare RowDefinitions
+            // 1. prepare RowDefinitions
             for (var i = 0; i < rows; i++)
             {
                 var row = new RowDefinition
@@ -112,7 +112,7 @@ namespace CityPlannerFrontend
                 grid.RowDefinitions.Add(row);
             }
 
-            // 2.Prepare ColumnDefinitions
+            // 2. prepare ColumnDefinitions
             for (var j = 0; j < cols; j++)
             {
                 var column = new ColumnDefinition
@@ -122,14 +122,14 @@ namespace CityPlannerFrontend
                 grid.ColumnDefinitions.Add(column);
             }
 
-            // 3.Add each item and set row and column.
+            // 3. add each item and set row and column
             for (var i = 0; i < rows; i++)
             {
                 for (var j = 0; j < cols; j++)
                 {
                     var tile = new Image
                     {
-                        Source = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + map[i, j] +".png"))
+                        Source = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + map[i, j] + ".png"))
                     };
                     grid.Children.Add(tile);
                     Grid.SetColumn(tile, j);
