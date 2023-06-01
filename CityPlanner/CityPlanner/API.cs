@@ -14,7 +14,7 @@ public class API
     public Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
 
 
-    public API(Map inMap)
+    public API(int people, int sizeX, int sizeY, int importQuota)
     {
         // do one time setup on start of alication
         // pull map ans set size 
@@ -23,7 +23,7 @@ public class API
         {
             stats.Add(gridType, 0);
         }
-        map = new byte[inMap.SizeX, inMap.SizeY];
+        map = new byte[sizeX, sizeY];
         Score = 0;
         People = 0;
 
