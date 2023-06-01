@@ -55,7 +55,7 @@ public class API
     // function call looks like : API.ToFrontend(map)
     public Byte[,] getMapToFrontend()
     {
-        Score = currentMap.CalculateScore(); //todo wird score wird erneut für dasfrontend berechnet 
+        Score = currentMap.getScore();
         People = currentMap.GetPeople(); 
         foreach (var stat in stats.Keys)
         {
@@ -82,7 +82,7 @@ public class API
 
     public int getAverageBuildLevel()
     {
-        //todo calculate population
+        //todo average build Levels
         return 0;
     }
 
@@ -94,7 +94,7 @@ public class API
 
     public int getPopulation()
     {
-        return currentMap.GetPeople();
+        return People;
     }
 
 
