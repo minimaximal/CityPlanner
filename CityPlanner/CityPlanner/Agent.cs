@@ -47,7 +47,7 @@ namespace CityPlanner
             FillTheHoles();
         }
 
-        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)//todo rename maybe generateMovesFromParents
+        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
             if (split >= 1)
