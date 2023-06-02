@@ -164,7 +164,7 @@ public class Map : ICloneable
         {
             for (int x = 0; x < SizeX; x++)
             {
-                if (map[x, y].getScore()<-4500)
+                if (map[x, y].getScore()<-199)
                 {
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.Write(".");
@@ -200,14 +200,14 @@ public class Map : ICloneable
                
             }
             Console.ResetColor();
-            /*
+            
             Console.Write("\t\t");
 
             for (int x = 0; x < SizeX; x++)
             {
                 Console.Write(map[x, y].getScore() +"|");
             }
-*/
+
             Console.Write("\n");
         }
     }

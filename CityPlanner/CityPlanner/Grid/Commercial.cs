@@ -42,7 +42,7 @@ public class Commercial : GridElement
         else
         {
             //no Street in Range
-            Score = -5000;
+            Score = -500;
         }
         //base cost
         Score -= 5;

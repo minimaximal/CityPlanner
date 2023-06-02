@@ -35,7 +35,7 @@ public class Industry : GridElement
         else
         {
             //no Street in Range
-            Score = -5000;
+            Score = -500;
         }
         
         //base cost
