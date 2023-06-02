@@ -9,9 +9,11 @@
 //Console.WriteLine(test.testMoveSort());
 
 
-AppController appController = new AppController(10000, 100, 100 , 10);
+using CityPlanner;
 
-for (int j = 0; j < 1000000; j++)
+AppController appController = new AppController(10000, 50, 20 , 10);
+
+for (int j = 0; j < 10000; j++)
 {
     if(j%10 !=0 ) continue;
     Console.WriteLine("gen:" + j );
