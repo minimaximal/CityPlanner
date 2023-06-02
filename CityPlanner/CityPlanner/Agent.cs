@@ -32,7 +32,7 @@ namespace CityPlanner
 
         public Agent(Map map, Agent parent1, Agent parent2, double split)
         {
-            _parentMoves = GenerateParentList(parent1, parent2, split);
+            _parentMoves = SelectMovesFromParents(parent1, parent2, split);
             BasicSetup(map);
         }
 
@@ -47,7 +47,7 @@ namespace CityPlanner
             FillTheHoles();
         }
 
-        private List<Move> GenerateParentList(Agent parent1, Agent parent2, double split)
+        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)//todo rename maybe generateMovesFromParents
         {
             List<Move> result = new List<Move>();
             if (split >= 1)
@@ -151,7 +151,7 @@ namespace CityPlanner
 
             if (move == null || random.NextDouble() < 0.02 ||
                 (!_possibleMoves.Contains(move)) ||
-                (IsNotLegalStreet(move)))
+                (IsIllegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
                 {
@@ -166,14 +166,14 @@ namespace CityPlanner
                 }
             }
 
-            RemovePossibleMoves(move);
+            RemoveFromPossibleMoves(move);
 
 
             _moves.Add(move);
             _map.AddMove(move);
         }
 
-        private void RemovePossibleMoves(Move move)
+        private void RemoveFromPossibleMoves(Move move)
         {
             int index = _possibleMoves.IndexOf(move);
             // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
@@ -200,7 +200,7 @@ namespace CityPlanner
             _possibleMoves.Remove(move);
         }
 
-        private bool IsNotLegalStreet(Move move)
+        private bool IsIllegalStreet(Move move)
         {
             //if not a street -> false
             //if this move is a street ->  is legal street?
