@@ -100,6 +100,7 @@ namespace CityPlanner
 
             _possibleMoves.Remove(_firstPossibleMove);
             _possibleMoves.Remove(_lastPossibleMove);//remove again since they were just used as a border
+
             if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
             {
                 if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
