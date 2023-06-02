@@ -10,8 +10,6 @@
         private static Move _firstPossibleMove = null!; //todo to be moved into data class
         private static Move _lastPossibleMove = null!; //todo to be moved into data class
 
-        private static List<(int x, int y)> _listStartingStreets = new List<(int x, int y)>();
-
 
         public int Population
         {
@@ -46,7 +44,7 @@
             _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
        
             FillGapsInMovesList();
-            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter(_listStartingStreets)).ToList();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
         }
 
        
@@ -133,10 +131,7 @@
                 {
                     _possibleMoves.Insert(index + 1, new Move(x, y));
                     break;
-                }else if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
-                        { 
-                            _listStartingStreets.Add((x, y));
-                        }
+                }
 
                 holeOffset++;
                 //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde

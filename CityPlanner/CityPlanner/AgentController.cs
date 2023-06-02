@@ -21,6 +21,7 @@
             _targetPopulation = targetPopulation;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             _defaultMap = CreateNewMap();
+            Data.InitialStreets = startingPoints.ToList();
         }
 
         public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
