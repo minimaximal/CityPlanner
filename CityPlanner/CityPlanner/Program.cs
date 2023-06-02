@@ -10,9 +10,10 @@ using CityPlanner;
 //Console.WriteLine(test.testMoveSort());
 
 
-AppController appController = new AppController(100);
+//AppController appController = new AppController(100);
 
-appController.Start();
+//appController.Start();
+int i = 0; //somehow required to start programm or no Main method is found
 
 
 

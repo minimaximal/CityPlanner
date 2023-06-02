@@ -1,6 +1,4 @@
-﻿//über den namen darf disgutiert werden
-
-using CityPlanner;
+﻿using CityPlanner;
 using CityPlanner.Grid;
 
 public class API
@@ -8,45 +6,114 @@ public class API
     //start 18:22 -10min
     // end 19:02
 
-    public Byte[,] map;
-    public int Score;
-    public int People;
-    public Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
+    private AppController appctrl;
+    private bool newMapFlag;
+    private Map currentMap;
+    private Byte[,] ByteMap;
+    private int Score;
+    private int People;
+    private int placedBuildings;
+    private Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
 
 
-    public API(Map inMap)
+    // do one time setup on start of application
+    // pull map preferences
+    public API(int population, int sizeX, int sizeY, int importQuota)
     {
-        // do one time setup on start of alication
-        // pull map ans set size 
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
         {
             stats.Add(gridType, 0);
         }
-        map = new byte[inMap.SizeX, inMap.SizeY];
+        ByteMap = new byte[sizeX, sizeY];
         Score = 0;
         People = 0;
+        appctrl = new AppController(population, sizeX, sizeY, importQuota);
+    }
 
+    public void nextGeneration()
+    {
+        Map newMap = appctrl.nextGeneration();
+        if(currentMap == null&&newMap!=null) { setNewMap(newMap);return; }
+        if (newMap.getScore() > currentMap.getScore())
+        {
+            setNewMap(newMap);
+        }
+    }
+
+    private void setNewMap(Map newMap)
+    {
+        currentMap = newMap;
+        newMapFlag = true;
+        //getMapToFrontend();
+    }
+
+    public bool existsNewMap()
+    {
+        return newMapFlag;
     }
 
     // function call looks like : API.ToFrontend(map)
-    public void ToFrontend(Map inMap)
+    public Byte[,] getMapToFrontend()
     {
-        Score = inMap.CalculateScore(); //todo wird score wird erneut für dasfrontend berechnet 
-        People = inMap.GetPeople(); 
+        Score = currentMap.getScore();
+        People = currentMap.GetPeople(); 
         foreach (var stat in stats.Keys)
         {
             stats[stat] = 0;
         }
         
         
-        for (int x = 0; x < inMap.SizeX; x++)
+        for (int x = 0; x < currentMap.SizeX; x++)
         {
-            for (int y = 0; y < inMap.SizeY; y++)
+            for (int y = 0; y < currentMap.SizeY; y++)
             {
-                map[x, y] = transform(inMap.GetGridElement(x, y));
+                ByteMap[x, y] = transform(currentMap.GetGridElement(x, y));
             }
         }
+
+        newMapFlag = false;
+        return ByteMap;
+    }
+
+    public int getSatisfaction()
+    {
+        return Score;
+    }
+
+    //returns average building Level, has to be called after getPlacedBuildings()
+    public int getAverageBuildLevel()
+    {
+        int average = 0;
+        foreach (var num in ByteMap)
+        {
+            int level = Int32.Parse(num.ToString().Substring(2, 2));
+            if (level != 5)
+            {
+                average += level;
+            }
+        }
+
+        average /= getPlacedBuildings();
+        return average;
+    }
+
+    public int getPlacedBuildings()
+    {
+        int buildings = 0;
+        foreach (var num in ByteMap)
+        {
+            if (num != 255)
+            {
+                buildings++;
+            }
+        }
+        return buildings;
+    }
+
+    public int getPopulation()
+    {
+        return People;
     }
 
 
@@ -93,7 +160,7 @@ public class API
                 break;
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
-                return 11;
+                return 31;
             case Data.GridType.Empty:
                 stats[Data.GridType.Empty]++;
                 return 0;
