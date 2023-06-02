@@ -9,9 +9,12 @@ namespace CityPlanner
         private List<Move> _parentMoves = new List<Move>();
         private List<Move> _moves = new List<Move>();
         private List<Move> _possibleMoves = new List<Move>();
-        public bool NoMoreValidStreet;
+        public bool NoMoreValidMoves;
         private static Move _firstPossibleMove = null!; //todo to be moved into data class
         private static Move _lastPossibleMove = null!; //todo to be moved into data class
+
+        private static List<(int x, int y)> _listStartingStreets = new List<(int x, int y)>();
+
 
         public int Population
         {
@@ -32,7 +35,7 @@ namespace CityPlanner
 
         public Agent(Map map, Agent parent1, Agent parent2, double split)
         {
-            _parentMoves = GenerateParentList(parent1, parent2, split);
+            _parentMoves = SelectMovesFromParents(parent1, parent2, split);
             BasicSetup(map);
         }
 
@@ -41,13 +44,16 @@ namespace CityPlanner
             _map = map;
             _firstPossibleMove = new Move(0, 0); //todo to be moved into data class
             _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
-            NoMoreValidStreet = false;
+            NoMoreValidMoves = false;
             _possibleMoves.AddRange(_parentMoves);
-            _possibleMoves.Sort();
-            FillTheHoles();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
+       
+            FillGapsInMovesList();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter(_listStartingStreets)).ToList();
         }
 
-        private List<Move> GenerateParentList(Agent parent1, Agent parent2, double split)
+       
+        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
             if (split >= 1)
@@ -84,8 +90,7 @@ namespace CityPlanner
 
             return result;
         }
-
-        private void FillTheHoles()
+        private void FillGapsInMovesList()
         {
             _possibleMoves.Insert(0, _firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
@@ -94,29 +99,13 @@ namespace CityPlanner
             {
                 if (_possibleMoves[i].IndexNumber() - _possibleMoves[i + 1].IndexNumber() < -1)
                 {
-                    //Ein loch ist da 
-                    Move holeBeginning = _possibleMoves.ElementAt(i);
-                    int y;
-                    int holeOffset = 0;
-                    do
-                    {
-                        int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
-                        y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
-                        if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
-                        {
-                            _possibleMoves.Insert(i + 1, new Move(x, y));
-                            break;
-                        }
-
-                        holeOffset++;
-                        //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
-                        //(das elemet existert und wir machen weiter mit i)
-                    } while (holeBeginning.X+ holeOffset+1 < _possibleMoves[i+1].X); 
+                    FillGapAt(i);
                 }
             }
 
             _possibleMoves.Remove(_firstPossibleMove);
-            _possibleMoves.Remove(_lastPossibleMove);
+            _possibleMoves.Remove(_lastPossibleMove);//remove again since they were just used as a border
+
             if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
             {
                 if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
@@ -134,13 +123,36 @@ namespace CityPlanner
             }
         }
 
+        private void FillGapAt(int index)
+        {
+            Move holeBeginning = _possibleMoves.ElementAt(index);
+            int y;
+            int holeOffset = 0;
+            do
+            {
+                int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
+                y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
+                if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(index + 1, new Move(x, y));
+                    break;
+                }else if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
+                        { 
+                            _listStartingStreets.Add((x, y));
+                        }
+
+                holeOffset++;
+                //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
+                //(das elemet existert und wir machen weiter mit index)
+            } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
+        }
+        
         public void MakeOneMove()
         {
             Random random = new Random();
             Move? move = null;
             if (_parentMoves.Count > 0)
             {
-                int i = 0;
                 do
                 {
                     move = _parentMoves[0];
@@ -150,8 +162,7 @@ namespace CityPlanner
             }
 
             if (move == null || random.NextDouble() < 0.02 ||
-                (!_possibleMoves.Contains(move)) ||
-                (IsNotLegalStreet(move)))
+                (IsIllegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
                 {
@@ -159,23 +170,21 @@ namespace CityPlanner
                 }
                 else
                 {
-                    NoMoreValidStreet = true; // boge work
+                    NoMoreValidMoves = true; // boge work
                     //if there are no more valid moves at all we nead to stop the call of this funktion
                     // todo add AgentControlr: stopAgent(Agent)
                     return;
                 }
             }
 
-            RemovePossibleMoves(move);
-
-
+            RemoveFromPossibleMoves(move);
             _moves.Add(move);
             _map.AddMove(move);
         }
-
-        private void RemovePossibleMoves(Move move)
+        
+        private void RemoveFromPossibleMoves(Move move)
         {
-            int index = _possibleMoves.IndexOf(move);
+            int index = _possibleMoves.IndexOf(move); // index scoud be always 0
             // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
             if (index > 0) //index- 1 >= 0 
             {
@@ -200,7 +209,7 @@ namespace CityPlanner
             _possibleMoves.Remove(move);
         }
 
-        private bool IsNotLegalStreet(Move move)
+        private bool IsIllegalStreet(Move move)
         {
             //if not a street -> false
             //if this move is a street ->  is legal street?
@@ -209,7 +218,7 @@ namespace CityPlanner
             return !_map.ValidateStreet(move);
         }
 
-
+    
         private Move GetRandomMove()
         {
             // get a tandom type to be placed
@@ -217,10 +226,15 @@ namespace CityPlanner
 
             // wenn straße dann spetzial fall
 
-            Move move = _possibleMoves[random.Next(0, _possibleMoves.Count)];
+            Move move = _possibleMoves.ElementAt(0);
+            
+             
             Data.GridType toBePlaced = Data.GridType.Housing;
         
-            if (_map.ValidateStreet(move) && random.NextDouble() < 0.99 ) // staßen changese wenn sie möglich ist
+            
+            if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
+               // && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
+            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
             {
                 toBePlaced = Data.GridType.Street;
 
@@ -241,10 +255,7 @@ namespace CityPlanner
                     toBePlaced = Data.GridType.Industry;
                 }
             }
-
-
-       
-
+            
             // fürge wo und wass zusammen und gib dies zurück
             move.GridType = toBePlaced;
             return move;
@@ -259,7 +270,7 @@ namespace CityPlanner
 
         public int GetMaxRemainingMoves()
         {
-            return _possibleMoves.Count();
+            return _possibleMoves.Count;
             // this is not true 
             // in 1 move  1or2 moves may be removed from _possibleMoves 
         }

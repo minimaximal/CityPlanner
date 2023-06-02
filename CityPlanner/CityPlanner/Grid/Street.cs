@@ -9,6 +9,20 @@ public class Street : GridElement
         // idee: prositiv starten und exponetiell schlimmer deto mehr straßen in der nähe sind
         Score = 0;
 
+        Score = 100;
+
+
+        //if (Dependency[Data.GridType.Street].Count > 7)
+            Score -= -Dependency[Data.GridType.Street].Count * 10;
+            int nearbyStreet = 0;
+            foreach (double street in Dependency[Data.GridType.Street])
+            {
+                if (street <= 1)
+                {
+                    Score +=10;
+                }
+            }
+        /*
         int nearbyStreet = 0;
         foreach (double street in Dependency[Data.GridType.Street])
         {
@@ -26,6 +40,7 @@ public class Street : GridElement
         {
             Score += 50;
         }
+        */
         return Score;
     }
 

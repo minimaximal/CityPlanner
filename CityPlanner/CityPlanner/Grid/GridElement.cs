@@ -4,7 +4,7 @@ namespace CityPlanner.Grid;
 
 public class GridElement
 {
-    protected int Score ;
+    protected int Score;
     protected int Level = 1;
     protected IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
 
@@ -25,9 +25,9 @@ public class GridElement
     {
         foreach (var dependency in oldGridElement.Dependency)
         {
-            Dependency.Add( dependency.Key ,oldGridElement.Dependency[dependency.Key].ToArray().ToList());
+            Dependency.Add(dependency.Key, oldGridElement.Dependency[dependency.Key].ToArray().ToList());
         }
-        
+
         Score = oldGridElement.Score;
         Level = oldGridElement.Level;
     }
@@ -65,5 +65,30 @@ public class GridElement
     public virtual GridElement Clone()
     {
         return new GridElement(this);
+    }
+
+    private double fn(double x)
+    {
+        return 5 / (x - 24) + 1;
+    }
+    private double fn2(double x)
+    {
+        return  0.8-0.2*(x );
+    }
+   
+
+    public double getwarscheinlichkeit()
+    {
+        //Retuns valu beeween 0 and 1 
+
+        Dependency[Data.GridType.Street].Sort();
+        int counter = 0;
+        while (Dependency[Data.GridType.Street].Count>counter && Dependency[Data.GridType.Street][counter] <= 1)
+        {
+            counter++;
+        }
+        
+
+        return fn2(counter);
     }
 }
