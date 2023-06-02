@@ -9,9 +9,18 @@
 //Console.WriteLine(test.testMoveSort());
 
 
-//AppController appController = new AppController(100);
+AppController appController = new AppController(10000, 100, 100 , 10);
 
-//appController.Start();
+for (int j = 0; j < 1000000; j++)
+{
+    if(j%10 !=0 ) continue;
+    Console.WriteLine("gen:" + j );
+    Map  map = appController.nextGeneration();
+    Console.WriteLine(map.getScore());
+    Console.WriteLine(map.GetPeople());
+    map.NewDisplay();
+}
+
 int i = 0; //somehow required to start programm or no Main method is found
 
 
