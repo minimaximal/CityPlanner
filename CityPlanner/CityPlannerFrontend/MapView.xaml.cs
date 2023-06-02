@@ -52,9 +52,6 @@ namespace CityPlannerFrontend
                     Debug.WriteLine(Interface.existsNewMap());
                     if (Interface.existsNewMap()){
                         Debug.WriteLine("New Map");
-                        Rastercount = Interface.getPlacedBuildings();
-                        Population = Interface.getPopulation();
-                        //Buildinglevel = Interface.getAverageBuildLevel();
                         
                         _dispatcherQueue.TryEnqueue(() =>
                             {
@@ -62,6 +59,8 @@ namespace CityPlannerFrontend
                             FillGrid(Interface.getMapToFrontend());    
                             satisfaction.Text = Interface.getSatisfaction().ToString();
                             Rasternazhl.Text = Interface.getPlacedBuildings().ToString();
+                            //Blevel.Text = Interface.getAverageBuildLevel().ToString();
+                            //Population.Text = Interface.getPopulation().ToString();
                     });
                     }
                     Thread.Sleep(1000);
