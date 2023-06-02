@@ -140,7 +140,6 @@ namespace CityPlanner
             Move? move = null;
             if (_parentMoves.Count > 0)
             {
-                int i = 0;
                 do
                 {
                     move = _parentMoves[0];
