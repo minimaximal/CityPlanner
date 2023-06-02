@@ -44,7 +44,7 @@ namespace CityPlanner
             NoMoreValidStreet = false;
             _possibleMoves.AddRange(_parentMoves);
             _possibleMoves.Sort();
-            FillTheHoles();
+            FillGapsInMovesList();
         }
 
         private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
@@ -85,7 +85,7 @@ namespace CityPlanner
             return result;
         }
 
-        private void FillTheHoles()
+        private void FillGapsInMovesList()
         {
             _possibleMoves.Insert(0, _firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
@@ -94,29 +94,12 @@ namespace CityPlanner
             {
                 if (_possibleMoves[i].IndexNumber() - _possibleMoves[i + 1].IndexNumber() < -1)
                 {
-                    //Ein loch ist da 
-                    Move holeBeginning = _possibleMoves.ElementAt(i);
-                    int y;
-                    int holeOffset = 0;
-                    do
-                    {
-                        int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
-                        y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
-                        if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
-                        {
-                            _possibleMoves.Insert(i + 1, new Move(x, y));
-                            break;
-                        }
-
-                        holeOffset++;
-                        //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
-                        //(das elemet existert und wir machen weiter mit i)
-                    } while (holeBeginning.X+ holeOffset+1 < _possibleMoves[i+1].X); 
+                    FillGapAt(i);
                 }
             }
 
             _possibleMoves.Remove(_firstPossibleMove);
-            _possibleMoves.Remove(_lastPossibleMove);
+            _possibleMoves.Remove(_lastPossibleMove);//remove again since they were just used as a border
             if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
             {
                 if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
@@ -132,6 +115,27 @@ namespace CityPlanner
                     _possibleMoves.Add(new Move(_lastPossibleMove));
                 }
             }
+        }
+
+        private void FillGapAt(int index)
+        {
+            Move holeBeginning = _possibleMoves.ElementAt(index);
+            int y;
+            int holeOffset = 0;
+            do
+            {
+                int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
+                y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
+                if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(index + 1, new Move(x, y));
+                    break;
+                }
+
+                holeOffset++;
+                //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
+                //(das elemet existert und wir machen weiter mit index)
+            } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
         }
 
         public void MakeOneMove()
