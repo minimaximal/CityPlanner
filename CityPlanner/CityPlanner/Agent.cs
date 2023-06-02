@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-
-namespace CityPlanner
+﻿namespace CityPlanner
 {
     public class Agent
     {

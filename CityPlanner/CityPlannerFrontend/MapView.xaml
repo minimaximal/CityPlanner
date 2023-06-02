@@ -39,6 +39,5 @@
                       ManipulationMode="TranslateX,TranslateY">
         </ScrollViewer>
 
-
     </Grid>
 </Page>

@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace CityPlanner.Grid;
+﻿namespace CityPlanner.Grid;
 
 public class GridElement
 {
