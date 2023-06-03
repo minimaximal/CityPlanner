@@ -82,15 +82,13 @@ public class Map : ICloneable
                 commercialAmount++;
             }
         }
+        //Population Scoring
+        int populationDif = _population - _targetPopulation;
+        globalScore += (int)(-0.2 * populationDif * populationDif + 1000);
 
-        if (_targetPopulation > _population)
-        {
-            globalScore -= _targetPopulation - _population;
-        }
-        
-        //Importquota
+            //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        globalScore +=  (-2 * industryDiff * industryDiff + 10) * 100;
+        globalScore +=  (-2 * industryDiff * industryDiff + 10) * 150;
 
         //commercialquota
         if (_targetPopulation / 500 < commercialAmount)
