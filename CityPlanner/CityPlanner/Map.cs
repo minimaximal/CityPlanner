@@ -89,10 +89,9 @@ public class Map : ICloneable
         }
         
         //Importquota
-        if (_targetPopulation * ((100 - Data.ImportQuota) / 100) / 2000 < industryAmount)
-        {
-            globalScore +=  (int)((_targetPopulation * ((100 - Data.ImportQuota) / 100) / 2000) - industryAmount) * 150;
-        }
+        int industryDiff = industryAmount - Data.optimalIndustryAmount;
+        globalScore +=  (-2 * industryDiff * industryDiff + 10) * 100;
+
         //commercialquota
         if (_targetPopulation / 500 < commercialAmount)
         {

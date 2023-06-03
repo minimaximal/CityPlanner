@@ -25,5 +25,6 @@ public static class Data
 
     public static int SizeX; // this is used in the sort move context // at that point we dont have access to the map
     public static int ImportQuota;
+    public static int optimalIndustryAmount;
     public static List<(int, int)> InitialStreets;
 }
