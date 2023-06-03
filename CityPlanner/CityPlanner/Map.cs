@@ -88,12 +88,12 @@ public class Map : ICloneable
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-         poulationScore = (int)(-1F / (3 * ((float) _targetPopulation + 1))  * populationDif * populationDif + 1000);
+         poulationScore = (int)(-0.08  * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        industryRatioScore = -(2* industryDiff * industryDiff + 10) * 150;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 2500;
         globalScore += industryRatioScore;
 
         //commercialquota
@@ -173,12 +173,12 @@ public class Map : ICloneable
         {
             for (int x = 0; x < SizeX; x++)
             {
-                if (map[x, y].getScore() < -8888)
+                /*if (map[x, y].getScore() < -8888)
                 {
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.Write(".");
                     continue;
-                }
+                }*/
 
                 switch (map[x, y].GetGridType())
                 {

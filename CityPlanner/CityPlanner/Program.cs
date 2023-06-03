@@ -11,17 +11,29 @@
 
 using CityPlanner;
 
-AppController appController = new AppController(100000, 50, 20 , 10);
-Map map;
+AppController appController = new AppController(30000, 20, 20 , 0);
+Map bestMap = null;
+Map map = null;
 for (int j = 0; j < 100000000; j++)
 {
     map =  appController.nextGeneration();
 
-    if(j%10 !=0 ) continue;
-    
-    Console.WriteLine("gen:" + j );
+    if (j % 100 == 0)
+    {
+        Console.WriteLine("gen:" + j);
 
-    map.NewDisplay();
+        map.NewDisplay();
+    }
+
+    if (bestMap == null || bestMap.getScore() < map.getScore())
+    {
+
+        bestMap = map;
+
+        Console.WriteLine("gen:" + j);
+
+        map.NewDisplay();
+    }
 }
 
 int i = 0; //somehow required to start programm or no Main method is found

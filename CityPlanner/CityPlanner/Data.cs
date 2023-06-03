@@ -18,7 +18,7 @@ public static class Data
     {
         { GridType.Housing, 5 },
         { GridType.Commercial, 6.5 },
-        { GridType.Industry, 5.9 },
+        { GridType.Industry, 4.9 },
         { GridType.Street, 3.5 },
         { GridType.Empty, 0 }
     };

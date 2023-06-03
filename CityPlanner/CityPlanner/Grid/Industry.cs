@@ -22,9 +22,9 @@ public class Industry : GridElement
         */
         foreach (double industry in Dependency[Data.GridType.Industry])
         {
-            if (industry <= 2.5)
+            if (industry <= 3.5)
             {
-                Score += 25;
+                Score += 250;
             }
         }
         if (IsValidStreet())
