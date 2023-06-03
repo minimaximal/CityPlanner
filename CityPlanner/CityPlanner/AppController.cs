@@ -8,7 +8,7 @@ public class AppController
    {
       Data.ImportQuota = importQuota;
       Data.optimalIndustryAmount = (population * ((100 - Data.ImportQuota) / 100) / 2000);
-      agentController = new AgentController((sizeX, sizeY), new (int, int)[] { (sizeX / 2, sizeY / 2) }, population, 25);
+      agentController = new AgentController((sizeX, sizeY), new (int, int)[] { (sizeX / 2, sizeY / 2) }, population, 10);
    }
 
 
