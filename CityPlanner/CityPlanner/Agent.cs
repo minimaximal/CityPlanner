@@ -120,7 +120,6 @@
                     _possibleMoves.Insert(index + 1, new Move(x, y));
                     break;
                 }
-
                 holeOffset++;
                 //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
                 //(das elemet existert und wir machen weiter mit index)
