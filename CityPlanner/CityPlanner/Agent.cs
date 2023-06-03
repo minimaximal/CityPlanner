@@ -108,13 +108,13 @@
 
         private void FillGapAt(int index)
         {
-            Move holeBeginning = _possibleMoves.ElementAt(index);
+            Move gapBeginnig = _possibleMoves.ElementAt(index);
             int y;
-            int holeOffset = 0;
+            int gapOffset = 0;
             do
             {
-                int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
-                y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
+                int x = (gapBeginnig.X + gapOffset + 1) % _map.SizeX;
+                y = x == 0 ? gapBeginnig.Y + 1 : gapBeginnig.Y;
                 if (_map.GetGridElement(x, y).GetGridType() != Data.GridType.Empty)
                 {
                     if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
@@ -127,10 +127,10 @@
                     _possibleMoves.Insert(index + 1, new Move(x, y));
                     break;
                 }
-                holeOffset++;
+                gapOffset++;
                 //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
                 //(das elemet existert und wir machen weiter mit index)
-            } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
+            } while (gapBeginnig.X + gapOffset + 1 < _possibleMoves[index + 1].X);
         }
         
         private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
