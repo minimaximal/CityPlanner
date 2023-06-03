@@ -30,12 +30,12 @@ public class Industry : GridElement
         if (IsValidStreet())
         {
             // Street in Range
-            Score += 20;
+            Score += 70;
         }
         else
         {
             //no Street in Range
-            Score = -500;
+            Score += -9999;
         }
         
         //base cost

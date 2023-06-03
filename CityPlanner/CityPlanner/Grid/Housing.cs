@@ -36,7 +36,7 @@ public class Housing : GridElement
         else
         {
             //no Street in Range
-            Score  = -500;
+            Score += -9999;
         }
         
         foreach (double Industry in Dependency[Data.GridType.Industry])

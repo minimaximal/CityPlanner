@@ -163,12 +163,12 @@ public class Map : ICloneable
         {
             for (int x = 0; x < SizeX; x++)
             {
-                if (map[x, y].getScore()<-199)
+                /*if (map[x, y].getScore()<-199)
                 {
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.Write(".");
                     continue;
-                }
+                }*/
                 switch (map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
