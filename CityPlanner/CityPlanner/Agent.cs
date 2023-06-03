@@ -87,6 +87,7 @@
 
             return result;
         }
+
         private void FillGapsInMovesList()
         {
             _possibleMoves.Insert(0, _firstPossibleMove);
@@ -190,7 +191,7 @@
         
         private void RemoveFromPossibleMoves(Move move)
         {
-            int index = _possibleMoves.IndexOf(move); // index scoud be always 0
+            int index = _possibleMoves.IndexOf(move); // index should always be 0
             // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
             if (index > 0) //index- 1 >= 0 
             {
