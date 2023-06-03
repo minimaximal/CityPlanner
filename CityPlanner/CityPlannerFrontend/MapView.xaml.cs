@@ -21,10 +21,7 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class MapView : Page
     {
-        public int Satisfaction = 0;
-        public int Buildinglevel = 0;
-        public int Rastercount = 0;
-        public int Population = 0;
+        
         private bool pause = false;
         
         public static API Interface { get; set; }
@@ -58,9 +55,9 @@ namespace CityPlannerFrontend
                             // Update UI elements with the updated variable values
                             FillGrid(Interface.getMapToFrontend());    
                             satisfaction.Text = Interface.getSatisfaction().ToString();
-                            Rasternazhl.Text = Interface.getPlacedBuildings().ToString();
+                            Rastercount.Text = Interface.getPlacedBuildings().ToString();
                             //Blevel.Text = Interface.getAverageBuildLevel().ToString();
-                            //Population.Text = Interface.getPopulation().ToString();
+                            Population.Text = Interface.getPopulation().ToString();
                     });
                     }
                     Thread.Sleep(1000);
