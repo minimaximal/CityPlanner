@@ -23,7 +23,7 @@ public class Commercial : GridElement
             }
             else if (commercial > 3.5)
             {
-                Score -= 10;
+                Score -= 30;
             }
         }
         foreach (double industry in Dependency[Data.GridType.Industry])
@@ -42,7 +42,7 @@ public class Commercial : GridElement
         else
         {
             //no Street in Range
-            Score = -500;
+            Score += -9999;
         }
         //base cost
         Score -= 5;

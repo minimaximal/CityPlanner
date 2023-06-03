@@ -17,7 +17,7 @@ public static class Data
     public static readonly Dictionary<GridType, double> GridTypeMax = new Dictionary<GridType, double>()
     {
         { GridType.Housing, 5 },
-        { GridType.Commercial, 9.9 },
+        { GridType.Commercial, 6.5 },
         { GridType.Industry, 5.9 },
         { GridType.Street, 3.5 },
         { GridType.Empty, 0 }

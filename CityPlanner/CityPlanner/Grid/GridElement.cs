@@ -32,7 +32,7 @@ public class GridElement
 
     public virtual int CalculateScore()
     {
-        return 0;
+        return -100;
     }
 
 

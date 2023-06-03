@@ -234,17 +234,21 @@
             else
             {
                 double rand = random.NextDouble();
-                if(rand < 0.5)
+                if(rand < 0.5) // 50% Cahnce
                 {
                     toBePlaced = Data.GridType.Housing;
                 }
-                else if(rand< 0.8)
+                else if(rand < 0.7) // 20% Chance
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
-                else
+                else if(rand < 0.8) // 10% Chance
                 {
                     toBePlaced = Data.GridType.Industry;
+                }
+                else // 20% Chance
+                {
+                    toBePlaced = Data.GridType.Empty;
                 }
             }
             
