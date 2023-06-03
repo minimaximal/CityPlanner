@@ -50,26 +50,25 @@ public class Housing : GridElement
         //base cost
         Score -= 5;
 
-        //according Level
-        if (Score <= 0)
+        switch (Score)
         {
-            Level = 1;
-            people = 0;
-        }
-        if (Score <= 25)
-        {
-            Level = 1;
-            people = 8;
-        }
-        else if (Score is > 25 and <= 50)
-        {
-            Level = 2;
-            people = 95;
-        }
-        else if (Score > 50)
-        {
-            Level = 3;
-            people = 200;
+            //according Level
+            case <= 0:
+                Level = 1;
+                people = 0;
+                break;
+            case <= 25:
+                Level = 1;
+                people = 8;
+                break;
+            case > 25 and <= 50:
+                Level = 2;
+                people = 95;
+                break;
+            case > 50:
+                Level = 3;
+                people = 200;
+                break;
         }
 
         return Score;

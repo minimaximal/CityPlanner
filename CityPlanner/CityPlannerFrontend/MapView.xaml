@@ -27,7 +27,7 @@
             <TextBlock Margin="1,5,1,0">Zufriedenheit:</TextBlock>
             <TextBlock Name="satisfaction"  Margin="1,0,1,5" Text="{x:Bind Satisfaction, Mode=TwoWay}">0</TextBlock>
             <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
-            <TextBlock Margin="1,0,1,5" Text="{x:Bind Buildinglevel, Mode=TwoWay}">0</TextBlock>
+            <TextBlock Name="Blevel" Margin="1,0,1,5" Text="{x:Bind Buildinglevel, Mode=TwoWay}">0</TextBlock>
             <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
         </StackPanel>
 
