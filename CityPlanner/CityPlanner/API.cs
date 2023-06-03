@@ -117,11 +117,11 @@ public class API
     }
 
 
-    public Byte transform(GridElement input)
+    public byte transform(GridElement input)
     {
         if (input.getScore() < -4500)
         {
-            return 0;
+          return 0;
         }
         switch (input.GetGridType())
         {

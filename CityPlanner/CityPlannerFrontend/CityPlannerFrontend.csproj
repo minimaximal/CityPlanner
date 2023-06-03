@@ -66,6 +66,9 @@
     <ProjectReference Include="..\CityPlanner\CityPlanner.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\Grid\0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Grid\111.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
