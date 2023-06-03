@@ -115,15 +115,18 @@
             {
                 int x = (holeBeginning.X + holeOffset + 1) % _map.SizeX;
                 y = x == 0 ? holeBeginning.Y + 1 : holeBeginning.Y;
-                if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+                if (_map.GetGridElement(x, y).GetGridType() != Data.GridType.Empty)
+                {
+                    if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
+                    {
+                        _listStartingStreets.Add((x, y));
+                    }
+                }
+                else
                 {
                     _possibleMoves.Insert(index + 1, new Move(x, y));
                     break;
-                }else if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
-                        { 
-                            _listStartingStreets.Add((x, y));
-                        }
-
+                }
                 holeOffset++;
                 //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
                 //(das elemet existert und wir machen weiter mit index)
