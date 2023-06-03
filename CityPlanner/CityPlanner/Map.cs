@@ -88,12 +88,12 @@ public class Map : ICloneable
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-        poulationScore = (int)(-0.2 * populationDif * populationDif + 1000);
+        poulationScore = (int)(1 / (10 * (Data.optimalIndustryAmount + 1))  * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        industryRatioScore = (-(1 / 10 * (Data.optimalIndustryAmount + 1)) * industryDiff * industryDiff + 10) * 150;
+        industryRatioScore = -(2* industryDiff * industryDiff + 10) * 150;
         globalScore += industryRatioScore;
 
         //commercialquota

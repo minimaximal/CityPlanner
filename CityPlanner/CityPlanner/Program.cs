@@ -13,11 +13,11 @@ using CityPlanner;
 
 AppController appController = new AppController(100000, 50, 20 , 10);
 Map map;
-for (int j = 0; j < 1000000000; j++)
+for (int j = 0; j < 100000000; j++)
 {
     map =  appController.nextGeneration();
 
-    if(j%100 !=0 ) continue;
+    if(j%10 !=0 ) continue;
     
     Console.WriteLine("gen:" + j );
 
