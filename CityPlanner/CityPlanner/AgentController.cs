@@ -43,7 +43,7 @@
             bool lastRun = false;
             while (_agents.Count > 0)
             {
-                int moveLimit = (_targetPopulation - currentLargestPopulation) / 200;
+                int moveLimit =(int)Math.Ceiling( ((_targetPopulation - currentLargestPopulation) / 200.0) );
 
                 
                 // todo moveLimit wird hier nicht korekt berechnet / über diesen weg ist es nicht mehr möglich
