@@ -60,7 +60,6 @@ public class Map : ICloneable
 
     public int CalculateScore()
     {
-        //todo es könte sinfol sein das ergebnis zwichen zu speichern
 
         _population = 0;
         int globalScore = 0;
@@ -90,9 +89,9 @@ public class Map : ICloneable
         }
         
         //Importquota
-        if (_targetPopulation * (Data.ImportQuota / 100) / 2000 < industryAmount)
+        if (_targetPopulation * ((100 - Data.ImportQuota) / 100) / 2000 < industryAmount)
         {
-            globalScore +=  (int)((_targetPopulation * (Data.ImportQuota / 100) / 2000) - industryAmount) * 150;
+            globalScore +=  (int)((_targetPopulation * ((100 - Data.ImportQuota) / 100) / 2000) - industryAmount) * 150;
         }
         //commercialquota
         if (_targetPopulation / 500 < commercialAmount)
