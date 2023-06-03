@@ -103,21 +103,7 @@
             _possibleMoves.Remove(_firstPossibleMove);
             _possibleMoves.Remove(_lastPossibleMove);//remove again since they were just used as a border
 
-            if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
-            {
-                if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
-                {
-                    _possibleMoves.Insert(0, new Move(_firstPossibleMove));
-                }
-            }
-
-            if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
-            {
-                if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
-                {
-                    _possibleMoves.Add(new Move(_lastPossibleMove));
-                }
-            }
+            AddFirstAndLastPossibleMoveToPossibleMovesIfMissing();
         }
 
         private void FillGapAt(int index)
@@ -144,6 +130,25 @@
             } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
         }
         
+        private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
+        {
+            if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
+            {
+                if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(0, new Move(_firstPossibleMove));
+                }
+            }
+
+            if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
+            {
+                if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Add(new Move(_lastPossibleMove));
+                }
+            }
+        }
+
         public void MakeOneMove()
         {
             Random random = new Random();
