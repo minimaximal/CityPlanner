@@ -50,13 +50,13 @@ public class Commercial : GridElement
         //Level
         switch (Score)
         {
-            case < 250:
+            case < 0:
                 Level = 1;
                 break;
-            case < 700:
+            case < 200:
                 Level = 2;
                 break;
-            case > 700:
+            case > 200:
                 Level = 3;
                 break;
 
