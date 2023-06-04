@@ -45,7 +45,7 @@ namespace CityPlannerFrontend
             {
                 Debug.WriteLine("Next Generation");
                 Interface.nextGeneration();
-                Debug.WriteLine(Interface.existsNewMap());
+                
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {

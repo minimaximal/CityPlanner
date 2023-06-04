@@ -28,12 +28,20 @@
             <TextBlock Name="satisfaction"  Margin="1,0,1,5" >0</TextBlock>
             <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
             <TextBlock Name="Blevel" Margin="1,0,1,5" >0</TextBlock>
-            <TextBlock Margin="1,5,1,5">Bev&#246;lkerung</TextBlock>
+            <TextBlock Margin="1,5,1,0">Bev&#246;lkerung</TextBlock>
             <TextBlock Name="Population" Margin="1,0,1,5" >0</TextBlock>
-            <TextBlock Margin="1,5,1,5">Generation:</TextBlock>
+            <TextBlock Margin="1,5,1,0">Generation:</TextBlock>
             <TextBlock Name="Generation" Margin="1,0,1,5" >0</TextBlock>
 
             <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
+            <TextBlock Margin="1,5,1,0">Wohngebiet:</TextBlock>
+            <Image Source="Assets/Grid/111.png" Height="16" Width="16"></Image>
+            <TextBlock Margin="1,5,1,0">Gewerbegebiet:</TextBlock>
+            <Image Source="Assets/Grid/121.png" Height="16" Width="16"></Image>
+            <TextBlock Margin="1,5,1,0">Industriegebiet:</TextBlock>
+            <Image Source="Assets/Grid/131.png" Height="16" Width="16"></Image>
+            <TextBlock Margin="1,5,1,0">Stra&#223;e:</TextBlock>
+            <Image Source="Assets/Grid/31.png" Height="16" Width="16"></Image>
         </StackPanel>
 
 
