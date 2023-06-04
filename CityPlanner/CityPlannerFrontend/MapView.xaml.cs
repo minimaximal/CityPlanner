@@ -24,8 +24,7 @@ namespace CityPlannerFrontend
         private bool pause = false;
         
         public static API Interface { get; set; }
-
-        private int _genCounter = 0;
+        
 
 
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -47,11 +46,10 @@ namespace CityPlannerFrontend
                 Debug.WriteLine("Next Generation");
                 Interface.nextGeneration();
                 Debug.WriteLine(Interface.existsNewMap());
-                _genCounter++;
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    Generation.Text = _genCounter.ToString();
+                    Generation.Text = Interface.getGeneration().ToString();
                 });
 
                 if (!Interface.existsNewMap()) continue;

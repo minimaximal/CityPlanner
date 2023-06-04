@@ -5,7 +5,7 @@ public class API
 {
     //start 18:22 -10min
     // end 19:02
-
+    
     private AppController appctrl;
     private bool newMapFlag;
     private Map currentMap;
@@ -82,9 +82,10 @@ public class API
     }
 
     //returns average building Level, has to be called after getPlacedBuildings()
-    public int getAverageBuildLevel()
+    public float getAverageBuildLevel()
     {
-        int average = 0;
+        float average = 0;
+        int buildingAmount = 0;
         foreach (byte num in ByteMap)
         {
             if (num > 100)
@@ -93,11 +94,12 @@ public class API
                 if (level != 5)
                 {
                     average += level;
+                    buildingAmount++;
                 }
             }
         }
 
-        average /= getPlacedBuildings();
+        average /= buildingAmount;
         return average;
     }
 
@@ -117,6 +119,11 @@ public class API
     public int getPopulation()
     {
         return People;
+    }
+
+    public int getGeneration()
+    {
+        return appctrl.getGeneration();
     }
 
 
