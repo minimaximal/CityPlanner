@@ -14,6 +14,18 @@ public class GridElement
         }
     }
 
+    public void clearDependency()
+    {
+        foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
+        {
+            if (gridType != Data.GridType.Street)
+            {
+                Dependency[gridType].Clear();
+            }
+            
+        }
+    }
+
     public int getScore()
     {
         return Score;

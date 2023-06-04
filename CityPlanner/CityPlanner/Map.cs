@@ -100,13 +100,22 @@ public class Map : ICloneable
         }
     }
 
+    public void clearDependencies()
+    {
+        foreach (var gridElement in map)
+        {
+            gridElement.clearDependency();
+        }
+    }
+
     public int CalculateScore()
     {
         _population = 0;
         int globalScore = 0;
         int industryAmount = 0;
         int commercialAmount = 0;
-
+        
+        clearDependencies();
         calculateDependencies();
         
         foreach (var gridElement in map)
@@ -134,21 +143,16 @@ public class Map : ICloneable
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-         poulationScore = (int)(-0.08  * populationDif * populationDif + 1000);
+         poulationScore = (int)(-0.05  * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        industryRatioScore = -(industryDiff * industryDiff + 10) * 4000;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
         //commercialquota
-        /*if (_targetPopulation / 500 < commercialAmount)
-        {
-            comercialScore = (int)((_targetPopulation / 500 - commercialAmount) * 100);
-            globalScore += comercialScore;
-        }*/
-        int commercialDiff = commercialAmount - (_targetPopulation / 500);
+        int commercialDiff = commercialAmount - (_targetPopulation / 450);
         comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
         globalScore += comercialScore;
 

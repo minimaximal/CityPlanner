@@ -54,13 +54,11 @@ namespace CityPlannerFrontend
 
                 if (!Interface.existsNewMap()) continue;
                 //Debug.WriteLine("New Map");
-                var satisfactory = Interface.getSatisfaction();
-                Debug.WriteLine(satisfactory);
                 _dispatcherQueue.TryEnqueue(() =>
                 {
                     // Update UI elements with the updated variable values
                     FillGrid(Interface.getMapToFrontend());
-                    satisfaction.Text = satisfactory.ToString();
+                    satisfaction.Text = Interface.getSatisfaction().ToString();
                     Gridcount.Text = Interface.getPlacedBuildings().ToString();
                     Blevel.Text = Interface.getAverageBuildLevel().ToString();
                     Population.Text = Interface.getPopulation().ToString();

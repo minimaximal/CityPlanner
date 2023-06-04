@@ -153,7 +153,7 @@
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
-            if (move == null || random.NextDouble() < 0.01 ||
+            if (move == null || random.NextDouble() < 0.008 ||
                 (IsIllegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
@@ -238,11 +238,11 @@
                 {
                     toBePlaced = Data.GridType.Housing;
                 }
-                else if(rand < 0.7) // 20% Chance
+                else if(rand < 0.8) // 20% Chance
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
-                else if(rand < 0.9) // 20% Chance
+                else if(rand < 1) // 20% Chance
                 {
                     toBePlaced = Data.GridType.Industry;
                 }

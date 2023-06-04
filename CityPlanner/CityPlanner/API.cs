@@ -44,11 +44,6 @@ public class API
 
     private void setNewMap(Map newMap)
     {
-        try
-        {
-            Debug.WriteLine(newMap.getScore() + ">" + currentMap.getScore());
-        }
-        catch (Exception e) { }
         currentMap = newMap;
         newMapFlag = true;
         //getMapToFrontend();
@@ -135,10 +130,6 @@ public class API
 
     public byte transform(GridElement input)
     {
-        if (input.getScore() < -4500)
-        {
-          return 0;
-        }
         switch (input.GetGridType())
         {
             case Data.GridType.Housing:
