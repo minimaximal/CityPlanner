@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,6 +25,8 @@ namespace CityPlannerFrontend
         private bool pause = false;
         
         public static API Interface { get; set; }
+
+        private int _gencounter = 0;
 
 
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -47,15 +49,24 @@ namespace CityPlannerFrontend
                     Debug.WriteLine("Next Generation");
                     Interface.nextGeneration();
                     Debug.WriteLine(Interface.existsNewMap());
+                    _gencounter++;
+
+                    _dispatcherQueue.TryEnqueue(() =>
+                    {
+                        Generation.Text = _gencounter.ToString();
+                    });
+
                     if (Interface.existsNewMap()){
                         Debug.WriteLine("New Map");
                         
+                        // var test = Interface.getAverageBuildLevel();
+
                         _dispatcherQueue.TryEnqueue(() =>
                             {
                             // Update UI elements with the updated variable values
                             FillGrid(Interface.getMapToFrontend());    
                             satisfaction.Text = Interface.getSatisfaction().ToString();
-                            Rastercount.Text = Interface.getPlacedBuildings().ToString();
+                            Gridcount.Text = Interface.getPlacedBuildings().ToString();
                             //Blevel.Text = Interface.getAverageBuildLevel().ToString();
                             Population.Text = Interface.getPopulation().ToString();
                     });

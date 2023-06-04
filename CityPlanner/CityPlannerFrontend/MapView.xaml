@@ -23,13 +23,16 @@
             <HyperlinkButton Click="HyperlinkButton_Click" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
             <TextBlock Margin="1,5,1,5">Statistiken:</TextBlock>
             <TextBlock Margin="1,5,1,0">Rasteranzahl:</TextBlock>
-            <TextBlock Name="Rastercount" Margin="1,0,1,5" >0</TextBlock>
+            <TextBlock Name="Gridcount" Margin="1,0,1,5" >0</TextBlock>
             <TextBlock Margin="1,5,1,0">Zufriedenheit:</TextBlock>
             <TextBlock Name="satisfaction"  Margin="1,0,1,5" >0</TextBlock>
             <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
             <TextBlock Name="Blevel" Margin="1,0,1,5" >0</TextBlock>
             <TextBlock Margin="1,5,1,5">Bev&#246;lkerung</TextBlock>
             <TextBlock Name="Population" Margin="1,0,1,5" >0</TextBlock>
+            <TextBlock Margin="1,5,1,5">Generation:</TextBlock>
+            <TextBlock Name="Generation" Margin="1,0,1,5" >0</TextBlock>
+
             <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
         </StackPanel>
 
