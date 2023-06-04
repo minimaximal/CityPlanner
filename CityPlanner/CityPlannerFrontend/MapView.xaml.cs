@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -26,7 +25,7 @@ namespace CityPlannerFrontend
         
         public static API Interface { get; set; }
 
-        private int _gencounter = 0;
+        private int _genCounter = 0;
 
 
         private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
@@ -39,41 +38,37 @@ namespace CityPlannerFrontend
 
         }
 
-        private async Task BackendLoopAsync()
+        private Task BackendLoopAsync()
         {
             Debug.WriteLine("entered BackendLoop");
-            if (Interface != null)
+            if (Interface == null) return Task.CompletedTask;
+            while (!pause)
             {
-                while (!pause)
+                Debug.WriteLine("Next Generation");
+                Interface.nextGeneration();
+                Debug.WriteLine(Interface.existsNewMap());
+                _genCounter++;
+
+                _dispatcherQueue.TryEnqueue(() =>
                 {
-                    Debug.WriteLine("Next Generation");
-                    Interface.nextGeneration();
-                    Debug.WriteLine(Interface.existsNewMap());
-                    _gencounter++;
+                    Generation.Text = _genCounter.ToString();
+                });
 
-                    _dispatcherQueue.TryEnqueue(() =>
-                    {
-                        Generation.Text = _gencounter.ToString();
-                    });
+                if (!Interface.existsNewMap()) continue;
+                Debug.WriteLine("New Map");
 
-                    if (Interface.existsNewMap()){
-                        Debug.WriteLine("New Map");
-                        
-                        // var test = Interface.getAverageBuildLevel();
-
-                        _dispatcherQueue.TryEnqueue(() =>
-                            {
-                            // Update UI elements with the updated variable values
-                            FillGrid(Interface.getMapToFrontend());    
-                            satisfaction.Text = Interface.getSatisfaction().ToString();
-                            Gridcount.Text = Interface.getPlacedBuildings().ToString();
-                            //Blevel.Text = Interface.getAverageBuildLevel().ToString();
-                            Population.Text = Interface.getPopulation().ToString();
-                    });
-                    }
-                    Thread.Sleep(1000);
-                }
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    // Update UI elements with the updated variable values
+                    FillGrid(Interface.getMapToFrontend());    
+                    satisfaction.Text = Interface.getSatisfaction().ToString();
+                    Gridcount.Text = Interface.getPlacedBuildings().ToString();
+                    Blevel.Text = Interface.getAverageBuildLevel().ToString();
+                    Population.Text = Interface.getPopulation().ToString();
+                });
             }
+
+            return Task.CompletedTask;
         }
 
  
