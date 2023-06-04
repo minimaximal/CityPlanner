@@ -12,6 +12,12 @@ public class Map : ICloneable
     public readonly int SizeX;
     public readonly int SizeY;
 
+//debug helpers
+    private int poulationScore = 0;
+    private int industryRatioScore = 0;
+    private int comertialScore = 0;
+
+
     public Map(int x, int y, int targetPopulation)
     {
         _targetPopulation = targetPopulation;
@@ -42,7 +48,6 @@ public class Map : ICloneable
 
     public void AddMove(Move move)
     {
-
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
@@ -60,8 +65,6 @@ public class Map : ICloneable
 
     public int CalculateScore()
     {
-        //todo es könte sinfol sein das ergebnis zwichen zu speichern
-
         _population = 0;
         int globalScore = 0;
         int industryAmount = 0;
@@ -69,35 +72,35 @@ public class Map : ICloneable
         foreach (var gridElement in map)
         {
             globalScore += gridElement.CalculateScore();
-
-            if (gridElement.GetGridType() == Data.GridType.Housing)
+            switch (gridElement.GetGridType())
             {
-                _population += ((Housing)gridElement).GetPeople();
-            }
-            if (gridElement.GetGridType() == Data.GridType.Industry)
-            {
-                industryAmount++;
-            }
-            if (gridElement.GetGridType() == Data.GridType.Commercial)
-            {
-                commercialAmount++;
+                case Data.GridType.Housing:
+                    _population += ((Housing)gridElement).GetPeople();
+                    break;
+                case Data.GridType.Industry:
+                    industryAmount++;
+                    break;
+                case Data.GridType.Commercial:
+                    commercialAmount++;
+                    break;
             }
         }
 
-        if (_targetPopulation > _population)
-        {
-            globalScore -= _targetPopulation - _population;
-        }
-        
+        //Population Scoring
+        int populationDif = _population - _targetPopulation;
+         poulationScore = (int)(-0.08  * populationDif * populationDif + 1000);
+        globalScore += poulationScore;
+
         //Importquota
-        if (_targetPopulation * (Data.ImportQuota / 100) / 2000 < industryAmount)
-        {
-            globalScore +=  (int)((_targetPopulation * (Data.ImportQuota / 100) / 2000) - industryAmount) * 150;
-        }
+        int industryDiff = industryAmount - Data.optimalIndustryAmount;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 2500;
+        globalScore += industryRatioScore;
+
         //commercialquota
         if (_targetPopulation / 500 < commercialAmount)
         {
-            globalScore +=  (int)((_targetPopulation / 500 - commercialAmount) * 100);
+            comertialScore = (int)((_targetPopulation / 500 - commercialAmount) * 100);
+            globalScore += comertialScore;
         }
 
         Score = globalScore;
@@ -159,17 +162,24 @@ public class Map : ICloneable
     public void NewDisplay()
     {
         Console.Write("------------------------------\n");
-
+        Console.WriteLine("score:"+ Score );
+        Console.WriteLine("People:" + _population);
+        Console.WriteLine("poulation Dif Score:" + poulationScore);
+        Console.WriteLine("industryRatioScore:" + industryRatioScore);
+        Console.WriteLine("comertialScore:" + comertialScore);
+        
+            
         for (int y = 0; y < SizeY; y++)
         {
             for (int x = 0; x < SizeX; x++)
             {
-                if (map[x, y].getScore()<-4500)
+                /*if (map[x, y].getScore() < -8888)
                 {
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.Write(".");
                     continue;
-                }
+                }*/
+
                 switch (map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
@@ -197,8 +207,8 @@ public class Map : ICloneable
                         Console.Write("_");
                         break;
                 }
-               
             }
+
             Console.ResetColor();
             /*
             Console.Write("\t\t");

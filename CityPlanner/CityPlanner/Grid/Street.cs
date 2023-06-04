@@ -13,7 +13,7 @@ public class Street : GridElement
 
 
         //if (Dependency[Data.GridType.Street].Count > 7)
-            Score -= -Dependency[Data.GridType.Street].Count * 10;
+            Score -= Dependency[Data.GridType.Street].Count * 10;
             int nearbyStreet = 0;
             foreach (double street in Dependency[Data.GridType.Street])
             {

@@ -103,7 +103,7 @@ public class API
         int buildings = 0;
         foreach (var num in ByteMap)
         {
-            if (num != 255)
+            if (num != 0)
             {
                 buildings++;
             }

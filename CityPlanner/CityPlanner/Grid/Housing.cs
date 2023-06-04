@@ -23,7 +23,7 @@ public class Housing : GridElement
         {
             if (Commercial <= 4.9)
             {
-                Score += 5;
+                Score += 50;
             }
         }
 
@@ -36,14 +36,14 @@ public class Housing : GridElement
         else
         {
             //no Street in Range
-            Score  = -5000;
+            Score += -9999;
         }
         
         foreach (double Industry in Dependency[Data.GridType.Industry])
         {
-            if (Industry <= 4.9)
+            if (Industry <= 3.9)
             {
-                Score -= 15;
+                Score -= 150;
             }
         }
         
@@ -57,15 +57,15 @@ public class Housing : GridElement
                 Level = 1;
                 people = 0;
                 break;
-            case <= 25:
+            case <= 250:
                 Level = 1;
                 people = 8;
                 break;
-            case > 25 and <= 50:
+            case > 250 and <= 600:
                 Level = 2;
                 people = 95;
                 break;
-            case > 50:
+            case > 600:
                 Level = 3;
                 people = 200;
                 break;

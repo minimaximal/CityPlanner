@@ -10,6 +10,8 @@
         private readonly Map _defaultMap;
         private Agent _bestOfAllTime;
 
+        private bool includeBestOfAllTime = true;
+        
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
         {
@@ -19,10 +21,12 @@
             _targetPopulation = targetPopulation;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             _defaultMap = CreateNewMap();
+            Data.InitialStreets = startingPoints.ToList();
         }
 
         public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
+           
             if (_agents.Count == 0)
             {
                 CreateNewAgents(_agentAmount);
@@ -31,13 +35,15 @@
             {
                 CreateNewAgents(_agentAmount, _agents);
             }
-
+            
+            includeBestOfAllTime = true;
+            
             int currentLargestPopulation = 0;
             List<Agent> finishedAgents = new();
             bool lastRun = false;
             while (_agents.Count > 0)
             {
-                int moveLimit = (_targetPopulation - currentLargestPopulation) / 200;
+                int moveLimit =(int)Math.Ceiling( ((_targetPopulation - currentLargestPopulation) / 200.0) );
 
                 
                 // todo moveLimit wird hier nicht korekt berechnet / über diesen weg ist es nicht mehr möglich
@@ -68,11 +74,14 @@
 
             //todo muss rewritten werden um nicht ein bogde zu sein
 
-            if (_bestOfAllTime == null || _bestOfAllTime.Score < GetBestThreeAgents(finishedAgents)[0].Score) ;
+
+            Agent generationalBestAgent = finishedAgents.OrderByDescending(agent => agent.Score).First();
+            if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) ;
             {
-                _bestOfAllTime = GetBestThreeAgents(finishedAgents)[0];
+                _bestOfAllTime = generationalBestAgent;
+                includeBestOfAllTime = false;
             }
-            return GetBestThreeAgents(finishedAgents)[0];
+            return generationalBestAgent;
         }
 
         private void CreateNewAgents(int amount)
@@ -88,7 +97,8 @@
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
-            bestThreeAgents[2] = _bestOfAllTime;
+            if(includeBestOfAllTime)
+                bestThreeAgents[2] = _bestOfAllTime;
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
                 { (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1) };
