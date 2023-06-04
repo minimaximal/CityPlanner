@@ -85,12 +85,15 @@ public class API
     public int getAverageBuildLevel()
     {
         int average = 0;
-        foreach (var num in ByteMap)
+        foreach (byte num in ByteMap)
         {
-            int level = Int32.Parse(num.ToString().Substring(2, 2));
-            if (level != 5)
+            if (num > 100)
             {
-                average += level;
+                int level = Int32.Parse(num.ToString().Substring(2, 1));
+                if (level != 5)
+                {
+                    average += level;
+                }
             }
         }
 
