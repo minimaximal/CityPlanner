@@ -19,7 +19,7 @@
 
             
         <StackPanel  Width="140" Background="LightBlue" HorizontalAlignment="Left"  Grid.Column="0">
-            <Button Click="Pause_onclick" Margin="1,10,1,5">Pause</Button>
+            <Button Click="Pause_onclick" Margin="1,10,1,5" Name="PauseButton">Pause</Button>
             <HyperlinkButton Click="HyperlinkButton_Click" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
             <TextBlock Margin="1,5,1,5">Statistiken:</TextBlock>
             <TextBlock Margin="1,5,1,0">Rasteranzahl:</TextBlock>

@@ -13,6 +13,9 @@
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	<StartupObject>CityPlannerFrontend.Program</StartupObject>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\AppIcon.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />

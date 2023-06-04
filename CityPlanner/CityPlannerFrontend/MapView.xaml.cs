@@ -20,7 +20,7 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class MapView : Page
     {
-        
+
         private bool pause = false;
         
         public static API Interface { get; set; }
@@ -75,11 +75,19 @@ namespace CityPlannerFrontend
             if (pause)
             {
                 Task.Run(() => { BackendLoopAsync(); });
+                MapGridScrollViewer.Opacity = 1;
+                PauseButton.Content = "Pause";
+            }
+            else
+            {
+                MapGridScrollViewer.Opacity = 0.6;
+                PauseButton.Content = "Fortsetzen";
             }
             pause = !pause;
         }
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
+            pause = true;
             Frame.Navigate(typeof(Settings));
         }
 
