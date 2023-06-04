@@ -24,7 +24,7 @@ public class Industry : GridElement
         {
             if (industry <= 3.5)
             {
-                Score += 250;
+                Score += 450;
             }
         }
         if (IsValidStreet())
@@ -57,6 +57,11 @@ public class Industry : GridElement
         }
 
         return Score;
+    }
+
+    public override bool isInRangeOfStreet()
+    {
+        return IsValidStreet();
     }
 
     public override Data.GridType GetGridType()

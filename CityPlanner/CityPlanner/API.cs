@@ -1,4 +1,5 @@
-﻿using CityPlanner;
+﻿using System.Diagnostics;
+using CityPlanner;
 using CityPlanner.Grid;
 
 public class API
@@ -129,10 +130,6 @@ public class API
 
     public byte transform(GridElement input)
     {
-        if (input.getScore() < -4500)
-        {
-          return 0;
-        }
         switch (input.GetGridType())
         {
             case Data.GridType.Housing:

@@ -1,4 +1,5 @@
-﻿using CityPlanner.Grid;
+﻿using System.Diagnostics;
+using CityPlanner.Grid;
 
 namespace CityPlanner;
 
@@ -15,7 +16,7 @@ public class Map : ICloneable
 //debug helpers
     private int poulationScore = 0;
     private int industryRatioScore = 0;
-    private int comertialScore = 0;
+    private int comercialScore = 0;
 
 
     public Map(int x, int y, int targetPopulation)
@@ -49,17 +50,61 @@ public class Map : ICloneable
     public void AddMove(Move move)
     {
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
-        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
-        for (int x = move.X - range; x < move.X + range; x++)
+        if (move.GridType == Data.GridType.Street)
         {
-            for (int y = move.Y - range; y < move.Y + range; y++)
+            int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
+            for (int x = move.X - range; x < move.X + range; x++)
             {
-                double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
+                for (int y = move.Y - range; y < move.Y + range; y++)
                 {
-                    GetGridElement(x, y)?.AddDependency(move.GridType, distance);
+                    double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
+                    if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
+                    {
+                        GetGridElement(x, y)?.AddDependency(move.GridType, distance);
+                    }
                 }
             }
+        }
+    }
+
+    public void calculateDependencies()
+    {
+        for (int i = 0; i < SizeX; i++)
+        {
+
+            for (int j = 0; j < SizeY; j++)
+            {
+                if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
+                    && GetGridElement(i, j)!.isInRangeOfStreet() == true)
+                {
+                    int range = (int)Math.Ceiling(Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()]);
+                    for (int x = i - range; x < i + range; x++)
+                    {
+                        for (int y = j - range; y < j + range; y++)
+                        {
+                            double distance = Math.Sqrt(Math.Pow(i - x, 2) + Math.Pow(j - y, 2));
+                            if (distance <= Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()] &&
+                                !(i == x && j == y))
+                            {
+                                GetGridElement(x, y)?.AddDependency(GetGridElement(i, j)!.GetGridType(), distance);
+                            }
+                        }
+                    }
+                }
+                else if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
+                         && GetGridElement(i, j)!.isInRangeOfStreet() == false)
+                {
+                    map[i, j] = new GridElement();
+                }
+            }
+        }
+    }
+
+    public void clearDependencies()
+    {
+        foreach (var gridElement in map)
+        {
+            gridElement.clearDependency();
         }
     }
 
@@ -69,6 +114,10 @@ public class Map : ICloneable
         int globalScore = 0;
         int industryAmount = 0;
         int commercialAmount = 0;
+        
+        clearDependencies();
+        calculateDependencies();
+        
         foreach (var gridElement in map)
         {
             globalScore += gridElement.CalculateScore();
@@ -78,30 +127,34 @@ public class Map : ICloneable
                     _population += ((Housing)gridElement).GetPeople();
                     break;
                 case Data.GridType.Industry:
-                    industryAmount++;
+                    if (gridElement.getScore() > -8000)
+                    {
+                        industryAmount++;
+                    }
                     break;
                 case Data.GridType.Commercial:
-                    commercialAmount++;
+                    if (gridElement.getScore() > -8000)
+                    {
+                        commercialAmount++;
+                    }
                     break;
             }
         }
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-         poulationScore = (int)(-0.08  * populationDif * populationDif + 1000);
+         poulationScore = (int)(-0.05  * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        industryRatioScore = -(industryDiff * industryDiff + 10) * 2500;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
         //commercialquota
-        if (_targetPopulation / 500 < commercialAmount)
-        {
-            comertialScore = (int)((_targetPopulation / 500 - commercialAmount) * 100);
-            globalScore += comertialScore;
-        }
+        int commercialDiff = commercialAmount - (_targetPopulation / 550);
+        comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
+        globalScore += comercialScore;
 
         Score = globalScore;
         return globalScore;
@@ -166,7 +219,7 @@ public class Map : ICloneable
         Console.WriteLine("People:" + _population);
         Console.WriteLine("poulation Dif Score:" + poulationScore);
         Console.WriteLine("industryRatioScore:" + industryRatioScore);
-        Console.WriteLine("comertialScore:" + comertialScore);
+        Console.WriteLine("comertialScore:" + comercialScore);
         
             
         for (int y = 0; y < SizeY; y++)

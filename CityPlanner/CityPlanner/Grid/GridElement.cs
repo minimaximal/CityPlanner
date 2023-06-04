@@ -14,6 +14,18 @@ public class GridElement
         }
     }
 
+    public void clearDependency()
+    {
+        foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
+        {
+            if (gridType != Data.GridType.Street)
+            {
+                Dependency[gridType].Clear();
+            }
+            
+        }
+    }
+
     public int getScore()
     {
         return Score;
@@ -88,5 +100,10 @@ public class GridElement
         
 
         return fn2(counter);
+    }
+
+    public virtual bool isInRangeOfStreet()
+    {
+        return false;
     }
 }
