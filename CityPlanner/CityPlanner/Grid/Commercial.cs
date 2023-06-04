@@ -47,6 +47,21 @@ public class Commercial : GridElement
         //base cost
         Score -= 5;
         
+        //Level
+        switch (Score)
+        {
+            case < 250:
+                Level = 1;
+                break;
+            case < 700:
+                Level = 2;
+                break;
+            case > 700:
+                Level = 3;
+                break;
+
+        }
+        
         return Score;
     }
   

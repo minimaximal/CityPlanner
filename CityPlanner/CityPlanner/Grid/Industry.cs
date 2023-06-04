@@ -40,6 +40,21 @@ public class Industry : GridElement
         
         //base cost
         Score -= 20;
+        
+        //Level
+        switch (Score)
+        {
+            case < 70:
+                Level = 1;
+                break;
+            case < 570:
+                Level = 2;
+                break;
+            case > 570:
+                Level = 3;
+                break;
+
+        }
 
         return Score;
     }
