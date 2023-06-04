@@ -28,7 +28,7 @@ public class Housing : GridElement
         }
 
         Dependency[Data.GridType.Street].Sort();
-        if (Dependency[Data.GridType.Street].Count() > 0)
+        if (isInRangeOfStreet())
         {
             // Street in Range
             Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
@@ -41,9 +41,9 @@ public class Housing : GridElement
         
         foreach (double Industry in Dependency[Data.GridType.Industry])
         {
-            if (Industry <= 3.9)
+            if (Industry <= 3.4)
             {
-                Score -= 150;
+                Score -= 100;
             }
         }
         
@@ -75,6 +75,10 @@ public class Housing : GridElement
         
     }
 
+    public override bool isInRangeOfStreet()
+    {
+        return Dependency[Data.GridType.Street].Count() > 0;
+    }
 
 
     public int GetPeople()

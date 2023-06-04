@@ -43,9 +43,9 @@ namespace CityPlannerFrontend
             if (Interface == null) return Task.CompletedTask;
             while (!pause)
             {
-                Debug.WriteLine("Next Generation");
+                //Debug.WriteLine("Next Generation");
                 Interface.nextGeneration();
-                Debug.WriteLine(Interface.existsNewMap());
+                //Debug.WriteLine(Interface.existsNewMap());
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {
@@ -53,13 +53,14 @@ namespace CityPlannerFrontend
                 });
 
                 if (!Interface.existsNewMap()) continue;
-                Debug.WriteLine("New Map");
-
+                //Debug.WriteLine("New Map");
+                var satisfactory = Interface.getSatisfaction();
+                Debug.WriteLine(satisfactory);
                 _dispatcherQueue.TryEnqueue(() =>
                 {
                     // Update UI elements with the updated variable values
-                    FillGrid(Interface.getMapToFrontend());    
-                    satisfaction.Text = Interface.getSatisfaction().ToString();
+                    FillGrid(Interface.getMapToFrontend());
+                    satisfaction.Text = satisfactory.ToString();
                     Gridcount.Text = Interface.getPlacedBuildings().ToString();
                     Blevel.Text = Interface.getAverageBuildLevel().ToString();
                     Population.Text = Interface.getPopulation().ToString();

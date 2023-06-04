@@ -89,4 +89,9 @@ public class GridElement
 
         return fn2(counter);
     }
+
+    public virtual bool isInRangeOfStreet()
+    {
+        return false;
+    }
 }

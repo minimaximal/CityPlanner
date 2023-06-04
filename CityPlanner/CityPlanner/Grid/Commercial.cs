@@ -30,11 +30,11 @@ public class Commercial : GridElement
         {
             if (industry<= 4)
             {
-                Score += 250;
+                Score += 500;
             }
         }
     
-        if (IsValidStreet())
+        if (isInRangeOfStreet())
         {
             // Street in Range
             Score += 20;
@@ -64,7 +64,12 @@ public class Commercial : GridElement
         
         return Score;
     }
-  
+
+    public override bool isInRangeOfStreet()
+    {
+        return IsValidStreet();
+    }
+
 
     public override Data.GridType GetGridType()
     {

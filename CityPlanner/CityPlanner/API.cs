@@ -1,4 +1,5 @@
-﻿using CityPlanner;
+﻿using System.Diagnostics;
+using CityPlanner;
 using CityPlanner.Grid;
 
 public class API
@@ -43,6 +44,11 @@ public class API
 
     private void setNewMap(Map newMap)
     {
+        try
+        {
+            Debug.WriteLine(newMap.getScore() + ">" + currentMap.getScore());
+        }
+        catch (Exception e) { }
         currentMap = newMap;
         newMapFlag = true;
         //getMapToFrontend();
