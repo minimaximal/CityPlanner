@@ -50,7 +50,7 @@ namespace CityPlannerFrontend
             
             
 
-            var appWindow = AppWindow.GetFromWindowId(Microsoft.UI.Win32Interop.GetWindowIdFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(this)));
+            //var appWindow = AppWindow.GetFromWindowId(Microsoft.UI.Win32Interop.GetWindowIdFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(this)));
             // appWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
 
 
