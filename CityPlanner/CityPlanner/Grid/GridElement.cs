@@ -13,19 +13,7 @@ public class GridElement
             Dependency.Add(gridType, new List<double>());
         }
     }
-
-    public void clearDependency()
-    {
-        foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
-        {
-            if (gridType != Data.GridType.Street)
-            {
-                Dependency[gridType].Clear();
-            }
-            
-        }
-    }
-
+    
     public int getScore()
     {
         return Score;
@@ -47,12 +35,16 @@ public class GridElement
         return -100;
     }
 
-
-    public void AddDependency(Data.GridType gridType, double distance)
+    protected virtual void UpdateLevel()
     {
-        //todo dise funkon hat gerade den 2te größten percormance impact 
-        //dabei ist der get call der intensiveste
-        Dependency[gridType].Add(distance);
+        Level = 1;
+    }
+
+
+    public virtual void AddDependency(Data.GridType gridType, double distance)
+    {
+        if (gridType == Data.GridType.Street)
+            Dependency[gridType].Add(distance);
     }
 
     public virtual Data.GridType GetGridType()
@@ -76,17 +68,12 @@ public class GridElement
     {
         return new GridElement(this);
     }
-
-    private double fn(double x)
-    {
-        return 5 / (x - 24) + 1;
-    }
+    
     private double fn2(double x)
     {
         return  0.8-0.2*(x );
     }
-   
-
+    
     public double getwarscheinlichkeit()
     {
         //Retuns valu beeween 0 and 1 
@@ -98,7 +85,6 @@ public class GridElement
             counter++;
         }
         
-
         return fn2(counter);
     }
 

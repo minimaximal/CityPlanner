@@ -12,8 +12,8 @@ public class Map : ICloneable
 
     public readonly int SizeX;
     public readonly int SizeY;
-
-//debug helpers
+    
+    //debug helpers
     private int poulationScore = 0;
     private int industryRatioScore = 0;
     private int comercialScore = 0;
@@ -47,67 +47,62 @@ public class Map : ICloneable
         };
     }
 
-    public void AddMove(Move move)
-    {
-        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
-        if (move.GridType == Data.GridType.Street)
-        {
-            int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
-            for (int x = move.X - range; x < move.X + range; x++)
-            {
-                for (int y = move.Y - range; y < move.Y + range; y++)
-                {
-                    double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                    if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
-                    {
-                        GetGridElement(x, y)?.AddDependency(move.GridType, distance);
-                    }
-                }
-            }
-        }
-    }
+
 
     public void calculateDependencies()
     {
         for (int i = 0; i < SizeX; i++)
         {
-
             for (int j = 0; j < SizeY; j++)
             {
-                if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
-                    && GetGridElement(i, j)!.isInRangeOfStreet() == true)
+                GridElement gridElement = GetGridElement(i, j)!;
+                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.isInRangeOfStreet() )
                 {
-                    int range = (int)Math.Ceiling(Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()]);
-                    for (int x = i - range; x < i + range; x++)
-                    {
-                        for (int y = j - range; y < j + range; y++)
-                        {
-                            double distance = Math.Sqrt(Math.Pow(i - x, 2) + Math.Pow(j - y, 2));
-                            if (distance <= Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()] &&
-                                !(i == x && j == y))
-                            {
-                                GetGridElement(x, y)?.AddDependency(GetGridElement(i, j)!.GetGridType(), distance);
-                            }
-                        }
-                    }
+                    addDependenciesFor(i, j);
                 }
-                else if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
-                         && GetGridElement(i, j)!.isInRangeOfStreet() == false)
+                else 
                 {
                     map[i, j] = new GridElement();
                 }
             }
         }
     }
-
-    public void clearDependencies()
+    public void AddMove(Move move)
     {
-        foreach (var gridElement in map)
+        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
+        if (move.GridType == Data.GridType.Street)
         {
-            gridElement.clearDependency();
+           addDependenciesFor(move);
         }
     }
 
+    private void addDependenciesFor(int x, int y)
+    {
+        addDependenciesFor(new Move(x, y)
+            {
+                GridType   =  GetGridElement(x, y).GetGridType()
+            }
+        );
+    }
+    private void addDependenciesFor(Move move)
+    {
+        
+        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
+        for (int x = move.X - range; x < move.X + range; x++)
+        {
+            for (int y = move.Y - range; y < move.Y + range; y++)
+            {
+                double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
+                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
+                {
+                    GetGridElement(x, y)?.AddDependency(move.GridType, distance);
+                }
+            }
+        }
+    }
+
+  
     public int CalculateScore()
     {
         _population = 0;
@@ -115,9 +110,8 @@ public class Map : ICloneable
         int industryAmount = 0;
         int commercialAmount = 0;
         
-        clearDependencies();
         calculateDependencies();
-        
+
         foreach (var gridElement in map)
         {
             globalScore += gridElement.CalculateScore();
@@ -143,7 +137,7 @@ public class Map : ICloneable
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-         poulationScore = (int)(-0.05  * populationDif * populationDif + 1000);
+        poulationScore = (int)(-0.05 * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
@@ -211,17 +205,17 @@ public class Map : ICloneable
         return Score;
     }
 
-
-    public void NewDisplay()
+    //for backend testing only
+    public void Display()
     {
         Console.Write("------------------------------\n");
-        Console.WriteLine("score:"+ Score );
+        Console.WriteLine("score:" + Score);
         Console.WriteLine("People:" + _population);
         Console.WriteLine("poulation Dif Score:" + poulationScore);
         Console.WriteLine("industryRatioScore:" + industryRatioScore);
         Console.WriteLine("comertialScore:" + comercialScore);
-        
-            
+
+
         for (int y = 0; y < SizeY; y++)
         {
             for (int x = 0; x < SizeX; x++)
@@ -271,63 +265,6 @@ public class Map : ICloneable
                 Console.Write(map[x, y].getScore() +"|");
             }
 */
-            Console.Write("\n");
-        }
-    }
-
-    //for backend testing only
-    public void Display()
-    {
-        for (int i = 0; i < SizeY * 3; i++)
-        {
-            Console.Write("-");
-        }
-
-        Console.Write("\n");
-        for (int i = 0; i < SizeX; i++)
-        {
-            for (int j = 0; j < SizeY; j++)
-            {
-                Console.Write("|");
-
-                if (map[i, j] is Housing)
-                {
-                    Console.Write("H");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Commercial)
-                {
-                    Console.Write("C");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Industry)
-                {
-                    Console.Write("I");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Street)
-                {
-                    Console.Write("S");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j].GetGridType() == Data.GridType.Empty)
-                {
-                    Console.Write("_");
-                    Console.Write("_");
-                }
-                else
-                {
-                    Console.Write("X");
-                    Console.Write("X");
-                }
-            }
-
-            Console.Write("|\n");
-            for (int x = 0; x < SizeY * 3; x++)
-            {
-                Console.Write("-");
-            }
-
             Console.Write("\n");
         }
     }
