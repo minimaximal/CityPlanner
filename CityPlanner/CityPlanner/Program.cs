@@ -22,7 +22,7 @@ for (int j = 0; j < 100000000; j++)
     {
         Console.WriteLine("gen:" + j);
 
-        map.NewDisplay();
+        map.Display();
     }
 
     if (bestMap == null || bestMap.getScore() < map.getScore())
@@ -32,7 +32,7 @@ for (int j = 0; j < 100000000; j++)
 
         Console.WriteLine("gen:" + j);
 
-        map.NewDisplay();
+        map.Display();
     }
 }
 

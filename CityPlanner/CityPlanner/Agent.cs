@@ -260,7 +260,7 @@
         {
             Console.WriteLine("Score:" + Score);
             Console.WriteLine("Population: " + _map.GetPeople());
-            _map.NewDisplay();
+            _map.Display();
         }
 
         public int GetMaxRemainingMoves()
