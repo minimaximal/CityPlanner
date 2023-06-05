@@ -33,6 +33,7 @@ namespace CityPlannerFrontend
         private string _avarageBuildingLevel;
         private string _population;
         private string _generationCount;
+        private string _lastNewMap;
         
 
         public MapView()
@@ -77,6 +78,7 @@ namespace CityPlannerFrontend
                 _satisfaction = Interface.getSatisfaction().ToString();
                 _avarageBuildingLevel = Interface.getAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
                 _population = Interface.getPopulation().ToString();
+                _lastNewMap = _generationCount;
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {
@@ -86,6 +88,7 @@ namespace CityPlannerFrontend
                     Satisfaction.Text = _satisfaction;
                     AvarageBuildingLevel.Text = _avarageBuildingLevel;
                     Population.Text = _population;
+                    LastNewMap.Text = _lastNewMap;
                 });
             }
 

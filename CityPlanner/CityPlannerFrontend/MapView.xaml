@@ -32,6 +32,8 @@
             <TextBlock Name="Population" Margin="1,0,1,5" >0</TextBlock>
             <TextBlock Margin="1,5,1,5">Generation:</TextBlock>
             <TextBlock Name="Generation" Margin="1,0,1,5" >0</TextBlock>
+            <TextBlock Margin="1,5,1,5">letztes Update:</TextBlock>
+            <TextBlock Name="LastNewMap" Margin="1,0,1,5" >0</TextBlock>
 
             <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
         </StackPanel>
