@@ -16,12 +16,9 @@
             get => _map.GetPeople();
         }
 
-        public int Score
-        {
-            get => _map.CalculateScore();
-        }
-
-
+        public int Score;
+      
+        
         public Agent(Map map)
         {
             BasicSetup(map);
@@ -34,6 +31,12 @@
             BasicSetup(map);
         }
 
+        public int CalculateScore()
+        {
+            Score = _map.CalculateScore();
+            return Score;
+        }
+        
         private void BasicSetup(Map map)
         {
             _map = map;
@@ -137,6 +140,14 @@
                 //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
                 //(das elemet existert und wir machen weiter mit index)
             } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
+        }
+
+        public void MakeNMoves(int n)
+        {
+            for (int move = 0; move < n; move++)
+            {
+                MakeOneMove();
+            }
         }
         
         public void MakeOneMove()
