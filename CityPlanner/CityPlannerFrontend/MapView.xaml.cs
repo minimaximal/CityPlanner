@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading.Tasks;
 
 
@@ -20,48 +21,71 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class MapView : Page
     {
-        
-        private bool pause = false;
-        
         public static API Interface { get; set; }
+        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+        private bool _pause = false;
+        
+        private readonly BitmapImage[] _textureBitmapImages;
+
+        private string _gridCount;
+        private string _satisfaction;
+        private string _avarageBuildingLevel;
+        private string _population;
+        private string _generationCount;
         
 
-
-        private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         public MapView()
         {
             this.InitializeComponent();
 
+            _textureBitmapImages = new BitmapImage[255];
+            for (var i = 0; i < 255; i++)
+            {
+                _textureBitmapImages[i] = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + i + ".png"));
+            }
+
             Task task = new(() => { _ = BackendLoopAsync(); });
             task.Start();
-
         }
 
         private Task BackendLoopAsync()
         {
             Debug.WriteLine("entered BackendLoop");
             if (Interface == null) return Task.CompletedTask;
-            while (!pause)
+            while (!_pause)
             {
-                //Debug.WriteLine("Next Generation");
+                Debug.WriteLine("Next Generation");
                 Interface.nextGeneration();
-                //Debug.WriteLine(Interface.existsNewMap());
+                Debug.WriteLine(Interface.existsNewMap());
+
+
+                // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
+                _generationCount = Interface.getGeneration().ToString();
 
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    Generation.Text = Interface.getGeneration().ToString();
+                    // update UI elements with the updated variable values
+                    Generation.Text = _generationCount;
                 });
 
                 if (!Interface.existsNewMap()) continue;
-                //Debug.WriteLine("New Map");
+                Debug.WriteLine("New Map");
+
+                // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
+                _gridCount = Interface.getPlacedBuildings().ToString();
+                _satisfaction = Interface.getSatisfaction().ToString();
+                _avarageBuildingLevel = Interface.getAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
+                _population = Interface.getPopulation().ToString();
+
                 _dispatcherQueue.TryEnqueue(() =>
                 {
-                    // Update UI elements with the updated variable values
-                    FillGrid(Interface.getMapToFrontend());
-                    satisfaction.Text = Interface.getSatisfaction().ToString();
-                    Gridcount.Text = Interface.getPlacedBuildings().ToString();
-                    Blevel.Text = Interface.getAverageBuildLevel().ToString();
-                    Population.Text = Interface.getPopulation().ToString();
+                    // update UI elements with the updated variable values
+                    MapGridScrollViewer.Content = GridGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+                    GridCount.Text = _gridCount;
+                    Satisfaction.Text = _satisfaction;
+                    AvarageBuildingLevel.Text = _avarageBuildingLevel;
+                    Population.Text = _population;
                 });
             }
 
@@ -71,25 +95,19 @@ namespace CityPlannerFrontend
  
 
         private void Pause_onclick(object sender, RoutedEventArgs e) {
-            if (pause)
+            if (_pause)
             {
                 Task.Run(() => { BackendLoopAsync(); });
             }
-            pause = !pause;
+            _pause = !_pause;
         }
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Settings));
         }
 
-        private void FillGrid(byte[,] map)
-        {
-            var mapGrid = GridGenerator(map);
-            MapGridScrollViewer.Content = mapGrid;;
-        }
-
-
-        private static Grid GridGenerator(byte[,] map)
+    
+        private Grid GridGenerator(byte[,] map)
         {
             var grid = new Grid();
             var rows = map.GetLength(0);
@@ -123,7 +141,7 @@ namespace CityPlannerFrontend
                 {
                     var tile = new Image
                     {
-                        Source = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + map[i, j] + ".png"))
+                        Source = _textureBitmapImages[map[i, j]]   
                     };
                     grid.Children.Add(tile);
                     Grid.SetColumn(tile, j);
@@ -132,7 +150,5 @@ namespace CityPlannerFrontend
             }
             return grid;
         }
-       
-        
     }
 }
