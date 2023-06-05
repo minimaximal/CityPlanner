@@ -16,12 +16,9 @@
             get => _map.GetPeople();
         }
 
-        public int Score
-        {
-            get => _map.CalculateScore();
-        }
-
-
+        public int Score;
+      
+        
         public Agent(Map map)
         {
             BasicSetup(map);
@@ -34,6 +31,11 @@
             BasicSetup(map);
         }
 
+        public void CalculateScore()
+        {
+            Score = _map.CalculateScore();
+        }
+        
         private void BasicSetup(Map map)
         {
             _map = map;
@@ -138,6 +140,14 @@
                 //(das elemet existert und wir machen weiter mit index)
             } while (holeBeginning.X + holeOffset + 1 < _possibleMoves[index + 1].X);
         }
+
+        public void MakeNMoves(int n)
+        {
+            for (int move = 0; move < n; move++)
+            {
+                MakeOneMove();
+            }
+        }
         
         public void MakeOneMove()
         {
@@ -153,7 +163,7 @@
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
-            if (move == null || random.NextDouble() < 0.02 ||
+            if (move == null || random.NextDouble() < 0.008 ||
                 (IsIllegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
@@ -217,10 +227,13 @@
             Random random = new Random();
 
             // wenn straße dann spetzial fall
-
-            Move move = _possibleMoves.ElementAt(0);
+            int pick = 0;
+            if (_possibleMoves.Count > 10)
+            {
+                pick = random.Next()%10;
+            }
             
-             
+            Move move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced = Data.GridType.Housing;
         
             
@@ -238,17 +251,13 @@
                 {
                     toBePlaced = Data.GridType.Housing;
                 }
-                else if(rand < 0.7) // 20% Chance
+                else if(rand < 0.8) // 20% Chance
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
-                else if(rand < 0.8) // 10% Chance
-                {
-                    toBePlaced = Data.GridType.Industry;
-                }
                 else // 20% Chance
                 {
-                    toBePlaced = Data.GridType.Empty;
+                    toBePlaced = Data.GridType.Industry;
                 }
             }
             
@@ -261,7 +270,7 @@
         {
             Console.WriteLine("Score:" + Score);
             Console.WriteLine("Population: " + _map.GetPeople());
-            _map.NewDisplay();
+            _map.Display();
         }
 
         public int GetMaxRemainingMoves()

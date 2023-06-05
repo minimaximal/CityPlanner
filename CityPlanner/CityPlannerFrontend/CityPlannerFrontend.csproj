@@ -12,19 +12,10 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	<StartupObject>CityPlannerFrontend.Program</StartupObject>
+	<DefaultLanguage>de-DE</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\AppIcon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +42,61 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\AppIcon\BadgeLogo.scale-100.png" />
+    <None Remove="Assets\AppIcon\BadgeLogo.scale-125.png" />
+    <None Remove="Assets\AppIcon\BadgeLogo.scale-150.png" />
+    <None Remove="Assets\AppIcon\BadgeLogo.scale-200.png" />
+    <None Remove="Assets\AppIcon\BadgeLogo.scale-400.png" />
+    <None Remove="Assets\AppIcon\LargeTile.scale-100.png" />
+    <None Remove="Assets\AppIcon\LargeTile.scale-125.png" />
+    <None Remove="Assets\AppIcon\LargeTile.scale-150.png" />
+    <None Remove="Assets\AppIcon\LargeTile.scale-200.png" />
+    <None Remove="Assets\AppIcon\LargeTile.scale-400.png" />
+    <None Remove="Assets\AppIcon\SmallTile.scale-100.png" />
+    <None Remove="Assets\AppIcon\SmallTile.scale-125.png" />
+    <None Remove="Assets\AppIcon\SmallTile.scale-150.png" />
+    <None Remove="Assets\AppIcon\SmallTile.scale-200.png" />
+    <None Remove="Assets\AppIcon\SmallTile.scale-400.png" />
+    <None Remove="Assets\AppIcon\SplashScreen.scale-100.png" />
+    <None Remove="Assets\AppIcon\SplashScreen.scale-125.png" />
+    <None Remove="Assets\AppIcon\SplashScreen.scale-150.png" />
+    <None Remove="Assets\AppIcon\SplashScreen.scale-200.png" />
+    <None Remove="Assets\AppIcon\SplashScreen.scale-400.png" />
+    <None Remove="Assets\AppIcon\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\AppIcon\Square150x150Logo.scale-125.png" />
+    <None Remove="Assets\AppIcon\Square150x150Logo.scale-150.png" />
+    <None Remove="Assets\AppIcon\Square150x150Logo.scale-200.png" />
+    <None Remove="Assets\AppIcon\Square150x150Logo.scale-400.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.scale-125.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.scale-150.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.scale-200.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.targetsize-24.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.targetsize-32.png" />
+    <None Remove="Assets\AppIcon\Square44x44Logo.targetsize-48.png" />
+    <None Remove="Assets\AppIcon\StoreLogo.scale-100.png" />
+    <None Remove="Assets\AppIcon\StoreLogo.scale-125.png" />
+    <None Remove="Assets\AppIcon\StoreLogo.scale-150.png" />
+    <None Remove="Assets\AppIcon\StoreLogo.scale-200.png" />
+    <None Remove="Assets\AppIcon\StoreLogo.scale-400.png" />
+    <None Remove="Assets\AppIcon\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\AppIcon\Wide310x150Logo.scale-125.png" />
+    <None Remove="Assets\AppIcon\Wide310x150Logo.scale-150.png" />
+    <None Remove="Assets\AppIcon\Wide310x150Logo.scale-200.png" />
+    <None Remove="Assets\AppIcon\Wide310x150Logo.scale-400.png" />
     <None Remove="Assets\Grid\111.png" />
     <None Remove="Assets\Grid\112.png" />
     <None Remove="Assets\Grid\113.png" />
@@ -69,6 +115,165 @@
     <ProjectReference Include="..\CityPlanner\CityPlanner.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\AppIcon\BadgeLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\BadgeLogo.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\BadgeLogo.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\BadgeLogo.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\BadgeLogo.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\LargeTile.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\LargeTile.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\LargeTile.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\LargeTile.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\LargeTile.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SmallTile.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SmallTile.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SmallTile.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SmallTile.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SmallTile.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SplashScreen.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SplashScreen.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SplashScreen.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SplashScreen.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\SplashScreen.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square150x150Logo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square150x150Logo.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square150x150Logo.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square150x150Logo.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square150x150Logo.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-unplated_targetsize-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.targetsize-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.targetsize-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.targetsize-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Square44x44Logo.targetsize-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\StoreLogo.scale-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\StoreLogo.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\StoreLogo.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\StoreLogo.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\StoreLogo.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Wide310x150Logo.scale-125.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Wide310x150Logo.scale-150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Wide310x150Logo.scale-200.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\Wide310x150Logo.scale-400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\AppIcon\_AppIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Grid\0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -111,6 +316,22 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\Grid\31.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\AppIcon\Square44x44Logo.altform-lightunplated_targetsize-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\AppIcon\Square44x44Logo.targetsize-256.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\AppIcon\Wide310x150Logo.scale-100.png">
+      <Generator></Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

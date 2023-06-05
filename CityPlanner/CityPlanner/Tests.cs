@@ -85,6 +85,8 @@ namespace CityPlanner{
         {
             Map newMap = new Map(50, 50, 5000);
             Move nextMove = new Move(24, 24);
+            Data.InitialStreets = new List<(int, int)>();
+            Data.InitialStreets.Add((24,24));
             nextMove.GridType = Data.GridType.Street;
             newMap.AddMove(nextMove);
             Agent agent = new Agent(newMap);
@@ -107,7 +109,15 @@ namespace CityPlanner{
                 }
                 
             }
-            Assert.AreEqual(2500, moveCount);
+
+            if (agent.NoMoreValidMoves == true)
+            {
+                Assert.Less(moveCount, 2500);
+            }
+            else
+            {
+                Assert.AreEqual(2500, moveCount);
+            }
         }
         
         //Test to see if Agent executes Parent Moves
@@ -115,6 +125,8 @@ namespace CityPlanner{
         public void CheckIfAgentIsChild()
         {
             Map newMap = new Map(50, 50, 5000);
+            Data.InitialStreets = new List<(int, int)>();
+            Data.InitialStreets.Add((24,24));
             Move nextMove = new Move(24, 24);
             nextMove.GridType = Data.GridType.Street;
             newMap.AddMove(nextMove);
@@ -140,6 +152,8 @@ namespace CityPlanner{
             Map newMap = new Map(50, 50, 5000);
             Move nextMove = new Move(24, 24);
             nextMove.GridType = Data.GridType.Street;
+            Data.InitialStreets = new List<(int, int)>();
+            Data.InitialStreets.Add((24,24));
             newMap.AddMove(nextMove);
             Agent agent = new Agent(newMap);
 
@@ -148,8 +162,49 @@ namespace CityPlanner{
                 agent.MakeOneMove();
             }
 
-            //need Map
-            Assert.Fail();
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    if (agent.getMap().GetGridElement(i,j)!.GetGridType() == Data.GridType.Street)
+                    {
+                        try
+                        {
+                            if (agent.getMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.getMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
+                                agent.getMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.getMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
+                            {
+                                Assert.Fail();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+            Assert.Pass();
+        }
+        
+        //Test to see if API returns reasonable values
+        [Test]
+        public void ValidAPICalls()
+        {
+            Byte[,] map;
+            API api = new API(30000, 20, 20 , 0);
+            
+            for (int j = 0; j < 10; j++)
+            {
+                api.nextGeneration();
+                map = api.getMapToFrontend();
+            }
+
+            Assert.AreEqual(10, api.getGeneration());
+            Assert.Greater(api.getAverageBuildLevel(), 0);
+            Assert.Less(api.getAverageBuildLevel(), 3.1);
+            Assert.Greater(api.getPopulation(), 0);
         }
     }
 }

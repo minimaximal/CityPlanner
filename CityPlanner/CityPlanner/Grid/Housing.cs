@@ -8,48 +8,44 @@ public class Housing : GridElement
     {
     }
 
+    public override void AddDependency(Data.GridType gridType, double distance)
+    {
+        switch (gridType)
+        {
+            case Data.GridType.Street:
+                Dependency[gridType].Add(distance);
+                break;
+            // case Data.GridType.Housing: //who knows...
+
+            case Data.GridType.Commercial:
+                if (distance <= 4.9)
+                    Dependency[gridType].Add(distance);
+                break;
+            case Data.GridType.Industry:
+                if (distance <= 3.4)
+                    Dependency[gridType].Add(distance);
+                break;
+        }
+    }
+
     public override int CalculateScore()
     {
         Score = 0;
 
-        /*
-        foreach (double Housing in Dependency[Data.GridType.Housing])
-        {
-            //who knows...
-        }
-        */
-
-        foreach (double Commercial in Dependency[Data.GridType.Commercial])
-        {
-            if (Commercial <= 4.9)
-            {
-                Score += 50;
-            }
-        }
-
-        Dependency[Data.GridType.Street].Sort();
-        if (Dependency[Data.GridType.Street].Count() > 0)
-        {
-            // Street in Range
-            Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
-        }
-        else
-        {
-            //no Street in Range
-            Score += -9999;
-        }
-        
-        foreach (double Industry in Dependency[Data.GridType.Industry])
-        {
-            if (Industry <= 3.9)
-            {
-                Score -= 150;
-            }
-        }
+        Score += Dependency[Data.GridType.Commercial].Count * 50;
+        Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
+        Score += Dependency[Data.GridType.Industry].Count * -100;
         
         //base cost
         Score -= 5;
 
+      UpdateLevel();
+
+        return Score;
+    }
+
+    protected override void UpdateLevel()
+    {
         switch (Score)
         {
             //according Level
@@ -70,11 +66,14 @@ public class Housing : GridElement
                 people = 200;
                 break;
         }
-
-        return Score;
-        
     }
+    
 
+
+    public override bool isInRangeOfStreet()
+    {
+        return Dependency[Data.GridType.Street].Count() > 0;
+    }
 
 
     public int GetPeople()
@@ -86,6 +85,7 @@ public class Housing : GridElement
     {
         return Data.GridType.Housing;
     }
+
     public override Housing Clone()
     {
         return new Housing(this);

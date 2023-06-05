@@ -6,57 +6,51 @@ public class Industry : GridElement
     {
     }
 
+    public override void AddDependency(Data.GridType gridType, double distance)
+    {
+        switch (gridType)
+        {
+
+            case Data.GridType.Street:
+                Dependency[gridType].Add(distance);
+                break;
+
+
+            case Data.GridType.Industry:
+                if (distance <= 3.5)
+                     Dependency[gridType].Add(distance);
+                break;
+            // case Data.GridType.Housing:   //who knows...
+            // case Data.GridType.Commercial:   //who knows...
+        }
+    }
+    
     public override int CalculateScore()
     {
         Score = 0;
-
-        /*
-        foreach (double Housing in Dependency[Data.GridType.Housing])
-        {
-            //who knows...
-        }
-        foreach (double Commercial in Dependency[Data.GridType.Commercial])
-        {
-            //who knows...
-        }
-        */
-        foreach (double industry in Dependency[Data.GridType.Industry])
-        {
-            if (industry <= 3.5)
-            {
-                Score += 250;
-            }
-        }
-        if (IsValidStreet())
-        {
-            // Street in Range
-            Score += 70;
-        }
-        else
-        {
-            //no Street in Range
-            Score += -9999;
-        }
+        Score += Dependency[Data.GridType.Industry].Count * 450;
         
         //base cost
-        Score -= 20;
+        Score += 50;
+        UpdateLevel();
         
-        //Level
-        switch (Score)
-        {
-            case < 70:
-                Level = 1;
-                break;
-            case < 570:
-                Level = 2;
-                break;
-            case > 570:
-                Level = 3;
-                break;
-
-        }
-
         return Score;
+    }
+
+    protected override void UpdateLevel()
+    {
+        Level = Score switch
+        {
+            < 70 => 1,
+            < 570 => 2,
+            > 570 => 3,
+            _ => Level
+        };
+    }
+
+    public override bool isInRangeOfStreet()
+    {
+        return IsValidStreet();
     }
 
     public override Data.GridType GetGridType()

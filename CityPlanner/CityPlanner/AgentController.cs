@@ -9,9 +9,10 @@
         private readonly int _targetPopulation;
         private readonly Map _defaultMap;
         private Agent _bestOfAllTime;
+        private int moveLimitGues;
 
         private bool includeBestOfAllTime = true;
-        
+
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
         {
@@ -26,7 +27,6 @@
 
         public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
         {
-           
             if (_agents.Count == 0)
             {
                 CreateNewAgents(_agentAmount);
@@ -35,47 +35,14 @@
             {
                 CreateNewAgents(_agentAmount, _agents);
             }
-            
+
             includeBestOfAllTime = true;
-            
-            int currentLargestPopulation = 0;
-            List<Agent> finishedAgents = new();
-            bool lastRun = false;
-            while (_agents.Count > 0)
-            {
-                int moveLimit =(int)Math.Ceiling( ((_targetPopulation - currentLargestPopulation) / 200.0) );
-
-                
-                // todo moveLimit wird hier nicht korekt berechnet / über diesen weg ist es nicht mehr möglich
-                // schau in funktion GetMaxRemainingMoves()
-                if (moveLimit > _agents[0].GetMaxRemainingMoves())
-                {
-                    moveLimit = _agents[0].GetMaxRemainingMoves();
-                    lastRun = true;
-                }
-
-                for (int moveNumber = 0; moveNumber < moveLimit; moveNumber++)
-                { 
-                    _agents.AsParallel().ForAll(agent => agent.MakeOneMove());
-                    //_agents[0].MakeOneMove();
-                }
-
-                for (int i = 0; i < _agents.Count(); i++)
-                {
-                    if (_agents[i].NoMoreValidMoves || _agents[i].Population > _targetPopulation || lastRun)
-                    {
-                        finishedAgents.Add(_agents[i]);
-                        _agents.Remove(_agents[i]);
-                    }
-                }
-            }
-
-            _agents = finishedAgents;
-
-            //todo muss rewritten werden um nicht ein bogde zu sein
 
 
-            Agent generationalBestAgent = finishedAgents.OrderByDescending(agent => agent.Score).First();
+            _agents.AsParallel().ForAll(agent => agent.MakeNMoves(moveLimitGues));
+            _agents.AsParallel().ForAll(agent => agent.CalculateScore());
+
+            Agent generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
             if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) ;
             {
                 _bestOfAllTime = generationalBestAgent;
@@ -97,7 +64,7 @@
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
-            if(includeBestOfAllTime)
+            if (includeBestOfAllTime)
                 bestThreeAgents[2] = _bestOfAllTime;
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
@@ -117,6 +84,9 @@
 
         private Map CreateNewMap()
         {
+            // todo wenn das frontend eine map übergibt müssen die EMPTY hier gezählt werden
+            moveLimitGues = _mapSize.x * _mapSize.y - 1;
+
             Map map = new Map(_mapSize.x, _mapSize.y, _targetPopulation);
             foreach ((int x, int y) in _stratingPoints)
             {

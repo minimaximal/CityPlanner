@@ -1,4 +1,5 @@
-﻿using CityPlanner.Grid;
+﻿using System.Diagnostics;
+using CityPlanner.Grid;
 
 namespace CityPlanner;
 
@@ -11,11 +12,11 @@ public class Map : ICloneable
 
     public readonly int SizeX;
     public readonly int SizeY;
-
-//debug helpers
+    
+    //debug helpers
     private int poulationScore = 0;
     private int industryRatioScore = 0;
-    private int comertialScore = 0;
+    private int comercialScore = 0;
 
 
     public Map(int x, int y, int targetPopulation)
@@ -46,9 +47,47 @@ public class Map : ICloneable
         };
     }
 
+
+
+    public void calculateDependencies()
+    {
+        for (int i = 0; i < SizeX; i++)
+        {
+            for (int j = 0; j < SizeY; j++)
+            {
+                GridElement gridElement = GetGridElement(i, j)!;
+                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.isInRangeOfStreet() )
+                {
+                    addDependenciesFor(i, j);
+                }
+                else 
+                {
+                    map[i, j] = new GridElement();
+                }
+            }
+        }
+    }
     public void AddMove(Move move)
     {
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
+        if (move.GridType == Data.GridType.Street)
+        {
+           addDependenciesFor(move);
+        }
+    }
+
+    private void addDependenciesFor(int x, int y)
+    {
+        addDependenciesFor(new Move(x, y)
+            {
+                GridType   =  GetGridElement(x, y).GetGridType()
+            }
+        );
+    }
+    private void addDependenciesFor(Move move)
+    {
+        
         int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
@@ -63,12 +102,16 @@ public class Map : ICloneable
         }
     }
 
+  
     public int CalculateScore()
     {
         _population = 0;
         int globalScore = 0;
         int industryAmount = 0;
         int commercialAmount = 0;
+        
+        calculateDependencies();
+
         foreach (var gridElement in map)
         {
             globalScore += gridElement.CalculateScore();
@@ -78,30 +121,34 @@ public class Map : ICloneable
                     _population += ((Housing)gridElement).GetPeople();
                     break;
                 case Data.GridType.Industry:
-                    industryAmount++;
+                    if (gridElement.getScore() > -8000)
+                    {
+                        industryAmount++;
+                    }
                     break;
                 case Data.GridType.Commercial:
-                    commercialAmount++;
+                    if (gridElement.getScore() > -8000)
+                    {
+                        commercialAmount++;
+                    }
                     break;
             }
         }
 
         //Population Scoring
         int populationDif = _population - _targetPopulation;
-         poulationScore = (int)(-0.08  * populationDif * populationDif + 1000);
+        poulationScore = (int)(-0.05 * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
         //Importquota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
-        industryRatioScore = -(industryDiff * industryDiff + 10) * 2500;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
         //commercialquota
-        if (_targetPopulation / 500 < commercialAmount)
-        {
-            comertialScore = (int)((_targetPopulation / 500 - commercialAmount) * 100);
-            globalScore += comertialScore;
-        }
+        int commercialDiff = commercialAmount - (_targetPopulation / 550);
+        comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
+        globalScore += comercialScore;
 
         Score = globalScore;
         return globalScore;
@@ -158,17 +205,17 @@ public class Map : ICloneable
         return Score;
     }
 
-
-    public void NewDisplay()
+    //for backend testing only
+    public void Display()
     {
         Console.Write("------------------------------\n");
-        Console.WriteLine("score:"+ Score );
+        Console.WriteLine("score:" + Score);
         Console.WriteLine("People:" + _population);
         Console.WriteLine("poulation Dif Score:" + poulationScore);
         Console.WriteLine("industryRatioScore:" + industryRatioScore);
-        Console.WriteLine("comertialScore:" + comertialScore);
-        
-            
+        Console.WriteLine("comertialScore:" + comercialScore);
+
+
         for (int y = 0; y < SizeY; y++)
         {
             for (int x = 0; x < SizeX; x++)
@@ -218,63 +265,6 @@ public class Map : ICloneable
                 Console.Write(map[x, y].getScore() +"|");
             }
 */
-            Console.Write("\n");
-        }
-    }
-
-    //for backend testing only
-    public void Display()
-    {
-        for (int i = 0; i < SizeY * 3; i++)
-        {
-            Console.Write("-");
-        }
-
-        Console.Write("\n");
-        for (int i = 0; i < SizeX; i++)
-        {
-            for (int j = 0; j < SizeY; j++)
-            {
-                Console.Write("|");
-
-                if (map[i, j] is Housing)
-                {
-                    Console.Write("H");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Commercial)
-                {
-                    Console.Write("C");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Industry)
-                {
-                    Console.Write("I");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j] is Street)
-                {
-                    Console.Write("S");
-                    Console.Write(map[i, j].GetLevel());
-                }
-                else if (map[i, j].GetGridType() == Data.GridType.Empty)
-                {
-                    Console.Write("_");
-                    Console.Write("_");
-                }
-                else
-                {
-                    Console.Write("X");
-                    Console.Write("X");
-                }
-            }
-
-            Console.Write("|\n");
-            for (int x = 0; x < SizeY * 3; x++)
-            {
-                Console.Write("-");
-            }
-
             Console.Write("\n");
         }
     }
