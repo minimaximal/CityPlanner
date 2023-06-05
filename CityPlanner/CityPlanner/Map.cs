@@ -55,13 +55,13 @@ public class Map : ICloneable
         {
             for (int j = 0; j < SizeY; j++)
             {
-                if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
-                    && GetGridElement(i, j)!.isInRangeOfStreet() == true)
+                GridElement gridElement = GetGridElement(i, j)!;
+                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.isInRangeOfStreet() )
                 {
                     addDependenciesFor(i, j);
                 }
-                else if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
-                         && GetGridElement(i, j)!.isInRangeOfStreet() == false)
+                else 
                 {
                     map[i, j] = new GridElement();
                 }
