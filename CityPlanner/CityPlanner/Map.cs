@@ -104,13 +104,6 @@ public class Map : ICloneable
         }
     }
 
-    public void clearDependencies()
-    {
-        foreach (var gridElement in map)
-        {
-            gridElement.clearDependency();
-        }
-    }
 
     public int CalculateScore()
     {
@@ -118,8 +111,7 @@ public class Map : ICloneable
         int globalScore = 0;
         int industryAmount = 0;
         int commercialAmount = 0;
-
-        clearDependencies();
+        
         calculateDependencies();
 
         foreach (var gridElement in map)
