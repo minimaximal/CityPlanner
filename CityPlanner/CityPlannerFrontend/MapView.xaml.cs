@@ -114,7 +114,7 @@ namespace CityPlannerFrontend
       }
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
-         pause = true;
+         _pause = true;
          Frame.Navigate(typeof(Settings));
       }
 

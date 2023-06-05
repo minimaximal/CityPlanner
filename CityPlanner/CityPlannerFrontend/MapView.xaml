@@ -24,7 +24,7 @@
             <TextBlock Margin="1,5,1,0">Zufriedenheit:</TextBlock>
             <TextBlock Name="Satisfaction" Margin="1,0,1,5">0</TextBlock>
             <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
-            <TextBlock Name="Blevel" Margin="1,0,1,5">0</TextBlock>
+            <TextBlock Name="AvarageBuildingLevel" Margin="1,0,1,5">0</TextBlock>
             <TextBlock Margin="1,5,1,5">Bev&#246;lkerung</TextBlock>
             <TextBlock Name="Population" Margin="1,0,1,5">0</TextBlock>
             <TextBlock Margin="1,5,1,0">Generation:</TextBlock>
