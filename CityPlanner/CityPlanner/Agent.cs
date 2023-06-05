@@ -217,10 +217,13 @@
             Random random = new Random();
 
             // wenn straße dann spetzial fall
-
-            Move move = _possibleMoves.ElementAt(0);
+            int pick = 0;
+            if (_possibleMoves.Count > 10)
+            {
+                pick = random.Next()%10;
+            }
             
-             
+            Move move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced = Data.GridType.Housing;
         
             
