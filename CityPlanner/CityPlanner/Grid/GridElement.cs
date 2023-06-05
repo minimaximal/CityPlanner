@@ -35,12 +35,16 @@ public class GridElement
         return -100;
     }
 
-
-    public void AddDependency(Data.GridType gridType, double distance)
+    protected virtual void UpdateLevel()
     {
-        //todo dise funkon hat gerade den 2te größten percormance impact 
-        //dabei ist der get call der intensiveste
-        Dependency[gridType].Add(distance);
+        Level = 1;
+    }
+
+
+    public virtual void AddDependency(Data.GridType gridType, double distance)
+    {
+        if (gridType == Data.GridType.Street)
+            Dependency[gridType].Add(distance);
     }
 
     public virtual Data.GridType GetGridType()
