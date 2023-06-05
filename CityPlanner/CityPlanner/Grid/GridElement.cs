@@ -64,17 +64,12 @@ public class GridElement
     {
         return new GridElement(this);
     }
-
-    private double fn(double x)
-    {
-        return 5 / (x - 24) + 1;
-    }
+    
     private double fn2(double x)
     {
         return  0.8-0.2*(x );
     }
-   
-
+    
     public double getwarscheinlichkeit()
     {
         //Retuns valu beeween 0 and 1 
@@ -86,7 +81,6 @@ public class GridElement
             counter++;
         }
         
-
         return fn2(counter);
     }
 
