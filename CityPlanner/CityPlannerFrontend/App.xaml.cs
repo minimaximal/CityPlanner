@@ -32,7 +32,7 @@ namespace CityPlannerFrontend
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _mWindow = new MainWindow();
-
+            
             // Create a Frame to act as the navigation context and navigate to the first page
             Frame rootFrame = new Frame();
             rootFrame.NavigationFailed += OnNavigationFailed;
@@ -42,6 +42,12 @@ namespace CityPlannerFrontend
 
             // Place the frame in the current Window
             _mWindow.Content = rootFrame;
+
+            
+            //var appWindow = AppWindow.GetFromWindowId(Microsoft.UI.Win32Interop.GetWindowIdFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(this)));
+            // appWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
+
+
             // Ensure the MainWindow is active
             _mWindow.Activate();
             
