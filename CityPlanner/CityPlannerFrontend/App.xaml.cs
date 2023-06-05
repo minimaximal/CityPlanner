@@ -5,10 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using Microsoft.UI;
-using Microsoft.UI.Windowing;
-using CityPlanner;
-using NUnit.Framework;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,10 +42,8 @@ namespace CityPlannerFrontend
 
             // Place the frame in the current Window
             _mWindow.Content = rootFrame;
-            _mWindow.Title = "City Planner";
-            
-            
 
+            
             //var appWindow = AppWindow.GetFromWindowId(Microsoft.UI.Win32Interop.GetWindowIdFromWindow(WinRT.Interop.WindowNative.GetWindowHandle(this)));
             // appWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
 
