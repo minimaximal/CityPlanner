@@ -31,10 +31,9 @@
             BasicSetup(map);
         }
 
-        public int CalculateScore()
+        public void CalculateScore()
         {
             Score = _map.CalculateScore();
-            return Score;
         }
         
         private void BasicSetup(Map map)
