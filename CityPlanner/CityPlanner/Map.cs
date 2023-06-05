@@ -47,25 +47,7 @@ public class Map : ICloneable
         };
     }
 
-    public void AddMove(Move move)
-    {
-        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
-        if (move.GridType == Data.GridType.Street)
-        {
-            int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
-            for (int x = move.X - range; x < move.X + range; x++)
-            {
-                for (int y = move.Y - range; y < move.Y + range; y++)
-                {
-                    double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                    if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
-                    {
-                        GetGridElement(x, y)?.AddDependency(move.GridType, distance);
-                    }
-                }
-            }
-        }
-    }
+
 
     public void calculateDependencies()
     {
@@ -76,7 +58,7 @@ public class Map : ICloneable
                 if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
                     && GetGridElement(i, j)!.isInRangeOfStreet() == true)
                 {
-                    addDependenciesInRange(i, j);
+                    addDependenciesFor(i, j);
                 }
                 else if (GetGridElement(i, j)!.GetGridType() != Data.GridType.Street
                          && GetGridElement(i, j)!.isInRangeOfStreet() == false)
@@ -86,25 +68,41 @@ public class Map : ICloneable
             }
         }
     }
-
-    private void addDependenciesInRange(int i, int j)
+    public void AddMove(Move move)
     {
-        int range = (int)Math.Ceiling(Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()]);
-        for (int x = i - range; x < i + range; x++)
+        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
+        if (move.GridType == Data.GridType.Street)
         {
-            for (int y = j - range; y < j + range; y++)
+           addDependenciesFor(move);
+        }
+    }
+
+    private void addDependenciesFor(int x, int y)
+    {
+        addDependenciesFor(new Move(x, y)
             {
-                double distance = Math.Sqrt(Math.Pow(i - x, 2) + Math.Pow(j - y, 2));
-                if (distance <= Data.GridTypeMax[GetGridElement(i, j)!.GetGridType()] &&
-                    !(i == x && j == y))
+                GridType   =  GetGridElement(x, y).GetGridType()
+            }
+        );
+    }
+    private void addDependenciesFor(Move move)
+    {
+        
+        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
+        for (int x = move.X - range; x < move.X + range; x++)
+        {
+            for (int y = move.Y - range; y < move.Y + range; y++)
+            {
+                double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
+                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
                 {
-                    GetGridElement(x, y)?.AddDependency(GetGridElement(i, j)!.GetGridType(), distance);
+                    GetGridElement(x, y)?.AddDependency(move.GridType, distance);
                 }
             }
         }
     }
 
-
+  
     public int CalculateScore()
     {
         _population = 0;
