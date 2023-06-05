@@ -245,13 +245,9 @@
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
-                else if(rand < 1) // 20% Chance
+                else // 20% Chance
                 {
                     toBePlaced = Data.GridType.Industry;
-                }
-                else // 10% Chance
-                {
-                    toBePlaced = Data.GridType.Empty;
                 }
             }
             
