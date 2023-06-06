@@ -287,7 +287,7 @@
 
 
         //DEBUG helper funktions
-        public List<int> isinList(Move move)
+        public List<int> IsInList(Move move)
         {
             List<int> hits = new List<int>();
             foreach (var m in _possibleMoves)
@@ -301,7 +301,7 @@
             return hits;
         }
 
-        public Map getMap()
+        public Map GetMap()
         {
             return _map;
         }
