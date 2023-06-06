@@ -70,7 +70,6 @@
                 result.Add(new Move(parent1._moves.ElementAt(i)));
             }
 
-            //_moves.Count ==== shorterParentCount
             for (int i = result.Count; i < parent2._moves.Count; i++)
             {
                 result.Add(new Move(parent2._moves.ElementAt(i)));
