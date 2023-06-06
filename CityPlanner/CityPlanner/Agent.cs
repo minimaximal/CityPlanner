@@ -109,12 +109,11 @@
         private void FillGapAt(int index)
         {
             Move gapBeginning = _possibleMoves.ElementAt(index);
-            int y;
             int gapOffset = 0;
             do
             {
                 int x = (gapBeginning.X + gapOffset + 1) % _map.SizeX;
-                y = x == 0 ? gapBeginning.Y + 1 : gapBeginning.Y;
+                int y = x == 0 ? gapBeginning.Y + 1 : gapBeginning.Y;
                 if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
                 {
                     _possibleMoves.Insert(index + 1, new Move(x, y));
