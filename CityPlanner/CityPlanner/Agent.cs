@@ -123,14 +123,6 @@
                 gapOffset++;
             } while (gapBeginning.X + gapOffset + 1 < _possibleMoves[index + 1].X);
         }
-
-        public void MakeNMoves(int n)
-        {
-            for (int move = 0; move < n; move++)
-            {
-                MakeOneMove();
-            }
-        }
         
         private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
         {
@@ -148,6 +140,14 @@
                 {
                     _possibleMoves.Add(new Move(_lastPossibleMove));
                 }
+            }
+        }
+
+        public void MakeNMoves(int n)
+        {
+            for (int move = 0; move < n; move++)
+            {
+                MakeOneMove();
             }
         }
 
