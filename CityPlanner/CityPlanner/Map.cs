@@ -200,7 +200,7 @@ public class Map : ICloneable
         return clone;
     }
 
-    public int getScore()
+    public int GetScore()
     {
         return Score;
     }
