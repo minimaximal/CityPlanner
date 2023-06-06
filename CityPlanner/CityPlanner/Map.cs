@@ -49,7 +49,7 @@ public class Map : ICloneable
 
 
 
-    public void calculateDependencies()
+    public void CalculateDependencies()
     {
         for (int i = 0; i < SizeX; i++)
         {
@@ -110,7 +110,7 @@ public class Map : ICloneable
         int industryAmount = 0;
         int commercialAmount = 0;
         
-        calculateDependencies();
+        CalculateDependencies();
 
         foreach (var gridElement in map)
         {
