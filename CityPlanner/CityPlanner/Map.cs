@@ -7,7 +7,7 @@ public class Map : ICloneable
 {
     private GridElement[,] map;
     private int _population;
-    private int _targetPopulation;
+    private readonly int _targetPopulation;
     private int Score;
 
     public readonly int SizeX;
