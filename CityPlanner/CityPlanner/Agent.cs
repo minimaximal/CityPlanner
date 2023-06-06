@@ -174,8 +174,7 @@
                 else
                 {
                     NoMoreValidMoves = true;
-                    //if there are no more valid moves at all we nead to stop the call of this funktion
-                    // todo add AgentControlr: stopAgent(Agent)
+                    //stop
                     return;
                 }
             }
