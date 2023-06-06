@@ -73,19 +73,19 @@ public class Map : ICloneable
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         if (move.GridType == Data.GridType.Street)
         {
-           addDependenciesFor(move);
+           AddDependenciesFor(move);
         }
     }
 
     private void AddDependenciesFor(int x, int y)
     {
-        addDependenciesFor(new Move(x, y)
+        AddDependenciesFor(new Move(x, y)
             {
                 GridType   =  GetGridElement(x, y).GetGridType()
             }
         );
     }
-    private void addDependenciesFor(Move move)
+    private void AddDependenciesFor(Move move)
     {
         
         int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
