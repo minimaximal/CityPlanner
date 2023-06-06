@@ -121,8 +121,6 @@
                     break;
                 }
                 gapOffset++;
-                //es muss abgebrochen werden soblad das andere ende von einem loch erreichtwurde
-                //(das elemet existert und wir machen weiter mit index)
             } while (gapBeginning.X + gapOffset + 1 < _possibleMoves[index + 1].X);
         }
 
