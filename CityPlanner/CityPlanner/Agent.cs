@@ -244,7 +244,7 @@
                 {
                     toBePlaced = Data.GridType.Housing;
                 }
-                else if(rand < 0.8) // 20% Chance
+                else if(rand < 0.8) // 30% Chance
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
