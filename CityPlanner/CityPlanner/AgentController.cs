@@ -13,6 +13,7 @@
 
         private bool _includeBestOfAllTime = true;
 
+
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
         {
@@ -37,7 +38,6 @@
             }
 
             _includeBestOfAllTime = true;
-
 
             _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimitEstimate));
             _agents.AsParallel().ForAll(agent => agent.CalculateScore());
