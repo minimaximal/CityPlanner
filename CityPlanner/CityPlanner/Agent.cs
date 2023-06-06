@@ -237,7 +237,6 @@
             && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
             {
                 toBePlaced = Data.GridType.Street;
-
             }
             else
             {
