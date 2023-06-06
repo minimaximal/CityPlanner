@@ -9,7 +9,7 @@
         private readonly int _targetPopulation;
         private readonly Map _defaultMap;
         private Agent _bestOfAllTime;
-        private int moveLimitGues;
+        private int _moveLimitEstimate;
 
         private bool includeBestOfAllTime = true;
 
@@ -39,7 +39,7 @@
             includeBestOfAllTime = true;
 
 
-            _agents.AsParallel().ForAll(agent => agent.MakeNMoves(moveLimitGues));
+            _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimitEstimate));
             _agents.AsParallel().ForAll(agent => agent.CalculateScore());
 
             Agent generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
@@ -85,7 +85,7 @@
         private Map CreateNewMap()
         {
             // todo wenn das frontend eine map übergibt müssen die EMPTY hier gezählt werden
-            moveLimitGues = _mapSize.x * _mapSize.y - 1;
+            _moveLimitEstimate = _mapSize.x * _mapSize.y - 1;
 
             Map map = new Map(_mapSize.x, _mapSize.y, _targetPopulation);
             foreach ((int x, int y) in _stratingPoints)
