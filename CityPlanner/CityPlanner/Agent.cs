@@ -192,21 +192,21 @@
             // removes the move from posibleMoves list and checks sorted neighbors for dupes 
             if (index > 0)
             {
-                Move ontTop = _possibleMoves[index - 1];
-                if (ontTop.X == move.X &&
-                    ontTop.Y == move.Y)
+                Move inFrontOf = _possibleMoves[index - 1];
+                if (inFrontOf.X == move.X &&
+                    inFrontOf.Y == move.Y)
                 {
-                    _possibleMoves.Remove(ontTop);
+                    _possibleMoves.Remove(inFrontOf);
                 }
             }
 
             if (index + 1 < _possibleMoves.Count)
             {
-                Move justBelow = _possibleMoves[index + 1];
-                if (justBelow.X == move.X &&
-                    justBelow.Y == move.Y)
+                Move justBehind = _possibleMoves[index + 1];
+                if (justBehind.X == move.X &&
+                    justBehind.Y == move.Y)
                 {
-                    _possibleMoves.Remove(justBelow);
+                    _possibleMoves.Remove(justBehind);
                 }
             }
 
