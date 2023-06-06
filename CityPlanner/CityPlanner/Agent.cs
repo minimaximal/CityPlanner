@@ -76,7 +76,7 @@
             }
 
 
-            if (shorterParentCount == parent2._moves.Count) //parent2._moves.Count < parent1._moves.Count
+            if (shorterParentCount == parent2._moves.Count)
             {
                 for (int i = result.Count; i < parent1._moves.Count; i++)
                 {
