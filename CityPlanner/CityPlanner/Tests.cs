@@ -166,14 +166,14 @@ namespace CityPlanner{
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    if (agent.getMap().GetGridElement(i,j)!.GetGridType() == Data.GridType.Street)
+                    if (agent.GetMap().GetGridElement(i,j)!.GetGridType() == Data.GridType.Street)
                     {
                         try
                         {
-                            if (agent.getMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
+                            if (agent.GetMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
                             {
                                 Assert.Fail();
                             }
