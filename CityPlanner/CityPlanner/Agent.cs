@@ -225,7 +225,6 @@
         {
             Random random = new Random();
 
-            // wenn straße dann spetzial fall
             int pick = 0;
             if (_possibleMoves.Count > 10)
             {
@@ -234,7 +233,6 @@
             
             Move move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced = Data.GridType.Housing;
-        
             
             if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
                // && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
