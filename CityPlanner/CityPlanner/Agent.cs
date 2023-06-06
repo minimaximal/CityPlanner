@@ -192,8 +192,8 @@
         private void RemoveFromPossibleMoves(Move move)
         {
             int index = _possibleMoves.IndexOf(move); // index should always be 0
-            // Goes and removes the move from posible list and checks sorted nighboirs for dupes 
-            if (index > 0) //index- 1 >= 0 
+            // removes the move from posibleMoves list and checks sorted neighbors for dupes 
+            if (index > 0)
             {
                 Move ontTop = _possibleMoves[index - 1];
                 if (ontTop.X == move.X &&
