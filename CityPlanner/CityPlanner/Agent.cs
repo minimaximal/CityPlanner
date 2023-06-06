@@ -218,9 +218,7 @@
 
         private bool IsIllegalStreet(Move move)
         {
-            //if not a street -> false
-            //if this move is a street ->  is legal street?
-
+            // -> false if not a street or street invalid
             if (move.GridType != Data.GridType.Street) return false;
             return !_map.ValidateStreet(move);
         }
