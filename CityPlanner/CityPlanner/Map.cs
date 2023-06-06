@@ -34,6 +34,7 @@ public class Map : ICloneable
         }
     }
 
+
     private static GridElement NewGridElement(Data.GridType gridType, GridElement old)
     {
         return gridType switch
@@ -46,8 +47,6 @@ public class Map : ICloneable
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }
-
-
 
     public void CalculateDependencies()
     {
@@ -68,6 +67,7 @@ public class Map : ICloneable
             }
         }
     }
+
     public void AddMove(Move move)
     {
         map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
@@ -77,6 +77,7 @@ public class Map : ICloneable
         }
     }
 
+
     private void AddDependenciesFor(int x, int y)
     {
         AddDependenciesFor(new Move(x, y)
@@ -85,6 +86,7 @@ public class Map : ICloneable
             }
         );
     }
+
     private void AddDependenciesFor(Move move)
     {
         
