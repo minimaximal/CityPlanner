@@ -5,10 +5,10 @@ namespace CityPlanner;
 
 public class Map : ICloneable
 {
-    private GridElement[,] map;
+    private GridElement[,] _map;
     private int _population;
     private readonly int _targetPopulation;
-    private int Score;
+    private int _score;
 
     public readonly int SizeX;
     public readonly int SizeY;
@@ -24,12 +24,12 @@ public class Map : ICloneable
         _targetPopulation = targetPopulation;
         SizeX = x;
         SizeY = y;
-        map = new GridElement[x, y];
+        _map = new GridElement[x, y];
         for (int i = 0; i < x; i++)
         {
             for (int j = 0; j < y; j++)
             {
-                map[i, j] = new GridElement();
+                _map[i, j] = new GridElement();
             }
         }
     }
@@ -62,7 +62,7 @@ public class Map : ICloneable
                 }
                 else 
                 {
-                    map[i, j] = new GridElement();
+                    _map[i, j] = new GridElement();
                 }
             }
         }
@@ -70,7 +70,7 @@ public class Map : ICloneable
 
     public void AddMove(Move move)
     {
-        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
+        _map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         if (move.GridType == Data.GridType.Street)
         {
            AddDependenciesFor(move);
@@ -113,7 +113,7 @@ public class Map : ICloneable
         
         CalculateDependencies();
 
-        foreach (var gridElement in map)
+        foreach (var gridElement in _map)
         {
             globalScore += gridElement.CalculateScore();
             switch (gridElement.GetGridType())
@@ -151,7 +151,7 @@ public class Map : ICloneable
         comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
         globalScore += comercialScore;
 
-        Score = globalScore;
+        _score = globalScore;
         return globalScore;
     }
 
@@ -169,7 +169,7 @@ public class Map : ICloneable
     {
         if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
         {
-            return map[x, y];
+            return _map[x, y];
         }
         else
         {
@@ -191,7 +191,7 @@ public class Map : ICloneable
             {
                 //todo this drops the type and does not work  
                 //not sure on this one write a test for that
-                clone.map[x, y] = map[x, y].Clone();
+                clone._map[x, y] = _map[x, y].Clone();
 
                 //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
             }
@@ -203,7 +203,7 @@ public class Map : ICloneable
 
     public int GetScore()
     {
-        return Score;
+        return _score;
     }
 
 
@@ -212,7 +212,7 @@ public class Map : ICloneable
     public void Display()
     {
         Console.Write("------------------------------\n");
-        Console.WriteLine("score:" + Score);
+        Console.WriteLine("score:" + _score);
         Console.WriteLine("People:" + _population);
         Console.WriteLine("poulation Dif Score:" + poulationScore);
         Console.WriteLine("industryRatioScore:" + industryRatioScore);
@@ -230,7 +230,7 @@ public class Map : ICloneable
                     continue;
                 }*/
 
-                switch (map[x, y].GetGridType())
+                switch (_map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
                         Console.BackgroundColor = ConsoleColor.Blue;
