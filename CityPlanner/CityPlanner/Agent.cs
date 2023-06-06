@@ -263,7 +263,6 @@
                 }
             }
             
-            // fürge wo und wass zusammen und gib dies zurück
             move.GridType = toBePlaced;
             return move;
         }
