@@ -89,13 +89,13 @@ public class Map : ICloneable
 
     private void AddDependenciesFor(Move move)
     {
-        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
+        int range = (int)Math.Ceiling(Data.GridTypeMaxRange[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
             for (int y = move.Y - range; y < move.Y + range; y++)
             {
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
+                if (distance <= Data.GridTypeMaxRange[move.GridType] && !(move.X == x && move.Y == y))
                 {
                     GetGridElement(x, y)?.AddDependency(move.GridType, distance);
                 }
