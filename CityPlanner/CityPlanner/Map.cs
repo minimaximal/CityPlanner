@@ -59,7 +59,7 @@ public class Map : ICloneable
                 if (gridElement.GetGridType() == Data.GridType.Street) continue;
                 if (gridElement.isInRangeOfStreet() )
                 {
-                    addDependenciesFor(i, j);
+                    AddDependenciesFor(i, j);
                 }
                 else 
                 {
@@ -77,7 +77,7 @@ public class Map : ICloneable
         }
     }
 
-    private void addDependenciesFor(int x, int y)
+    private void AddDependenciesFor(int x, int y)
     {
         addDependenciesFor(new Move(x, y)
             {
