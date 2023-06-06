@@ -163,7 +163,7 @@
                 {
                     move = _parentMoves[0];
                     _parentMoves.RemoveAt(0);
-                    //if parent move is bloced continue on with the next
+                    //if parent move is blocked continue on with the next
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
