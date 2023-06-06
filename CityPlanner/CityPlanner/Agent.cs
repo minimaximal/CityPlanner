@@ -232,8 +232,7 @@
             }
             
             Move move = _possibleMoves.ElementAt(pick);
-            Data.GridType toBePlaced = Data.GridType.Housing;
-            
+            Data.GridType toBePlaced;
             if (_map.ValidateStreet(move)
             && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
             {
