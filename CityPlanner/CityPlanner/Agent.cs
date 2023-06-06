@@ -110,12 +110,11 @@
         private void FillGapAt(int index)
         {
             Move gapBeginnig = _possibleMoves.ElementAt(index);
-            int y;
             int gapOffset = 0;
             do
             {
                 int x = (gapBeginnig.X + gapOffset + 1) % _map.SizeX;
-                y = x == 0 ? gapBeginnig.Y + 1 : gapBeginnig.Y;
+                int y = x == 0 ? gapBeginnig.Y + 1 : gapBeginnig.Y;
                 if (_map.GetGridElement(x, y).GetGridType() != Data.GridType.Empty)
                 {
                     if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Street)
