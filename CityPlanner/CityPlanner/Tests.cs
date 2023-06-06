@@ -129,7 +129,7 @@ namespace CityPlanner{
 
             Agent childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
 
-            Assert.AreEqual(childAgent.isinList(new Move(1, 1)), parentAgent.isinList(new Move(1, 1)));
+            Assert.AreEqual(childAgent.IsInList(new Move(1, 1)), parentAgent.IsInList(new Move(1, 1)));
         }
         
         
