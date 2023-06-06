@@ -1,7 +1,7 @@
 namespace CityPlanner;
 public static class Data
 {
-    //Empty must be the last in the list otherwise Agent.cs:getRandomMove() does not work
+    //Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
     public enum GridType
     {
         Housing,
@@ -25,6 +25,6 @@ public static class Data
 
     public static int SizeX; // this is used in the sort move context // at that point we dont have access to the map
     public static int ImportQuota;
-    public static int optimalIndustryAmount;
+    public static int OptimalIndustryAmount;
     public static List<(int, int)> InitialStreets;
 }

@@ -142,7 +142,7 @@ public class Map : ICloneable
         globalScore += poulationScore;
 
         //Import quota
-        int industryDiff = industryAmount - Data.optimalIndustryAmount;
+        int industryDiff = industryAmount - Data.OptimalIndustryAmount;
         industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
