@@ -271,7 +271,7 @@
         }
 
 
-        //DEBUG helper funktions
+        //DEBUG helper methods
         public List<int> IsInList(Move move)
         {
             List<int> hits = new List<int>();
