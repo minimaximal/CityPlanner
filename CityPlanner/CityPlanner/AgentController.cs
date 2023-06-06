@@ -25,7 +25,7 @@
             Data.InitialStreets = startingPoints.ToList();
         }
 
-        public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
+        public Agent ExecuteEvolutionStep()
         {
             if (_agents.Count == 0)
             {
