@@ -11,7 +11,7 @@
         private Agent _bestOfAllTime;
         private int _moveLimitEstimate;
 
-        private bool includeBestOfAllTime = true;
+        private bool _includeBestOfAllTime = true;
 
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
@@ -36,7 +36,7 @@
                 CreateNewAgents(_agentAmount, _agents);
             }
 
-            includeBestOfAllTime = true;
+            _includeBestOfAllTime = true;
 
 
             _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimitEstimate));
@@ -46,7 +46,7 @@
             if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) ;
             {
                 _bestOfAllTime = generationalBestAgent;
-                includeBestOfAllTime = false;
+                _includeBestOfAllTime = false;
             }
             return generationalBestAgent;
         }
@@ -64,7 +64,7 @@
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
-            if (includeBestOfAllTime)
+            if (_includeBestOfAllTime)
                 bestThreeAgents[2] = _bestOfAllTime;
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
