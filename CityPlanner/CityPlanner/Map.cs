@@ -89,7 +89,6 @@ public class Map : ICloneable
 
     private void AddDependenciesFor(Move move)
     {
-        
         int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
