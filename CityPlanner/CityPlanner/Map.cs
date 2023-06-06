@@ -141,12 +141,12 @@ public class Map : ICloneable
         poulationScore = (int)(-0.05 * populationDif * populationDif + 1000);
         globalScore += poulationScore;
 
-        //Importquota
+        //Import quota
         int industryDiff = industryAmount - Data.optimalIndustryAmount;
         industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
-        //commercialquota
+        //commercial quota
         int commercialDiff = commercialAmount - (_targetPopulation / 550);
         comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
         globalScore += comercialScore;
