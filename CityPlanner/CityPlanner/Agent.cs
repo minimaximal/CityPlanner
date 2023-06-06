@@ -226,7 +226,6 @@
     
         private Move GetRandomMove()
         {
-            // get a tandom type to be placed
             Random random = new Random();
 
             // wenn straße dann spetzial fall
