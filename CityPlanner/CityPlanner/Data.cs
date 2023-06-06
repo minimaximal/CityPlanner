@@ -11,7 +11,7 @@ public static class Data
         Empty
     };
 
-    //holds amount wthout Empty 
+    //holds the amount of grid types excluding Empty
     public static readonly int GridTypeAmount = Enum.GetValues(typeof(Data.GridType)).Length - 1;
     
     public static readonly Dictionary<GridType, double> GridTypeMaxRange = new Dictionary<GridType, double>()
