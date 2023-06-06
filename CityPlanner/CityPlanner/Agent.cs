@@ -225,13 +225,8 @@
     
         private Move GetRandomMove()
         {
-            // get a tandom type to be placed
             Random random = new Random();
-
-            // wenn straße dann spezial fall
-
             Move move = _possibleMoves.ElementAt(0);
-
 
             Data.GridType toBePlaced;
             if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
