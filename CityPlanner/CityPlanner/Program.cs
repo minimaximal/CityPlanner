@@ -16,7 +16,7 @@ Map bestMap = null;
 Map map = null;
 for (int j = 0; j < 1000000; j++)
 {
-    map =  appController.nextGeneration();
+    map =  appController.NextGeneration();
 
     if (j % 100 == 0)
     {

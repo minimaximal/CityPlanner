@@ -2,28 +2,28 @@
 
 public class AppController
 {
-   private AgentController agentController;
-   private int generation;
+   private AgentController _agentController;
+   private int _generation;
 
    public AppController(int population, int sizeX, int sizeY, int importQuota)
    {
       Data.ImportQuota = importQuota;
       Data.OptimalIndustryAmount = (population * ((100 - Data.ImportQuota) / 100) / 1250);
-      agentController = new AgentController((sizeX, sizeY), new (int, int)[] { (sizeX / 2, sizeY / 2) }, population, 20);
-      generation = 0;
+      _agentController = new AgentController((sizeX, sizeY), new (int, int)[] { (sizeX / 2, sizeY / 2) }, population, 20);
+      _generation = 0;
    }
 
 
-   public Map nextGeneration()
+   public Map NextGeneration()
    {
-      Agent bestAgent = agentController.ExecuteEvolutionStep();
-      generation++;
+      Agent bestAgent = _agentController.ExecuteEvolutionStep();
+      _generation++;
       return bestAgent.GetMap();
    }
 
-   public int getGeneration()
+   public int GetGeneration()
    {
-      return generation;
+      return _generation;
    }
 
 }

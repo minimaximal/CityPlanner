@@ -34,7 +34,7 @@ public class API
 
     public void nextGeneration()
     {
-        Map newMap = appctrl.nextGeneration();
+        Map newMap = appctrl.NextGeneration();
         if(currentMap == null&&newMap!=null) { setNewMap(newMap);return; }
         if (newMap.GetScore() > currentMap.GetScore())
         {
@@ -124,7 +124,7 @@ public class API
 
     public int getGeneration()
     {
-        return appctrl.getGeneration();
+        return appctrl.GetGeneration();
     }
 
 
