@@ -233,11 +233,9 @@
             // wenn straße dann spezial fall
 
             Move move = _possibleMoves.ElementAt(0);
-            
-             
-            Data.GridType toBePlaced = Data.GridType.Housing;
-        
-            
+
+
+            Data.GridType toBePlaced;
             if (_map.ValidateStreet(move) //&&random.NextDouble() < 0.75 ) // staßen changese wenn sie möglich ist
                // && (random.NextDouble() < -0.045 * _map.GetGridElement(move).getStraßenAnz() + 1.045))
             && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
