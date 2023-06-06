@@ -270,8 +270,6 @@
         public int GetMaxRemainingMoves()
         {
             return _possibleMoves.Count;
-            // this is not true 
-            // in 1 move  1or2 moves may be removed from _possibleMoves 
         }
 
 
