@@ -4,8 +4,6 @@
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Imaging;
-using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -22,11 +20,12 @@ namespace CityPlannerFrontend
    public sealed partial class MapView : Page
    {
       public static API Interface { get; set; }
+      public static GridTools GridTool;
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
       private bool _pause = false;
 
-      private readonly BitmapImage[] _textureBitmapImages;
+      
 
       private string _gridCount;
       private string _satisfaction;
@@ -36,15 +35,12 @@ namespace CityPlannerFrontend
       private string _lastNewMap;
 
 
+
       public MapView()
       {
          this.InitializeComponent();
 
-         _textureBitmapImages = new BitmapImage[255];
-         for (var i = 0; i < 255; i++)
-         {
-            _textureBitmapImages[i] = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + i + ".png"));
-         }
+         
 
          Task task = new(() => { _ = BackendLoopAsync(); });
          task.Start();
@@ -83,7 +79,7 @@ namespace CityPlannerFrontend
             _dispatcherQueue.TryEnqueue(() =>
             {
                // update UI elements with the updated variable values
-               MapGridScrollViewer.Content = GridGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               MapGridScrollViewer.Content = GridTool.GridGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                GridCount.Text = _gridCount;
                Satisfaction.Text = _satisfaction;
                AvarageBuildingLevel.Text = _avarageBuildingLevel;
@@ -119,48 +115,6 @@ namespace CityPlannerFrontend
       }
 
 
-      private Grid GridGenerator(byte[,] map)
-      {
-         var grid = new Grid();
-         var rows = map.GetLength(0);
-         var cols = map.GetLength(1);
-
-
-         // 1. prepare RowDefinitions
-         for (var i = 0; i < rows; i++)
-         {
-            var row = new RowDefinition
-            {
-               Height = new GridLength(0, GridUnitType.Auto)
-            };
-            grid.RowDefinitions.Add(row);
-         }
-
-         // 2. prepare ColumnDefinitions
-         for (var j = 0; j < cols; j++)
-         {
-            var column = new ColumnDefinition
-            {
-               Width = new GridLength(0, GridUnitType.Auto)
-            };
-            grid.ColumnDefinitions.Add(column);
-         }
-
-         // 3. add each item and set row and column
-         for (var i = 0; i < rows; i++)
-         {
-            for (var j = 0; j < cols; j++)
-            {
-               var tile = new Image
-               {
-                  Source = _textureBitmapImages[map[i, j]]
-               };
-               grid.Children.Add(tile);
-               Grid.SetColumn(tile, j);
-               Grid.SetRow(tile, i); // set row too!
-            }
-         }
-         return grid;
-      }
+      
    }
 }

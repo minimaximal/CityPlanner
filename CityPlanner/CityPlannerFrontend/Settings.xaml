@@ -26,7 +26,8 @@
             <NumberBox Value="{x:Bind Path=Y, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
             <TextBlock HorizontalAlignment="Center" Text="Importquote"/>
             <NumberBox Value="{x:Bind Path=Importquota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
-            <Button Click="Button_Click" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
+            <Button Click="Button_Click_MapEditor" HorizontalAlignment="Right" Margin="40">Karte anpassen</Button>
+            <Button Click="Button_Click_MapView" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
         </StackPanel>
 
     </Grid>
