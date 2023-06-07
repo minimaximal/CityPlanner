@@ -9,9 +9,10 @@
         private readonly int _targetPopulation;
         private readonly Map _defaultMap;
         private Agent _bestOfAllTime;
-        private int moveLimitGues;
+        private int _moveLimitEstimate;
 
-        private bool includeBestOfAllTime = true;
+        private bool _includeBestOfAllTime = true;
+
 
         public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
             int agentAmount)
@@ -25,7 +26,7 @@
             Data.InitialStreets = startingPoints.ToList();
         }
 
-        public Agent ExecuteEvolutionStep() //didnt know better name, basically goes through one generation of agents
+        public Agent ExecuteEvolutionStep()
         {
             if (_agents.Count == 0)
             {
@@ -36,17 +37,16 @@
                 CreateNewAgents(_agentAmount, _agents);
             }
 
-            includeBestOfAllTime = true;
+            _includeBestOfAllTime = true;
 
-
-            _agents.AsParallel().ForAll(agent => agent.MakeNMoves(moveLimitGues));
+            _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimitEstimate));
             _agents.AsParallel().ForAll(agent => agent.CalculateScore());
 
             Agent generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
             if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) ;
             {
                 _bestOfAllTime = generationalBestAgent;
-                includeBestOfAllTime = false;
+                _includeBestOfAllTime = false;
             }
             return generationalBestAgent;
         }
@@ -64,7 +64,7 @@
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
-            if (includeBestOfAllTime)
+            if (_includeBestOfAllTime)
                 bestThreeAgents[2] = _bestOfAllTime;
             _agents.Clear();
             (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
@@ -85,7 +85,7 @@
         private Map CreateNewMap()
         {
             // todo wenn das frontend eine map übergibt müssen die EMPTY hier gezählt werden
-            moveLimitGues = _mapSize.x * _mapSize.y - 1;
+            _moveLimitEstimate = _mapSize.x * _mapSize.y - 1;
 
             Map map = new Map(_mapSize.x, _mapSize.y, _targetPopulation);
             foreach ((int x, int y) in _stratingPoints)

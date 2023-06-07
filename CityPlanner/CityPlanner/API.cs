@@ -34,9 +34,9 @@ public class API
 
     public void nextGeneration()
     {
-        Map newMap = appctrl.nextGeneration();
+        Map newMap = appctrl.NextGeneration();
         if(currentMap == null&&newMap!=null) { setNewMap(newMap);return; }
-        if (newMap.getScore() > currentMap.getScore())
+        if (newMap.GetScore() > currentMap.GetScore())
         {
             setNewMap(newMap);
         }
@@ -57,7 +57,7 @@ public class API
     // function call looks like : API.ToFrontend(map)
     public Byte[,] getMapToFrontend()
     {
-        Score = currentMap.getScore();
+        Score = currentMap.GetScore();
         People = currentMap.GetPeople(); 
         foreach (var stat in stats.Keys)
         {
@@ -124,7 +124,7 @@ public class API
 
     public int getGeneration()
     {
-        return appctrl.getGeneration();
+        return appctrl.GetGeneration();
     }
 
 
