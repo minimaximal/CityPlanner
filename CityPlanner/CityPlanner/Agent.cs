@@ -31,11 +31,6 @@
             BasicSetup(map);
         }
 
-        public void CalculateScore()
-        {
-            Score = _map.CalculateScore();
-        }
-        
         private void BasicSetup(Map map)
         {
             _map = map;
@@ -49,7 +44,11 @@
             _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
         }
 
-       
+        public void CalculateScore()
+        {
+            Score = _map.CalculateScore();
+        }
+
         private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
