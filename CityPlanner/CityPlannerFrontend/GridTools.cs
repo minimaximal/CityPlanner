@@ -52,15 +52,29 @@ public class GridTools
         {
             for (var j = 0; j < cols; j++)
             {
-                var tile = new Image
+               
+                var img = new Image
                 {
                     Source = _textureBitmapImages[map[i, j]]
                 };
+                var tile = new Button
+                {
+                    Content = img,
+                    Padding = new Thickness(0),
+                    BorderThickness = new Thickness(0),
+                    CornerRadius = new CornerRadius(0),
+                    ClickMode = ClickMode.Press
+                };
+                //tile.Click += MapEditor.GridTile_click;
                 grid.Children.Add(tile);
                 Grid.SetColumn(tile, j);
                 Grid.SetRow(tile, i); // set row too!
             }
+
+            
         }
+
+        
         return grid;
     }
 }
