@@ -182,7 +182,52 @@
             _moves.Add(move);
             _map.AddMove(move);
         }
-        
+
+        private bool IsIllegalStreet(Move move)
+        {
+            // -> false if not a street or street invalid
+            if (move.GridType != Data.GridType.Street) return false;
+            return !_map.ValidateStreet(move);
+        }
+
+        private Move GetRandomMove()
+        {
+            Random random = new Random();
+
+            int pick = 0;
+            if (_possibleMoves.Count > 10)
+            {
+                pick = random.Next() % 10;
+            }
+
+            Move move = _possibleMoves.ElementAt(pick);
+            Data.GridType toBePlaced;
+            if (_map.ValidateStreet(move)
+            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
+            {
+                toBePlaced = Data.GridType.Street;
+            }
+            else
+            {
+                double rand = random.NextDouble();
+                if (rand < 0.5) // 50% Cahnce
+                {
+                    toBePlaced = Data.GridType.Housing;
+                }
+                else if (rand < 0.8) // 30% Chance
+                {
+                    toBePlaced = Data.GridType.Commercial;
+                }
+                else // 20% Chance
+                {
+                    toBePlaced = Data.GridType.Industry;
+                }
+            }
+
+            move.GridType = toBePlaced;
+            return move;
+        }
+
         private void RemoveFromPossibleMoves(Move move)
         {
             int index = _possibleMoves.IndexOf(move); // index should always be 0
@@ -209,53 +254,7 @@
 
             _possibleMoves.Remove(move);
         }
-
-        private bool IsIllegalStreet(Move move)
-        {
-            // -> false if not a street or street invalid
-            if (move.GridType != Data.GridType.Street) return false;
-            return !_map.ValidateStreet(move);
-        }
-
     
-        private Move GetRandomMove()
-        {
-            Random random = new Random();
-
-            int pick = 0;
-            if (_possibleMoves.Count > 10)
-            {
-                pick = random.Next()%10;
-            }
-            
-            Move move = _possibleMoves.ElementAt(pick);
-            Data.GridType toBePlaced;
-            if (_map.ValidateStreet(move)
-            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
-            {
-                toBePlaced = Data.GridType.Street;
-            }
-            else
-            {
-                double rand = random.NextDouble();
-                if(rand < 0.5) // 50% Cahnce
-                {
-                    toBePlaced = Data.GridType.Housing;
-                }
-                else if(rand < 0.8) // 30% Chance
-                {
-                    toBePlaced = Data.GridType.Commercial;
-                }
-                else // 20% Chance
-                {
-                    toBePlaced = Data.GridType.Industry;
-                }
-            }
-            
-            move.GridType = toBePlaced;
-            return move;
-        }
-
 
         #region DEBUG
 
