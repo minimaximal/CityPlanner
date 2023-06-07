@@ -137,8 +137,8 @@ public class Map : ICloneable
         }
 
         //Population Scoring
-        int populationDif = _population - _targetPopulation;
-        poulationScore = (int)(-0.05 * populationDif * populationDif + 1000);
+        int populationDiff = _population - _targetPopulation;
+        poulationScore = (int)(-0.05 * populationDiff * populationDiff + 1000);
         globalScore += poulationScore;
 
         //Import quota
