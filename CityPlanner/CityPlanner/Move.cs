@@ -26,13 +26,12 @@ public class Move : IComparable
     public double DistanceToCenter()
     {
         double minDistance = 1000;
-        double distance = 1000;
         foreach (var (x,y) in Data.InitialStreets)
         {
             int a = X - x;
             int b = Y - y;
-            distance = Math.Sqrt(a*a +b*b);
-             if (distance < minDistance)
+            double distance = Math.Sqrt(a * a + b * b);
+            if (distance < minDistance)
                  minDistance = distance;    
 
         }

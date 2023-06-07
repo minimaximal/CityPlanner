@@ -16,7 +16,7 @@ Map bestMap = null;
 Map map = null;
 for (int j = 0; j < 1000000; j++)
 {
-    map =  appController.nextGeneration();
+    map =  appController.NextGeneration();
 
     if (j % 100 == 0)
     {
@@ -25,7 +25,7 @@ for (int j = 0; j < 1000000; j++)
         map.Display();
     }
 
-    if (bestMap == null || bestMap.getScore() < map.getScore())
+    if (bestMap == null || bestMap.GetScore() < map.GetScore())
     {
 
         bestMap = map;
