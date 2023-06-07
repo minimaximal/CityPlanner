@@ -44,11 +44,6 @@
             _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
         }
 
-        public void CalculateScore()
-        {
-            Score = _map.CalculateScore();
-        }
-
         private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
@@ -139,6 +134,11 @@
                     _possibleMoves.Add(new Move(_lastPossibleMove));
                 }
             }
+        }
+
+        public void CalculateScore()
+        {
+            Score = _map.CalculateScore();
         }
 
         public void MakeNMoves(int n)
