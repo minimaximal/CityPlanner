@@ -101,7 +101,7 @@
             }
 
             _possibleMoves.Remove(_firstPossibleMove);
-            _possibleMoves.Remove(_lastPossibleMove);//remove again since they were just used as a border
+            _possibleMoves.Remove(_lastPossibleMove);//remove moves again since they were just used as a border
 
             AddFirstAndLastPossibleMoveToPossibleMovesIfMissing();
         }
@@ -258,7 +258,8 @@
         }
 
 
-        //DEBUG helper methods
+        #region DEBUG
+
         public List<int> IsInList(Move move)
         {
             List<int> hits = new List<int>();
@@ -277,5 +278,7 @@
         {
             return _map;
         }
+
+        #endregion
     }
 }
