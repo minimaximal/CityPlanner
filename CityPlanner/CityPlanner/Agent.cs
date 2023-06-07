@@ -257,18 +257,6 @@
             return move;
         }
 
-        public void Display()
-        {
-            Console.WriteLine("Score:" + Score);
-            Console.WriteLine("Population: " + _map.GetPeople());
-            _map.Display();
-        }
-
-        public int GetMaxRemainingMoves()
-        {
-            return _possibleMoves.Count;
-        }
-
 
         //DEBUG helper methods
         public List<int> IsInList(Move move)
