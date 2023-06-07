@@ -189,11 +189,7 @@ public class Map : ICloneable
         {
             for (int y = 0; y < SizeY; y++)
             {
-                //todo this drops the type and does not work  
-                //not sure on this one write a test for that
                 clone._map[x, y] = _map[x, y].Clone();
-
-                //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
             }
         }
 
