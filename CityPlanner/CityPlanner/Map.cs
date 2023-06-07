@@ -160,6 +160,11 @@ public class Map : ICloneable
         return _population;
     }
 
+    public bool ValidateStreet(Move move)
+    {
+        return GetGridElement(move)!.IsValidStreet();
+    }
+
     public GridElement? GetGridElement(Move coordinates)
     {
         return GetGridElement(coordinates.X, coordinates.Y);
@@ -175,11 +180,6 @@ public class Map : ICloneable
         {
             return null;
         }
-    }
-
-    public bool ValidateStreet(Move move)
-    {
-        return GetGridElement(move)!.IsValidStreet();
     }
 
     public object Clone()
