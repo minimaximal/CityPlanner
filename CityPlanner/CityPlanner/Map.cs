@@ -1,11 +1,13 @@
-﻿using System.Diagnostics;
+﻿//Author: Kevin Kern, Sander Stella, Antoni Paul
+
+using System.Diagnostics;
 using CityPlanner.Grid;
 
 namespace CityPlanner;
 
 public class Map : ICloneable
 {
-    private GridElement[,] _map;
+    private readonly GridElement[,] _map;
     private int _population;
     private readonly int _targetPopulation;
     private int _score;
@@ -13,10 +15,9 @@ public class Map : ICloneable
     public readonly int SizeX;
     public readonly int SizeY;
     
-    //debug helpers
-    private int poulationScore = 0;
-    private int industryRatioScore = 0;
-    private int comercialScore = 0;
+    private int _populationScore = 0;
+    private int _industryRatioScore = 0;
+    private int _commercialScore = 0;
 
 
     public Map(int x, int y, int targetPopulation)
@@ -51,7 +52,8 @@ public class Map : ICloneable
         };
     }
 
-    public void CalculateDependencies()
+    //calculates Dependencies for the whole Map and every mapelement except for predefined elements and streets
+    private void CalculateDependencies()
     {
         for (int i = 0; i < SizeX; i++)
         {
@@ -86,7 +88,7 @@ public class Map : ICloneable
     {
         AddDependenciesFor(new Move(x, y)
             {
-                GridType   =  GetGridElement(x, y).GetGridType()
+                GridType   =  GetGridElement(x, y)!.GetGridType()
             }
         );
     }
@@ -126,34 +128,28 @@ public class Map : ICloneable
                     _population += ((Housing)gridElement).GetPeople();
                     break;
                 case Data.GridType.Industry:
-                    if (gridElement.GetScore() > -8000)
-                    {
-                        industryAmount++;
-                    }
+                    industryAmount++;
                     break;
                 case Data.GridType.Commercial:
-                    if (gridElement.GetScore() > -8000)
-                    {
-                        commercialAmount++;
-                    }
+                    commercialAmount++;
                     break;
             }
         }
 
         //Population Scoring
         int populationDiff = _population - _targetPopulation;
-        poulationScore = (int)(-0.05 * populationDiff * populationDiff + 1000);
-        globalScore += poulationScore;
+        _populationScore = (int)(-0.05 * populationDiff * populationDiff + 1000);
+        globalScore += _populationScore;
 
         //Import quota
         int industryDiff = industryAmount - Data.OptimalIndustryAmount;
-        industryRatioScore = -(industryDiff * industryDiff + 10) * 7000;
-        globalScore += industryRatioScore;
+        _industryRatioScore = -(industryDiff * industryDiff + 10) * 7000;
+        globalScore += _industryRatioScore;
 
         //commercial quota
         int commercialDiff = commercialAmount - (_targetPopulation / 550);
-        comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
-        globalScore += comercialScore;
+        _commercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
+        globalScore += _commercialScore;
 
         _score = globalScore;
         return globalScore;
@@ -164,11 +160,12 @@ public class Map : ICloneable
         return _population;
     }
 
+    //returns true if move is valid for placing a street
     public bool ValidateStreet(Move move)
     {
         return GetGridElement(move)!.IsValidStreet();
     }
-
+    
     public GridElement? GetGridElement(Move coordinates)
     {
         return GetGridElement(coordinates.X, coordinates.Y);
@@ -214,21 +211,15 @@ public class Map : ICloneable
         Console.Write("------------------------------\n");
         Console.WriteLine("score:" + _score);
         Console.WriteLine("People:" + _population);
-        Console.WriteLine("poulation Dif Score:" + poulationScore);
-        Console.WriteLine("industryRatioScore:" + industryRatioScore);
-        Console.WriteLine("comertialScore:" + comercialScore);
+        Console.WriteLine("poulation Dif Score:" + _populationScore);
+        Console.WriteLine("industryRatioScore:" + _industryRatioScore);
+        Console.WriteLine("comertialScore:" + _commercialScore);
 
 
         for (int y = 0; y < SizeY; y++)
         {
             for (int x = 0; x < SizeX; x++)
             {
-                /*if (map[x, y].getScore() < -8888)
-                {
-                    Console.BackgroundColor = ConsoleColor.White;
-                    Console.Write(".");
-                    continue;
-                }*/
 
                 switch (_map[x, y].GetGridType())
                 {
@@ -274,14 +265,6 @@ public class Map : ICloneable
             }
 
             Console.ResetColor();
-            /*
-            Console.Write("\t\t");
-
-            for (int x = 0; x < SizeX; x++)
-            {
-                Console.Write(map[x, y].getScore() +"|");
-            }
-*/
             Console.Write("\n");
         }
     }
