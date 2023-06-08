@@ -32,7 +32,7 @@ namespace CityPlannerFrontend
 
       private void Button_Click_MapView(object sender, RoutedEventArgs e)
       {
-         if (!inputValidation()) return;
+         if (!InputValidation()) return;
          var map = new byte[X, Y];
          var @interface = new API(Population, map, ImportQuota);
          MapView.Interface = @interface;
@@ -43,7 +43,7 @@ namespace CityPlannerFrontend
 
       private void Button_Click_MapEditor(object sender, RoutedEventArgs e)
       {
-         if (!inputValidation()) return;
+         if (!InputValidation()) return;
          MapEditor.Population = Population;
          MapEditor.ImportQuota = ImportQuota;
          MapEditor.X = X;
@@ -54,10 +54,16 @@ namespace CityPlannerFrontend
 
 
 
-      private bool inputValidation()
+      private bool InputValidation()
       {
-         return X != 0 && Y != 0;
-         // TODO Warning Popup that Map needs at least size ...
+          if (X >= 5 && Y >= 5)
+          {
+              return true;
+          }
+
+          Maptoosmall.IsOpen = true;
+          return false;
+
       }
    }
 }
