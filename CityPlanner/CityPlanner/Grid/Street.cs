@@ -30,7 +30,8 @@ public class Street : GridElement
         {
             Dependency[Data.GridType.Highway].Sort();
             double closest = Dependency[Data.GridType.Highway].First();
-            Score += (int)(-1000 * closest + 10000);
+          
+            Score += (int) Math.Pow(5,(6-closest));
         }
         return Score;
     }

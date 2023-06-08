@@ -28,7 +28,7 @@ public static class Data
         { GridType.Sight, 6.0 },
         { GridType.Street, 3.5 },
         { GridType.Blocked, 0 },
-        { GridType.Highway, 5 },
+        { GridType.Highway, 6 },
         { GridType.Empty, 0 }
     };
 
