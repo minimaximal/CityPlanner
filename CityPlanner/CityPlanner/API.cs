@@ -162,7 +162,7 @@ public class API
                 _stats[Data.GridType.Street]++;
                 return 31;
             case Data.GridType.Highway:
-                stats[Data.GridType.Highway]++;
+                _stats[Data.GridType.Highway]++;
                 return 32;
             case Data.GridType.Subway:
                 _stats[Data.GridType.Subway]++;
