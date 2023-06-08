@@ -5,6 +5,7 @@ public class Blocked : GridElement
     public Blocked(GridElement gridElement) : base(gridElement)
     {
     }
+    
     public override Data.GridType GetGridType()
     {
         return Data.GridType.Blocked;
