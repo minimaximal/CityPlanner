@@ -204,7 +204,7 @@
             Move move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced;
             if (_map.ValidateStreet(move)
-            && random.NextDouble() < _map.GetGridElement(move)!.getwarscheinlichkeit())
+            && random.NextDouble() < _map.GetGridElement(move)!.GetProbability())
             {
                 toBePlaced = Data.GridType.Street;
             }

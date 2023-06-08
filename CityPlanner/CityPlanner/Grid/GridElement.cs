@@ -1,11 +1,15 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern, Sander Stella
+
+namespace CityPlanner.Grid;
 
 public class GridElement
 {
     protected int Score;
     protected int Level = 1;
+    //holds Lists that contain distances to the next Mapelement
     protected IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
 
+    //Basic Constructor for initializing map
     public GridElement()
     {
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
@@ -13,12 +17,8 @@ public class GridElement
             Dependency.Add(gridType, new List<double>());
         }
     }
-    
-    public int getScore()
-    {
-        return Score;
-    }
 
+    //Advanced Constructor for replacing existing Mapelements with new ones
     protected GridElement(GridElement oldGridElement)
     {
         foreach (var dependency in oldGridElement.Dependency)
@@ -29,7 +29,12 @@ public class GridElement
         Score = oldGridElement.Score;
         Level = oldGridElement.Level;
     }
-
+    
+    public int GetScore()
+    {
+        return Score;
+    }
+    
     public virtual int CalculateScore()
     {
         return -100;
@@ -39,8 +44,7 @@ public class GridElement
     {
         Level = 1;
     }
-
-
+    
     public virtual void AddDependency(Data.GridType gridType, double distance)
     {
         if (gridType == Data.GridType.Street)
@@ -52,6 +56,7 @@ public class GridElement
         return Data.GridType.Empty;
     }
 
+    //checks if Mapelement could possibly be a street
     public bool IsValidStreet()
     {
         Dependency[Data.GridType.Street].Sort();
@@ -69,14 +74,10 @@ public class GridElement
         return new GridElement(this);
     }
     
-    private double fn2(double x)
+    //returns probability for a Mapelement becoming a street instead
+    public double GetProbability()
     {
-        return  0.8-0.2*(x );
-    }
-    
-    public double getwarscheinlichkeit()
-    {
-        //Retuns valu beeween 0 and 1 
+        //Returns value between 0 and 1 
 
         Dependency[Data.GridType.Street].Sort();
         int counter = 0;
@@ -85,10 +86,11 @@ public class GridElement
             counter++;
         }
         
-        return fn2(counter);
+        return 0.8-0.2*(counter );
     }
-
-    public virtual bool isInRangeOfStreet()
+    
+    //checks if there is a street nearby according to the rules for the specific Mapelement
+    public virtual bool IsInRangeOfStreet()
     {
         return false;
     }

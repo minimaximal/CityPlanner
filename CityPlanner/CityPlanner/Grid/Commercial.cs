@@ -1,4 +1,6 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern, Sander Stella
+
+namespace CityPlanner.Grid;
 
 public class Commercial : GridElement
 {
@@ -67,7 +69,7 @@ public class Commercial : GridElement
     }
     
 
-    public override bool isInRangeOfStreet()
+    public override bool IsInRangeOfStreet()
     {
         return IsValidStreet();
     }

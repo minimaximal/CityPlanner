@@ -1,4 +1,6 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern, Sander Stella
+
+namespace CityPlanner.Grid;
 
 public class Industry : GridElement
 {
@@ -20,8 +22,6 @@ public class Industry : GridElement
                 if (distance <= 3.5)
                      Dependency[gridType].Add(distance);
                 break;
-            // case Data.GridType.Housing:   //who knows...
-            // case Data.GridType.Commercial:   //who knows...
         }
     }
     
@@ -48,7 +48,7 @@ public class Industry : GridElement
         };
     }
 
-    public override bool isInRangeOfStreet()
+    public override bool IsInRangeOfStreet()
     {
         return IsValidStreet();
     }

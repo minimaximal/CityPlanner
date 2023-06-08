@@ -1,8 +1,10 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern, Sander Stella
+
+namespace CityPlanner.Grid;
 
 public class Housing : GridElement
 {
-    private int people;
+    private int _people;
 
     public Housing(GridElement gridElement) : base(gridElement)
     {
@@ -15,7 +17,6 @@ public class Housing : GridElement
             case Data.GridType.Street:
                 Dependency[gridType].Add(distance);
                 break;
-            // case Data.GridType.Housing: //who knows...
 
             case Data.GridType.Commercial:
                 if (distance <= 4.9)
@@ -53,26 +54,26 @@ public class Housing : GridElement
             //according Level
             case <= 0:
                 Level = 1;
-                people = 0;
+                _people = 0;
                 break;
             case <= 250:
                 Level = 1;
-                people = 8;
+                _people = 8;
                 break;
             case > 250 and <= 600:
                 Level = 2;
-                people = 95;
+                _people = 95;
                 break;
             case > 600:
                 Level = 3;
-                people = 200;
+                _people = 200;
                 break;
         }
     }
     
 
 
-    public override bool isInRangeOfStreet()
+    public override bool IsInRangeOfStreet()
     {
         return Dependency[Data.GridType.Street].Count() > 0;
     }
@@ -80,7 +81,7 @@ public class Housing : GridElement
 
     public int GetPeople()
     {
-        return people;
+        return _people;
     }
 
     public override Data.GridType GetGridType()

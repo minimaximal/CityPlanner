@@ -1,4 +1,6 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern
+
+namespace CityPlanner.Grid;
 
 public class Sight : GridElement
 {
@@ -34,7 +36,7 @@ public class Sight : GridElement
         return Score;
     }
     
-    public override bool isInRangeOfStreet()
+    public override bool IsInRangeOfStreet()
     {
         return Dependency[Data.GridType.Street].Count() > 0;
     }

@@ -60,7 +60,7 @@ public class Map : ICloneable
                 GridElement gridElement = GetGridElement(i, j)!;
                 if (gridElement.GetGridType() == Data.GridType.Street
                     || gridElement.GetGridType() == Data.GridType.Blocked) continue;
-                if (gridElement.isInRangeOfStreet() )
+                if (gridElement.IsInRangeOfStreet() )
                 {
                     AddDependenciesFor(i, j);
                 }
@@ -126,13 +126,13 @@ public class Map : ICloneable
                     _population += ((Housing)gridElement).GetPeople();
                     break;
                 case Data.GridType.Industry:
-                    if (gridElement.getScore() > -8000)
+                    if (gridElement.GetScore() > -8000)
                     {
                         industryAmount++;
                     }
                     break;
                 case Data.GridType.Commercial:
-                    if (gridElement.getScore() > -8000)
+                    if (gridElement.GetScore() > -8000)
                     {
                         commercialAmount++;
                     }
