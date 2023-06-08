@@ -32,6 +32,7 @@ public class Commercial : GridElement
 
         Score += Dependency[Data.GridType.Housing].Count * 2;
         Score += Dependency[Data.GridType.Industry].Count * 500;
+        Score += Dependency[Data.GridType.Subway].Count * 200;
 
         foreach (double commercial in Dependency[Data.GridType.Commercial])
         {
