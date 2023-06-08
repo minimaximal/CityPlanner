@@ -1,6 +1,14 @@
+//Author: Sander Stella, Paul Antoni, Kevin Kern
+
 namespace CityPlanner;
 public static class Data
 {
+    public static int SizeX; // this is used in the sort move context at that point we dont have access to the map
+    public static int ImportQuota;
+    public static int OptimalIndustryAmount;
+    public static List<(int, int)> InitialStreets;
+    
+    
     //Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
     public enum GridType
     {
@@ -31,9 +39,5 @@ public static class Data
         { GridType.Highway, 6 },
         { GridType.Empty, 0 }
     };
-
-    public static int SizeX; // this is used in the sort move context // at that point we dont have access to the map
-    public static int ImportQuota;
-    public static int OptimalIndustryAmount;
-    public static List<(int, int)> InitialStreets;
+    
 }

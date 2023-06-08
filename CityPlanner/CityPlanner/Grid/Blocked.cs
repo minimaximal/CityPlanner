@@ -1,4 +1,6 @@
-﻿namespace CityPlanner.Grid;
+﻿//Author: Kevin Kern
+
+namespace CityPlanner.Grid;
 
 public class Blocked : GridElement
 {

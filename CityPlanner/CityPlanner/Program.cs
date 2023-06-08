@@ -1,46 +1,37 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿//Author: Paul Antoni, Sander Stella, Kevin Kern
 
-
-
-
-//var test = new test();
-
-//Console.WriteLine(test.testCopyofGrid_Deep());
-//Console.WriteLine(test.testMoveSort());
-
+//this program is only used for backend testing purposes as it is much faster than starting the frontend
 
 using CityPlanner;
 
-Map _map = new Map(20,20,30000);
+Map map = new Map(20,20,30000);
 Move move = new Move(10, 10);
 move.GridType = Data.GridType.Street;
-_map.AddMove(move);
-AppController appController = new AppController(30000, _map , 0);
+map.AddMove(move);
+AppController appController = new AppController(30000, map , 0);
 Map bestMap = null;
-Map map = null;
+
 for (int j = 0; j < 1000000; j++)
 {
-    map =  appController.NextGeneration();
+    Map nextMap =  appController.NextGeneration();
 
     if (j % 100 == 0)
     {
         Console.WriteLine("gen:" + j);
 
-        map.Display();
+        nextMap.Display();
     }
 
-    if (bestMap == null || bestMap.GetScore() < map.GetScore())
+    if (bestMap == null || bestMap.GetScore() < nextMap.GetScore())
     {
 
-        bestMap = map;
+        bestMap = nextMap;
 
         Console.WriteLine("gen:" + j);
 
-        map.Display();
+        nextMap.Display();
     }
 }
-
-int i = 0; //somehow required to start programm or no Main method is found
 
 
 

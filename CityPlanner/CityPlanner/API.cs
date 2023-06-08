@@ -1,43 +1,43 @@
-﻿using System.Diagnostics;
+//Author: Kevin Kern, Sander Stella
+
+using System.Diagnostics;
 using ABI.System.Collections.Generic;
 using CityPlanner;
 using CityPlanner.Grid;
 
 public class API
 {
-    
-    private AppController appctrl;
-    private bool newMapFlag;
-    private Map currentMap;
-    private byte[,] ByteMap;
-    private int Score;
-    private int People;
-    private int placedBuildings;
-    private Dictionary<Data.GridType, int> stats = new Dictionary<Data.GridType, int>();
+
+    private AppController _appctrl;
+    private bool _newMapFlag;
+    private Map _currentMap;
+    private readonly byte[,] _byteMap;
+    private int _score;
+    private int _people;
+    private readonly Dictionary<Data.GridType, int> _stats = new ();
 
 
     // do one time setup on start of application
-    // pull map preferences
     public API(int population, byte[,] byteMap, int importQuota)
     {
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
         {
-            stats.Add(gridType, 0);
+            _stats.Add(gridType, 0);
         }
 
-        ByteMap = byteMap;
-        Score = 0;
-        People = 0;
-        currentMap = TransformByteArrayToObjectArray(byteMap, population);
-        appctrl = new AppController(population, currentMap, importQuota);
+        _byteMap = byteMap;
+        _score = 0;
+        _people = 0;
+        _currentMap = TransformByteArrayToObjectArray(byteMap, population);
+        _appctrl = new AppController(population, _currentMap, importQuota);
     }
 
     public void NextGeneration()
     {
-        Map newMap = appctrl.NextGeneration();
-        if(GetGeneration() == 1&&newMap!=null) { SetNewMap(newMap);return; }
-        if (newMap.GetScore() > currentMap.GetScore())
+        Map newMap = _appctrl.NextGeneration();
+        if(GetGeneration() == 1) { SetNewMap(newMap);return; }
+        if (newMap.GetScore() > _currentMap.GetScore())
         {
             SetNewMap(newMap);
         }
@@ -45,42 +45,42 @@ public class API
 
     private void SetNewMap(Map newMap)
     {
-        currentMap = newMap;
-        newMapFlag = true;
+        _currentMap = newMap;
+        _newMapFlag = true;
         //getMapToFrontend();
     }
 
-    public bool existsNewMap()
+    public bool ExistsNewMap()
     {
-        return newMapFlag;
+        return _newMapFlag;
     }
-
-    // function call looks like : API.ToFrontend(map)
+    
+    //returns Map as Bytemap for Frontend in order to be cheaper for further processing
     public byte[,] GetMapToFrontend()
     {
-        Score = currentMap.GetScore();
-        People = currentMap.GetPeople(); 
-        foreach (var stat in stats.Keys)
+        _score = _currentMap.GetScore();
+        _people = _currentMap.GetPeople(); 
+        foreach (var stat in _stats.Keys)
         {
-            stats[stat] = 0;
+            _stats[stat] = 0;
         }
         
         
-        for (var x = 0; x < currentMap.SizeX; x++)
+        for (var x = 0; x < _currentMap.SizeX; x++)
         {
-            for (var y = 0; y < currentMap.SizeY; y++)
+            for (var y = 0; y < _currentMap.SizeY; y++)
             {
-                ByteMap[x, y] = Transform(currentMap.GetGridElement(x, y));
+                _byteMap[x, y] = Transform(_currentMap.GetGridElement(x, y)!);
             }
         }
 
-        newMapFlag = false;
-        return ByteMap;
+        _newMapFlag = false;
+        return _byteMap;
     }
 
     public int GetSatisfaction()
     {
-        return (Score/1000 + 10000);
+        return (_score/1000 + 10000);
     }
 
     //returns average building Level, has to be called after getPlacedBuildings()
@@ -88,7 +88,7 @@ public class API
     {
         float average = 0;
         var buildingAmount = 0;
-        foreach (var num in ByteMap)
+        foreach (var num in _byteMap)
         {
             if (num <= 100) continue;
             var level = int.Parse(num.ToString().Substring(2, 1));
@@ -100,29 +100,29 @@ public class API
         average /= buildingAmount;
         return average;
     }
-
-    public int getPlacedBuildings()
+    
+    public int GetPlacedBuildingsAmount()
     {
-        return ByteMap.Cast<byte>().Count(num => num != 0);
+        return _byteMap.Cast<byte>().Count(num => num != 0);
     }
 
     public int GetPopulation()
     {
-        return People;
+        return _people;
     }
 
     public int GetGeneration()
     {
-        return appctrl.GetGeneration();
+        return _appctrl.GetGeneration();
     }
 
-
-    public byte Transform(GridElement input)
+    //transforms one Mapelement from Object to Bytecode
+    private byte Transform(GridElement input)
     {
         switch (input.GetGridType())
         {
             case Data.GridType.Housing:
-                stats[Data.GridType.Housing]++;
+                _stats[Data.GridType.Housing]++;
                 switch (input.GetLevel())
                 {
                     case 1:
@@ -134,7 +134,7 @@ public class API
                 }
                 break;
             case Data.GridType.Commercial:
-                stats[Data.GridType.Commercial]++;
+                _stats[Data.GridType.Commercial]++;
 
                 switch (input.GetLevel())
                 {
@@ -147,7 +147,7 @@ public class API
                 }
                 break;
             case Data.GridType.Industry:
-                stats[Data.GridType.Industry]++;
+                _stats[Data.GridType.Industry]++;
                 switch (input.GetLevel())
                 {
                     case 1:
@@ -159,22 +159,22 @@ public class API
                 }
                 break;
             case Data.GridType.Street:
-                stats[Data.GridType.Street]++;
+                _stats[Data.GridType.Street]++;
                 return 31;
             case Data.GridType.Highway:
                 stats[Data.GridType.Highway]++;
                 return 32;
             case Data.GridType.Subway:
-                stats[Data.GridType.Subway]++;
+                _stats[Data.GridType.Subway]++;
                 return 41;
             case Data.GridType.Sight:
-                stats[Data.GridType.Subway]++;
+                _stats[Data.GridType.Subway]++;
                 return 51;
             case Data.GridType.Blocked:
-                stats[Data.GridType.Blocked]++;
+                _stats[Data.GridType.Blocked]++;
                 return 21;
             case Data.GridType.Empty:
-                stats[Data.GridType.Empty]++;
+                _stats[Data.GridType.Empty]++;
                 return 0;
         }
 
@@ -183,13 +183,13 @@ public class API
 
     private static Map TransformByteArrayToObjectArray(byte[,] byteMap, int population)
     {
-        var SizeX = byteMap.GetLength(0);
-        var SizeY = byteMap.GetLength(1);
-        var map = new Map(SizeX, SizeY, population);
+        var sizeX = byteMap.GetLength(0);
+        var sizeY = byteMap.GetLength(1);
+        var map = new Map(sizeX, sizeY, population);
         var hasStreet = false;
-        for (var x = 0; x < SizeX; x++)
+        for (var x = 0; x < sizeX; x++)
         {
-            for (var y = 0; y < SizeY; y++)
+            for (var y = 0; y < sizeY; y++)
             {
                 if (byteMap[x,y] == 11)
                 {
@@ -219,7 +219,7 @@ public class API
 
         if (hasStreet) return map;
         {
-            var move = new Move(SizeX/2,SizeY/2)
+            var move = new Move(sizeX/2,sizeY/2)
             {
                 GridType = Data.GridType.Street
             };

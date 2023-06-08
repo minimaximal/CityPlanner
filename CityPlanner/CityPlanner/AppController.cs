@@ -1,8 +1,10 @@
-﻿namespace CityPlanner;
+﻿//Author: Kevin Kern, Paul Antoni, Sander Stella
+
+namespace CityPlanner;
 
 public class AppController
 {
-   private AgentController _agentController;
+   private readonly AgentController _agentController;
    private int _generation;
 
    public AppController(int population, Map map, int importQuota)

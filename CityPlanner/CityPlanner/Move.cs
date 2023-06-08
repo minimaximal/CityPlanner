@@ -1,4 +1,6 @@
-﻿namespace CityPlanner;
+﻿//Author: Sander Stella
+
+namespace CityPlanner;
 
 public class Move : IComparable
 {
@@ -18,6 +20,7 @@ public class Move : IComparable
         GridType = oldMove.GridType;
     }
 
+    //each move gets its own number according to the coordinates in order to identify holes in Agent.cs
     public int IndexNumber()
     {
         return Y * (Data.SizeX)+X ;

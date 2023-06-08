@@ -1,4 +1,6 @@
-﻿using CityPlanner.Grid;
+﻿//Author: Kevin Kern
+
+using CityPlanner.Grid;
 using NUnit.Framework;
 
 namespace CityPlanner{
@@ -7,7 +9,7 @@ namespace CityPlanner{
     { 
         //Test to make sure that Grids are not cloned by reference -> Deep clone instead
         [Test]
-        public void CopyofGrid_Deep()
+        public void CopyOfGrid_Deep()
         {
             GridElement n1 = new GridElement();
             GridElement n2 = n1.Clone();
@@ -20,7 +22,7 @@ namespace CityPlanner{
         
         //Test to make sure that Maps are not cloned by reference -> Deep clone instead
         [Test]
-        public void CopyofMap_Deep()
+        public void CopyOfMap_Deep()
         {
             Map newMap = new Map(50, 50, 5000);
             Move nextMove = new Move(49, 49);
@@ -190,7 +192,7 @@ namespace CityPlanner{
         
         //Test to see if API returns reasonable values
         [Test]
-        public void ValidAPICalls()
+        public void ValidApiCalls()
         {
             Byte[,] map;
             API api = new API(30000, new byte[20,20] , 0);
