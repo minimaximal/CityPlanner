@@ -56,7 +56,8 @@ public class Map : ICloneable
             for (int j = 0; j < SizeY; j++)
             {
                 GridElement gridElement = GetGridElement(i, j)!;
-                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.GetGridType() == Data.GridType.Street
+                    || gridElement.GetGridType() == Data.GridType.Blocked) continue;
                 if (gridElement.isInRangeOfStreet() )
                 {
                     AddDependenciesFor(i, j);
