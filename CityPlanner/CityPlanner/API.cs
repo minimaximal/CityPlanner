@@ -162,6 +162,9 @@ public class API
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
                 return 31;
+            case Data.GridType.Blocked:
+                stats[Data.GridType.Blocked]++;
+                return 21;
             case Data.GridType.Empty:
                 stats[Data.GridType.Empty]++;
                 return 0;
@@ -192,7 +195,7 @@ public class API
                 {
                     var move = new Move(x,y)
                     {
-                        GridType = Data.GridType.Empty
+                        GridType = Data.GridType.Blocked
                     };
                     map.AddMove(move);
                 }
