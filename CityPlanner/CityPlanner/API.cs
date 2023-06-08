@@ -4,8 +4,6 @@ using CityPlanner.Grid;
 
 public class API
 {
-    //start 18:22 -10min
-    // end 19:02
     
     private AppController appctrl;
     private bool newMapFlag;

@@ -178,7 +178,7 @@ namespace CityPlanner{
                                 Assert.Fail();
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             
                         }
