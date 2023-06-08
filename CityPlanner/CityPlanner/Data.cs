@@ -8,6 +8,7 @@ public static class Data
         Commercial,
         Industry,
         Subway,
+        Sight,
         Street,
         Blocked,
         Empty
@@ -23,6 +24,7 @@ public static class Data
         { GridType.Commercial, 6.5 },
         { GridType.Industry, 4.9 },
         { GridType.Subway, 4.5 },
+        { GridType.Sight, 6.0 },
         { GridType.Street, 3.5 },
         { GridType.Blocked, 0 },
         { GridType.Empty, 0 }
