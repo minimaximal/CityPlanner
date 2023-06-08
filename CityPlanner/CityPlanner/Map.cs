@@ -44,6 +44,7 @@ public class Map : ICloneable
             Data.GridType.Street => new Street(old),
             Data.GridType.Commercial => new Commercial(old),
             Data.GridType.Empty => old,
+            Data.GridType.Blocked => new Blocked(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }

@@ -106,15 +106,16 @@
             int gapOffset = 0;
             do
             {
-                int x = (gapBeginning.X + gapOffset + 1) % _map.SizeX;
-                int y = x == 0 ? gapBeginning.Y + 1 : gapBeginning.Y;
+                int tmp = (gapBeginning.X + gapOffset + 1);
+                int x = tmp % _map.SizeX;
+                int y = gapBeginning.Y+ tmp /_map.SizeX;
                 if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
                 {
                     _possibleMoves.Insert(index + 1, new Move(x, y));
                     break;
                 }
                 gapOffset++;
-            } while (gapBeginning.X + gapOffset + 1 < _possibleMoves[index + 1].X);
+            } while (gapBeginning.IndexNumber()+gapOffset+1 < _possibleMoves[index + 1].IndexNumber());
         }
         
         private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
