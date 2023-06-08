@@ -1,9 +1,9 @@
-﻿namespace CityPlanner.Grid;
+﻿namespace CityPlanner.MapElements;
 
-public class Highway : GridElement
+public class Highway : MapElement
 {
     
-    public Highway(GridElement gridElement) : base(gridElement)
+    public Highway(MapElement mapElement) : base(mapElement)
     {
     }
     
@@ -21,7 +21,7 @@ public class Highway : GridElement
         return 0;
     }
 
-    public override GridElement Clone()
+    public override MapElement Clone()
     {
         return new Highway(this);
     }

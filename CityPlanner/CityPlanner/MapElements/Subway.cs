@@ -1,10 +1,10 @@
 ﻿// Author: Kevin Kern
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Subway : GridElement
+public class Subway : MapElement
 {
-    public Subway(GridElement gridElement) : base(gridElement)
+    public Subway(MapElement mapElement) : base(mapElement)
     {
     }
 

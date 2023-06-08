@@ -1,10 +1,10 @@
 ﻿//Author: Kevin Kern, Sander Stella
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Commercial : GridElement
+public class Commercial : MapElement
 {
-    public Commercial(GridElement gridElement) : base(gridElement)
+    public Commercial(MapElement mapElement) : base(mapElement)
     {
     }
 

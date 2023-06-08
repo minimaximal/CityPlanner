@@ -1,10 +1,10 @@
 ﻿//Author: Kevin Kern, Sander Stella
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Industry : GridElement
+public class Industry : MapElement
 {
-    public Industry(GridElement gridElement) : base(gridElement)
+    public Industry(MapElement mapElement) : base(mapElement)
     {
     }
 

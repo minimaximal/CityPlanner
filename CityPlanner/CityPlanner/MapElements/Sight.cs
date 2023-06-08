@@ -1,10 +1,10 @@
 ﻿//Author: Kevin Kern
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Sight : GridElement
+public class Sight : MapElement
 {
-    public Sight(GridElement gridElement) : base(gridElement)
+    public Sight(MapElement mapElement) : base(mapElement)
     {
     }
 

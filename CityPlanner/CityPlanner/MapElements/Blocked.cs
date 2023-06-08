@@ -1,10 +1,10 @@
 ﻿//Author: Kevin Kern
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Blocked : GridElement
+public class Blocked : MapElement
 {
-    public Blocked(GridElement gridElement) : base(gridElement)
+    public Blocked(MapElement mapElement) : base(mapElement)
     {
     }
     
@@ -18,7 +18,7 @@ public class Blocked : GridElement
         return 0;
     }
 
-    public override GridElement Clone()
+    public override MapElement Clone()
     {
         return new Blocked(this);
     }

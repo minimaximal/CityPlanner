@@ -1,6 +1,6 @@
 ﻿//Author: Kevin Kern
 
-using CityPlanner.Grid;
+using CityPlanner.MapElements;
 using NUnit.Framework;
 
 namespace CityPlanner{
@@ -11,10 +11,10 @@ namespace CityPlanner{
         [Test]
         public void CopyOfGrid_Deep()
         {
-            GridElement n1 = new GridElement();
-            GridElement n2 = n1.Clone();
+            MapElement n1 = new MapElement();
+            MapElement n2 = n1.Clone();
             Industry industry = new Industry(n2);
-            GridElement industry2 = industry.Clone();
+            MapElement industry2 = industry.Clone();
             
             Assert.AreEqual(industry.GetGridType(), industry2.GetGridType());
             Assert.AreNotSame(industry, industry2);
@@ -195,7 +195,7 @@ namespace CityPlanner{
         public void ValidApiCalls()
         {
             Byte[,] map;
-            API api = new API(30000, new byte[20,20] , 0);
+            Api api = new Api(30000, new byte[20,20] , 0);
             
             for (int j = 0; j < 10; j++)
             {

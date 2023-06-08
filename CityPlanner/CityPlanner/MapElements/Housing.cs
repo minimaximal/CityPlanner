@@ -1,12 +1,12 @@
 ﻿//Author: Kevin Kern, Sander Stella
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Housing : GridElement
+public class Housing : MapElement
 {
     private int _people;
 
-    public Housing(GridElement gridElement) : base(gridElement)
+    public Housing(MapElement mapElement) : base(mapElement)
     {
     }
 

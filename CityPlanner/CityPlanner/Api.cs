@@ -3,9 +3,9 @@
 using System.Diagnostics;
 using ABI.System.Collections.Generic;
 using CityPlanner;
-using CityPlanner.Grid;
+using CityPlanner.MapElements;
 
-public class API
+public class Api
 {
 
     private AppController _appctrl;
@@ -18,7 +18,7 @@ public class API
 
 
     // do one time setup on start of application
-    public API(int population, byte[,] byteMap, int importQuota)
+    public Api(int population, byte[,] byteMap, int importQuota)
     {
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
@@ -117,7 +117,7 @@ public class API
     }
 
     //transforms one Mapelement from Object to Bytecode
-    private byte Transform(GridElement input)
+    private byte Transform(MapElement input)
     {
         switch (input.GetGridType())
         {

@@ -1,8 +1,8 @@
 ﻿//Author: Kevin Kern, Sander Stella
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class GridElement
+public class MapElement
 {
     protected int Score;
     protected int Level = 1;
@@ -10,7 +10,7 @@ public class GridElement
     protected IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
 
     //Basic Constructor for initializing map
-    public GridElement()
+    public MapElement()
     {
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
         {
@@ -19,15 +19,15 @@ public class GridElement
     }
 
     //Advanced Constructor for replacing existing Mapelements with new ones
-    protected GridElement(GridElement oldGridElement)
+    protected MapElement(MapElement oldMapElement)
     {
-        foreach (var dependency in oldGridElement.Dependency)
+        foreach (var dependency in oldMapElement.Dependency)
         {
-            Dependency.Add(dependency.Key, oldGridElement.Dependency[dependency.Key].ToArray().ToList());
+            Dependency.Add(dependency.Key, oldMapElement.Dependency[dependency.Key].ToArray().ToList());
         }
 
-        Score = oldGridElement.Score;
-        Level = oldGridElement.Level;
+        Score = oldMapElement.Score;
+        Level = oldMapElement.Level;
     }
     
     public int GetScore()
@@ -69,9 +69,9 @@ public class GridElement
     }
 
 
-    public virtual GridElement Clone()
+    public virtual MapElement Clone()
     {
-        return new GridElement(this);
+        return new MapElement(this);
     }
     
     //returns probability for a Mapelement becoming a street instead

@@ -1,13 +1,13 @@
 ﻿//Author: Kevin Kern, Sander Stella, Antoni Paul
 
 using System.Diagnostics;
-using CityPlanner.Grid;
+using CityPlanner.MapElements;
 
 namespace CityPlanner;
 
 public class Map : ICloneable
 {
-    private readonly GridElement[,] _map;
+    private readonly MapElement[,] _map;
     private int _population;
     private readonly int _targetPopulation;
     private int _score;
@@ -25,18 +25,18 @@ public class Map : ICloneable
         _targetPopulation = targetPopulation;
         SizeX = x;
         SizeY = y;
-        _map = new GridElement[x, y];
+        _map = new MapElement[x, y];
         for (int i = 0; i < x; i++)
         {
             for (int j = 0; j < y; j++)
             {
-                _map[i, j] = new GridElement();
+                _map[i, j] = new MapElement();
             }
         }
     }
 
 
-    private static GridElement NewGridElement(Data.GridType gridType, GridElement old)
+    private static MapElement NewGridElement(Data.GridType gridType, MapElement old)
     {
         return gridType switch
         {
@@ -60,17 +60,17 @@ public class Map : ICloneable
         {
             for (int j = 0; j < SizeY; j++)
             {
-                GridElement gridElement = GetGridElement(i, j)!;
-                if (gridElement.GetGridType() == Data.GridType.Street
-                    || gridElement.GetGridType() == Data.GridType.Blocked
-                    || gridElement.GetGridType() == Data.GridType.Highway) continue;
-                if (gridElement.IsInRangeOfStreet() )
+                MapElement mapElement = GetGridElement(i, j)!;
+                if (mapElement.GetGridType() == Data.GridType.Street
+                    || mapElement.GetGridType() == Data.GridType.Blocked
+                    || mapElement.GetGridType() == Data.GridType.Highway) continue;
+                if (mapElement.IsInRangeOfStreet() )
                 {
                     AddDependenciesFor(i, j);
                 }
                 else 
                 {
-                    _map[i, j] = new GridElement();
+                    _map[i, j] = new MapElement();
                 }
             }
         }
@@ -168,12 +168,12 @@ public class Map : ICloneable
         return GetGridElement(move)!.IsValidStreet();
     }
     
-    public GridElement? GetGridElement(Move coordinates)
+    public MapElement? GetGridElement(Move coordinates)
     {
         return GetGridElement(coordinates.X, coordinates.Y);
     }
 
-    public GridElement? GetGridElement(int x, int y)
+    public MapElement? GetGridElement(int x, int y)
     {
         if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
         {

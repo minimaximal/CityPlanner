@@ -9,7 +9,7 @@ namespace CityPlannerFrontend
 {
     public sealed partial class MapView
     {
-      public static API Interface { get; set; }
+      public static Api Interface { get; set; }
       public static MapTools MapTool { get; internal set; }
 
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();

@@ -25,7 +25,7 @@ namespace CityPlannerFrontend
       {
          if (!InputValidation()) return;
          var map = new byte[X, Y];
-         var @interface = new API(Population, map, ImportQuota);
+         var @interface = new Api(Population, map, ImportQuota);
          MapView.Interface = @interface;
          MapView.MapTool = _gridTool;
          Frame.Navigate(typeof(MapView));

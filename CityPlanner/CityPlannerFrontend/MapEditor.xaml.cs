@@ -147,7 +147,7 @@ namespace CityPlannerFrontend
 
         private void Button_Click_MapView(object sender, RoutedEventArgs e)
         {
-            var @interface = new API(MapEditorHelpers.Population, _map, MapEditorHelpers.ImportQuota);
+            var @interface = new Api(MapEditorHelpers.Population, _map, MapEditorHelpers.ImportQuota);
             MapView.Interface = @interface;
             MapView.MapTool = MapEditorHelpers.MapTool;
             Frame.Navigate(typeof(MapView));

@@ -1,10 +1,10 @@
 ﻿//Author: Sander Stella, Kevin Kern
 
-namespace CityPlanner.Grid;
+namespace CityPlanner.MapElements;
 
-public class Street : GridElement
+public class Street : MapElement
 {
-    public Street(GridElement gridElement) : base(gridElement)
+    public Street(MapElement mapElement) : base(mapElement)
     {
     }
 
