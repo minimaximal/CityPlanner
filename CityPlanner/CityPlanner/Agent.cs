@@ -1,30 +1,27 @@
-﻿namespace CityPlanner
+﻿// Author: Sander Stella, Paul Antoni, Kevin Kern
+
+namespace CityPlanner
 {
     public class Agent
     {
         private Map _map;
-        private List<Move> _parentMoves = new List<Move>();
-        private List<Move> _moves = new List<Move>();
+        private readonly List<Move> _parentMoves = new List<Move>();
+        private readonly List<Move> _moves = new List<Move>();
         private List<Move> _possibleMoves = new List<Move>();
+        private static Move _firstPossibleMove = null!;
+        private static Move _lastPossibleMove = null!;
+        
         public bool NoMoreValidMoves;
-        private static Move _firstPossibleMove = null!; //todo to be moved into data class
-        private static Move _lastPossibleMove = null!; //todo to be moved into data class
-
-
-        public int Population
-        {
-            get => _map.GetPeople();
-        }
-
         public int Score;
       
-        
+        //basic Constructor for first gen of Agents
         public Agent(Map map)
         {
             BasicSetup(map);
         }
 
-
+        /*advanced Constructor that contains previous Agents for Mixture as well as
+        split Point that tells how much to take from which parent*/
         public Agent(Map map, Agent parent1, Agent parent2, double split)
         {
             _parentMoves = SelectMovesFromParents(parent1, parent2, split);
@@ -34,8 +31,8 @@
         private void BasicSetup(Map map)
         {
             _map = map;
-            _firstPossibleMove = new Move(0, 0); //todo to be moved into data class
-            _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1); //todo to be moved into data class
+            _firstPossibleMove = new Move(0, 0);
+            _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1);
             NoMoreValidMoves = false;
             _possibleMoves.AddRange(_parentMoves);
             _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
@@ -44,6 +41,7 @@
             _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
         }
 
+        //splits moves of parents at splitpoint and generates new move list
         private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
             List<Move> result = new List<Move>();
@@ -80,7 +78,7 @@
 
             return result;
         }
-
+        
         private void FillGapsInMovesList()
         {
             _possibleMoves.Insert(0, _firstPossibleMove);
@@ -99,7 +97,8 @@
 
             AddFirstAndLastPossibleMoveToPossibleMovesIfMissing();
         }
-
+    
+        //gets called by FillGapsInMovesList()
         private void FillGapAt(int index)
         {
             Move gapBeginning = _possibleMoves.ElementAt(index);
@@ -118,6 +117,7 @@
             } while (gapBeginning.IndexNumber()+gapOffset+1 < _possibleMoves[index + 1].IndexNumber());
         }
         
+        //gets called by FillGapsInMovesList() in order to add first and last moves again if they are necessary
         private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
         {
             if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
@@ -150,6 +150,7 @@
             }
         }
 
+        //gets called by MakeNMoves(int)
         public void MakeOneMove()
         {
             Random random = new Random();
@@ -184,9 +185,9 @@
             _map.AddMove(move);
         }
 
+        // returns false if not a street or street invalid
         private bool IsIllegalStreet(Move move)
         {
-            // -> false if not a street or street invalid
             if (move.GridType != Data.GridType.Street) return false;
             return !_map.ValidateStreet(move);
         }
@@ -226,7 +227,7 @@
                 {
                     toBePlaced = Data.GridType.Subway;
                 }
-                else// 2 %Chance
+                else// 2 % Chance
                 {
                     toBePlaced = Data.GridType.Sight;
                 }
@@ -236,6 +237,7 @@
             return move;
         }
 
+        //gets called by MakeOneMove() in order to remove an already used move
         private void RemoveFromPossibleMoves(Move move)
         {
             int index = _possibleMoves.IndexOf(move); // index should always be 0
@@ -262,6 +264,11 @@
 
             _possibleMoves.Remove(move);
         }
+        
+        public Map GetMap()
+        {
+            return _map;
+        }
     
 
         #region DEBUG
@@ -278,11 +285,6 @@
             }
 
             return hits;
-        }
-
-        public Map GetMap()
-        {
-            return _map;
         }
 
         #endregion
