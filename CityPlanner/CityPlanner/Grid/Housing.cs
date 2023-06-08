@@ -36,6 +36,7 @@ public class Housing : GridElement
         Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
         Score += Dependency[Data.GridType.Industry].Count * -100;
         Score += Dependency[Data.GridType.Subway].Count * 100;
+        Score += Dependency[Data.GridType.Sight].Count * 200;
         
         //base cost
         Score -= 5;

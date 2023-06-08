@@ -44,6 +44,7 @@ public class Map : ICloneable
             Data.GridType.Street => new Street(old),
             Data.GridType.Commercial => new Commercial(old),
             Data.GridType.Subway => new Subway(old),
+            Data.GridType.Sight => new Sight(old),
             Data.GridType.Empty => old,
             Data.GridType.Blocked => new Blocked(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
@@ -146,7 +147,7 @@ public class Map : ICloneable
 
         //Import quota
         int industryDiff = industryAmount - Data.OptimalIndustryAmount;
-        industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
+        industryRatioScore = -(industryDiff * industryDiff + 10) * 7000;
         globalScore += industryRatioScore;
 
         //commercial quota
@@ -249,6 +250,11 @@ public class Map : ICloneable
                     case Data.GridType.Subway:
                         Console.BackgroundColor = ConsoleColor.DarkMagenta;
                         Console.Write("S");
+                        
+                        break;
+                    case Data.GridType.Sight:
+                        Console.BackgroundColor = ConsoleColor.Yellow;
+                        Console.Write("*");
                         
                         break;
                     case Data.GridType.Street:
