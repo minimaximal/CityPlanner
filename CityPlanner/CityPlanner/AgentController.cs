@@ -1,4 +1,6 @@
-﻿namespace CityPlanner
+﻿//Author: Paul Antoni, Sander Stella, Kevin Kern
+
+namespace CityPlanner
 {
     public class AgentController
     {
@@ -15,7 +17,6 @@
         {
             Data.SizeX = map.SizeX;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
-            //_defaultMap = CreateNewMap();
             Data.InitialStreets = new List<(int, int)>();
             for (int x = 0; x < map.SizeX; x++)
             {
@@ -57,6 +58,7 @@
             return generationalBestAgent;
         }
 
+        //creates new Agents for first generation
         private void CreateNewAgents(int amount)
         {
             _agents.Clear();
@@ -67,6 +69,7 @@
             }
         }
 
+        //creates new Agents with preceding Agents, used as parents in Agent.cs
         private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
         {
             List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
@@ -87,23 +90,5 @@
         {
             return precedingAgents.OrderByDescending(agent => agent.Score).Take(3).ToList();
         }
-
-        /*private Map CreateNewMap()
-        {
-            // todo wenn das frontend eine map übergibt müssen die EMPTY hier gezählt werden
-            _moveLimitEstimate = _mapSize.x * _mapSize.y - 1;
-
-            Map map = new Map(_mapSize.x, _mapSize.y, _targetPopulation);
-            foreach ((int x, int y) in _stratingPoints)
-            {
-                Move move = new Move(x, y)
-                {
-                    GridType = Data.GridType.Street
-                };
-                map.AddMove(move);
-            }
-
-            return map;
-        }*/
     }
 }
