@@ -2,7 +2,10 @@
 
 public class Street : GridElement
 {
-    public Street(GridElement gridElement) : base(gridElement) {}
+    public Street(GridElement gridElement) : base(gridElement)
+    {
+    }
+
     public override int CalculateScore()
     {
         // todo change score caculation 
@@ -13,34 +16,22 @@ public class Street : GridElement
 
 
         //if (Dependency[Data.GridType.Street].Count > 7)
-            Score -= Dependency[Data.GridType.Street].Count * 10;
-            int nearbyStreet = 0;
-            foreach (double street in Dependency[Data.GridType.Street])
-            {
-                if (street <= 1)
-                {
-                    Score +=10;
-                }
-            }
-        /*
+        Score -= Dependency[Data.GridType.Street].Count * 10;
         int nearbyStreet = 0;
         foreach (double street in Dependency[Data.GridType.Street])
         {
-            if (street <= 1.5)
+            if (street <= 1)
             {
-                nearbyStreet++;
+                Score += 10;
             }
         }
 
-        if (nearbyStreet > 4)
+        if (Dependency[Data.GridType.Highway].Count>0)
         {
-            Score -= (nearbyStreet - 4) * 50;
+            Dependency[Data.GridType.Highway].Sort();
+            double closest = Dependency[Data.GridType.Highway].First();
+            Score += (int)(-1000 * closest + 10000);
         }
-        else
-        {
-            Score += 50;
-        }
-        */
         return Score;
     }
 
@@ -48,9 +39,9 @@ public class Street : GridElement
     {
         return Data.GridType.Street;
     }
+
     public override Street Clone()
     {
         return new Street(this);
     }
-    
 }

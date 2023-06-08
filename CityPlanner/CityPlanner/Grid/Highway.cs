@@ -9,12 +9,7 @@ public class Highway : GridElement
     
     public override void AddDependency(Data.GridType gridType, double distance)
     {
-        switch (gridType)
-        {
-            case Data.GridType.Street:
-                Dependency[gridType].Add(distance);
-                break;
-        }
+    
     }
     public override Data.GridType GetGridType()
     {
@@ -23,9 +18,7 @@ public class Highway : GridElement
 
     public override int CalculateScore()
     {
-       Dependency[Data.GridType.Street].Sort();
-       double closest =  Dependency[Data.GridType.Street].First();
-       return (int)(10 * Math.Pow(5, (5 - closest)));
+        return 0;
     }
 
     public override GridElement Clone()

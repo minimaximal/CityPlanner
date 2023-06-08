@@ -47,6 +47,7 @@ public class Map : ICloneable
             Data.GridType.Sight => new Sight(old),
             Data.GridType.Empty => old,
             Data.GridType.Blocked => new Blocked(old),
+            Data.GridType.Highway => new Highway(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }
@@ -265,6 +266,10 @@ public class Map : ICloneable
                     case Data.GridType.Blocked:
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.Write("#");
+                        break;
+                    case Data.GridType.Highway:
+                        Console.BackgroundColor = ConsoleColor.Magenta;
+                        Console.Write("$");
                         break;
                     case Data.GridType.Empty:
                         Console.BackgroundColor = ConsoleColor.White;
