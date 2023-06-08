@@ -5,10 +5,10 @@ namespace CityPlanner;
 
 public class Map : ICloneable
 {
-    private GridElement[,] map;
+    private GridElement[,] _map;
     private int _population;
-    private int _targetPopulation;
-    private int Score;
+    private readonly int _targetPopulation;
+    private int _score;
 
     public readonly int SizeX;
     public readonly int SizeY;
@@ -24,15 +24,16 @@ public class Map : ICloneable
         _targetPopulation = targetPopulation;
         SizeX = x;
         SizeY = y;
-        map = new GridElement[x, y];
+        _map = new GridElement[x, y];
         for (int i = 0; i < x; i++)
         {
             for (int j = 0; j < y; j++)
             {
-                map[i, j] = new GridElement();
+                _map[i, j] = new GridElement();
             }
         }
     }
+
 
     private static GridElement NewGridElement(Data.GridType gridType, GridElement old)
     {
@@ -43,58 +44,60 @@ public class Map : ICloneable
             Data.GridType.Street => new Street(old),
             Data.GridType.Commercial => new Commercial(old),
             Data.GridType.Empty => old,
+            Data.GridType.Blocked => new Blocked(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }
 
-
-
-    public void calculateDependencies()
+    public void CalculateDependencies()
     {
         for (int i = 0; i < SizeX; i++)
         {
             for (int j = 0; j < SizeY; j++)
             {
                 GridElement gridElement = GetGridElement(i, j)!;
-                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.GetGridType() == Data.GridType.Street
+                    || gridElement.GetGridType() == Data.GridType.Blocked) continue;
                 if (gridElement.isInRangeOfStreet() )
                 {
-                    addDependenciesFor(i, j);
+                    AddDependenciesFor(i, j);
                 }
                 else 
                 {
-                    map[i, j] = new GridElement();
+                    _map[i, j] = new GridElement();
                 }
             }
         }
     }
+
     public void AddMove(Move move)
     {
-        map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
+        _map[move.X, move.Y] = NewGridElement(move.GridType, GetGridElement(move)!);
         if (move.GridType == Data.GridType.Street)
         {
-           addDependenciesFor(move);
+           AddDependenciesFor(move);
         }
     }
 
-    private void addDependenciesFor(int x, int y)
+
+    private void AddDependenciesFor(int x, int y)
     {
-        addDependenciesFor(new Move(x, y)
+        AddDependenciesFor(new Move(x, y)
             {
                 GridType   =  GetGridElement(x, y).GetGridType()
             }
         );
     }
-    private void addDependenciesFor(Move move)
+
+    private void AddDependenciesFor(Move move)
     {
-        
-        int range = (int)Math.Ceiling(Data.GridTypeMax[move.GridType]);
+        int range = (int)Math.Ceiling(Data.GridTypeMaxRange[move.GridType]);
         for (int x = move.X - range; x < move.X + range; x++)
         {
             for (int y = move.Y - range; y < move.Y + range; y++)
             {
                 double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
-                if (distance <= Data.GridTypeMax[move.GridType] && !(move.X == x && move.Y == y))
+                if (distance <= Data.GridTypeMaxRange[move.GridType] && !(move.X == x && move.Y == y))
                 {
                     GetGridElement(x, y)?.AddDependency(move.GridType, distance);
                 }
@@ -110,9 +113,9 @@ public class Map : ICloneable
         int industryAmount = 0;
         int commercialAmount = 0;
         
-        calculateDependencies();
+        CalculateDependencies();
 
-        foreach (var gridElement in map)
+        foreach (var gridElement in _map)
         {
             globalScore += gridElement.CalculateScore();
             switch (gridElement.GetGridType())
@@ -136,27 +139,32 @@ public class Map : ICloneable
         }
 
         //Population Scoring
-        int populationDif = _population - _targetPopulation;
-        poulationScore = (int)(-0.05 * populationDif * populationDif + 1000);
+        int populationDiff = _population - _targetPopulation;
+        poulationScore = (int)(-0.05 * populationDiff * populationDiff + 1000);
         globalScore += poulationScore;
 
-        //Importquota
-        int industryDiff = industryAmount - Data.optimalIndustryAmount;
+        //Import quota
+        int industryDiff = industryAmount - Data.OptimalIndustryAmount;
         industryRatioScore = -(industryDiff * industryDiff + 10) * 6000;
         globalScore += industryRatioScore;
 
-        //commercialquota
+        //commercial quota
         int commercialDiff = commercialAmount - (_targetPopulation / 550);
         comercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
         globalScore += comercialScore;
 
-        Score = globalScore;
+        _score = globalScore;
         return globalScore;
     }
 
     public int GetPeople()
     {
         return _population;
+    }
+
+    public bool ValidateStreet(Move move)
+    {
+        return GetGridElement(move)!.IsValidStreet();
     }
 
     public GridElement? GetGridElement(Move coordinates)
@@ -168,17 +176,12 @@ public class Map : ICloneable
     {
         if (x >= 0 && x < SizeX && y >= 0 && y < SizeY)
         {
-            return map[x, y];
+            return _map[x, y];
         }
         else
         {
             return null;
         }
-    }
-
-    public bool ValidateStreet(Move move)
-    {
-        return GetGridElement(move)!.IsValidStreet();
     }
 
     public object Clone()
@@ -188,11 +191,7 @@ public class Map : ICloneable
         {
             for (int y = 0; y < SizeY; y++)
             {
-                //todo this drops the type and does not work  
-                //not sure on this one write a test for that
-                clone.map[x, y] = map[x, y].Clone();
-
-                //  NewGridElement(map[x,y].GetGridType(), map[x, y]);
+                clone._map[x, y] = _map[x, y].Clone();
             }
         }
 
@@ -200,16 +199,18 @@ public class Map : ICloneable
         return clone;
     }
 
-    public int getScore()
+    public int GetScore()
     {
-        return Score;
+        return _score;
     }
+
+
 
     //for backend testing only
     public void Display()
     {
         Console.Write("------------------------------\n");
-        Console.WriteLine("score:" + Score);
+        Console.WriteLine("score:" + _score);
         Console.WriteLine("People:" + _population);
         Console.WriteLine("poulation Dif Score:" + poulationScore);
         Console.WriteLine("industryRatioScore:" + industryRatioScore);
@@ -227,7 +228,7 @@ public class Map : ICloneable
                     continue;
                 }*/
 
-                switch (map[x, y].GetGridType())
+                switch (_map[x, y].GetGridType())
                 {
                     case Data.GridType.Commercial:
                         Console.BackgroundColor = ConsoleColor.Blue;

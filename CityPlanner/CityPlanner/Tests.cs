@@ -141,7 +141,7 @@ namespace CityPlanner{
 
             Agent childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
 
-            Assert.AreEqual(childAgent.isinList(new Move(1, 1)), parentAgent.isinList(new Move(1, 1)));
+            Assert.AreEqual(childAgent.IsInList(new Move(1, 1)), parentAgent.IsInList(new Move(1, 1)));
         }
         
         
@@ -166,14 +166,14 @@ namespace CityPlanner{
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    if (agent.getMap().GetGridElement(i,j)!.GetGridType() == Data.GridType.Street)
+                    if (agent.GetMap().GetGridElement(i,j)!.GetGridType() == Data.GridType.Street)
                     {
                         try
                         {
-                            if (agent.getMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
-                                agent.getMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
+                            if (agent.GetMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
+                                agent.GetMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
                             {
                                 Assert.Fail();
                             }
@@ -193,18 +193,18 @@ namespace CityPlanner{
         public void ValidAPICalls()
         {
             Byte[,] map;
-            API api = new API(30000, 20, 20 , 0);
+            API api = new API(30000, new byte[20,20] , 0);
             
             for (int j = 0; j < 10; j++)
             {
-                api.nextGeneration();
-                map = api.getMapToFrontend();
+                api.NextGeneration();
+                map = api.GetMapToFrontend();
             }
 
-            Assert.AreEqual(10, api.getGeneration());
-            Assert.Greater(api.getAverageBuildLevel(), 0);
-            Assert.Less(api.getAverageBuildLevel(), 3.1);
-            Assert.Greater(api.getPopulation(), 0);
+            Assert.AreEqual(10, api.GetGeneration());
+            Assert.Greater(api.GetAverageBuildLevel(), 0);
+            Assert.Less(api.GetAverageBuildLevel(), 3.1);
+            Assert.Greater(api.GetPopulation(), 0);
         }
     }
 }

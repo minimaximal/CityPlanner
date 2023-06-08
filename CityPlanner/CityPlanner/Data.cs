@@ -1,20 +1,21 @@
 namespace CityPlanner;
 public static class Data
 {
-    //Empty must be the last in the list otherwise Agent.cs:getRandomMove() does not work
+    //Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
     public enum GridType
     {
         Housing,
         Commercial,
         Industry,
         Street,
-        Empty
+        Empty,
+        Blocked
     };
 
-    //holds amount wthout Empty 
+    //holds the amount of grid types excluding Empty
     public static readonly int GridTypeAmount = Enum.GetValues(typeof(Data.GridType)).Length - 1;
     
-    public static readonly Dictionary<GridType, double> GridTypeMax = new Dictionary<GridType, double>()
+    public static readonly Dictionary<GridType, double> GridTypeMaxRange = new Dictionary<GridType, double>()
     {
         { GridType.Housing, 5 },
         { GridType.Commercial, 6.5 },
@@ -25,6 +26,6 @@ public static class Data
 
     public static int SizeX; // this is used in the sort move context // at that point we dont have access to the map
     public static int ImportQuota;
-    public static int optimalIndustryAmount;
+    public static int OptimalIndustryAmount;
     public static List<(int, int)> InitialStreets;
 }
