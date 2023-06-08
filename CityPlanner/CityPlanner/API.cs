@@ -37,7 +37,7 @@ public class API
     public void NextGeneration()
     {
         Map newMap = appctrl.NextGeneration();
-        if(getGeneration() == 1&&newMap!=null) { setNewMap(newMap);return; }
+        if(GetGeneration() == 1&&newMap!=null) { SetNewMap(newMap);return; }
         if (newMap.GetScore() > currentMap.GetScore())
         {
             SetNewMap(newMap);
