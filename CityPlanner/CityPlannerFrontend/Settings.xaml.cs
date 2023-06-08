@@ -29,14 +29,14 @@ namespace CityPlannerFrontend
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (X != 0 && Y != 0)
+            if (X > 0 && Y > 0)
             {
                 API Interface = new API(IEinwohnerzahl, X, Y, Importquota);
                 MapView.Interface = Interface;
                 Frame.Navigate(typeof(MapView));
             }
-            else { 
-            // TODO Warning Popup that Map needs at least size ...
+            else {
+                Maptoosmall.IsOpen = true;
             }
         }
     }
