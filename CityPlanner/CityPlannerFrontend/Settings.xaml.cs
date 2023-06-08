@@ -14,30 +14,50 @@ namespace CityPlannerFrontend
     /// </summary>
     public sealed partial class Settings : Page
     {
-        public int IEinwohnerzahl=10000;
+        public int Population=10000;
+        public int ImportQuota = 10; // 0 bis 100 (percent)
         public int X=50;
         public int Y=30;
-        public int Importquota = 10;//0 bis 100 (prozent)
+        private readonly MapTools _gridTool = new();
+        
         public Settings()
         {
             this.InitializeComponent();
-            
         }
+
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void Button_Click_MapView(object sender, RoutedEventArgs e)
         {
-            if (X != 0 && Y != 0)
-            {
-                API Interface = new API(IEinwohnerzahl, X, Y, Importquota);
-                MapView.Interface = Interface;
-                Frame.Navigate(typeof(MapView));
-            }
-            else { 
-            // TODO Warning Popup that Map needs at least size ...
-            }
+            if (!inputValidation()) return;
+            var map = new byte[X,Y];
+            var @interface = new API(Population, map, ImportQuota);
+            MapView.Interface = @interface;
+            MapView.MapTool = _gridTool;
+            Frame.Navigate(typeof(MapView));
         }
+
+
+        private void Button_Click_MapEditor(object sender, RoutedEventArgs e)
+        {
+            if (!inputValidation()) return;
+            MapEditor.Population = Population;
+            MapEditor.ImportQuota = ImportQuota;
+            MapEditor.X = X;
+            MapEditor.Y = Y;
+            MapEditor.MapTool = _gridTool;
+            Frame.Navigate(typeof(MapEditor));
+        }
+
+
+
+            private bool inputValidation()
+            {
+                return X != 0 && Y != 0;
+                // TODO Warning Popup that Map needs at least size ...
+            }
     }
 }

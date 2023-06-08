@@ -193,18 +193,18 @@ namespace CityPlanner{
         public void ValidAPICalls()
         {
             Byte[,] map;
-            API api = new API(30000, 20, 20 , 0);
+            API api = new API(30000, new byte[20,20] , 0);
             
             for (int j = 0; j < 10; j++)
             {
-                api.nextGeneration();
-                map = api.getMapToFrontend();
+                api.NextGeneration();
+                map = api.GetMapToFrontend();
             }
 
-            Assert.AreEqual(10, api.getGeneration());
-            Assert.Greater(api.getAverageBuildLevel(), 0);
-            Assert.Less(api.getAverageBuildLevel(), 3.1);
-            Assert.Greater(api.getPopulation(), 0);
+            Assert.AreEqual(10, api.GetGeneration());
+            Assert.Greater(api.GetAverageBuildLevel(), 0);
+            Assert.Less(api.GetAverageBuildLevel(), 3.1);
+            Assert.Greater(api.GetPopulation(), 0);
         }
     }
 }

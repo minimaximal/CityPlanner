@@ -19,14 +19,15 @@
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
             <TextBlock HorizontalAlignment="Center" Text="Einwohnerzahl"/>
-            <NumberBox Value="{x:Bind Path=IEinwohnerzahl, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
+            <NumberBox Value="{x:Bind Path=Population, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Einwohnerzahl" />
             <TextBlock HorizontalAlignment="Center" Text="Kartenbreite"/>
             <NumberBox Value="{x:Bind Path=X, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Kartenbreite"/>
             <TextBlock HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
             <NumberBox Value="{x:Bind Path=Y, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Kartenlaenge"/>
             <TextBlock HorizontalAlignment="Center" Text="Importquote"/>
-            <NumberBox Value="{x:Bind Path=Importquota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
-            <Button Click="Button_Click" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
+            <NumberBox Value="{x:Bind Path=ImportQuota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200" x:Name="Importquote"/>
+            <Button Click="Button_Click_MapEditor" HorizontalAlignment="Right" Margin="40">Karte anpassen</Button>
+            <Button Click="Button_Click_MapView" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
         </StackPanel>
 
     </Grid>

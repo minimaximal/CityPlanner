@@ -44,6 +44,7 @@ public class Map : ICloneable
             Data.GridType.Street => new Street(old),
             Data.GridType.Commercial => new Commercial(old),
             Data.GridType.Empty => old,
+            Data.GridType.Blocked => new Blocked(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }
@@ -55,7 +56,8 @@ public class Map : ICloneable
             for (int j = 0; j < SizeY; j++)
             {
                 GridElement gridElement = GetGridElement(i, j)!;
-                if (gridElement.GetGridType() == Data.GridType.Street) continue;
+                if (gridElement.GetGridType() == Data.GridType.Street
+                    || gridElement.GetGridType() == Data.GridType.Blocked) continue;
                 if (gridElement.isInRangeOfStreet() )
                 {
                     AddDependenciesFor(i, j);

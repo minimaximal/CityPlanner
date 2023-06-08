@@ -8,7 +8,8 @@ public static class Data
         Commercial,
         Industry,
         Street,
-        Empty
+        Empty,
+        Blocked
     };
 
     //holds the amount of grid types excluding Empty

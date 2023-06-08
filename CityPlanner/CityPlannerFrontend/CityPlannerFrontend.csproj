@@ -105,6 +105,7 @@
     <None Remove="Assets\Grid\133.png" />
     <None Remove="Assets\Grid\31.png" />
     <None Remove="MainPage.xaml" />
+    <None Remove="MapEditor.xaml" />
     <None Remove="MapView.xaml" />
     <None Remove="Settings.xaml" />
   </ItemGroup>
@@ -331,6 +332,11 @@
       <Generator></Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MapEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MapView.xaml">
