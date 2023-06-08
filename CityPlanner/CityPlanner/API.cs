@@ -210,8 +210,7 @@ public class API
             };
             map.AddMove(move);
         }
-
-        map.CalculateScore();
+        
         return map;
     }
 }
