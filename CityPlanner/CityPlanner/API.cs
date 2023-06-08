@@ -162,6 +162,9 @@ public class API
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
                 return 31;
+            case Data.GridType.Subway:
+                stats[Data.GridType.Subway]++;
+                return 41;
             case Data.GridType.Blocked:
                 stats[Data.GridType.Blocked]++;
                 return 21;
