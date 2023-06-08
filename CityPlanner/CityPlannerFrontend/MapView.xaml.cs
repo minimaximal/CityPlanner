@@ -45,7 +45,7 @@ namespace CityPlannerFrontend
          {
             Debug.WriteLine("Next Generation");
             Interface.NextGeneration();
-            Debug.WriteLine(Interface.existsNewMap());
+            Debug.WriteLine(Interface.ExistsNewMap());
 
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
@@ -57,11 +57,11 @@ namespace CityPlannerFrontend
                Generation.Text = _generationCount;
             });
 
-            if (!Interface.existsNewMap()) continue;
+            if (!Interface.ExistsNewMap()) continue;
             Debug.WriteLine("New Map");
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _gridCount = Interface.getPlacedBuildings().ToString();
+            _gridCount = Interface.GetPlacedBuildingsAmount().ToString();
             _satisfaction = Interface.GetSatisfaction().ToString();
             _averageBuildingLevel = Interface.GetAverageBuildLevel().ToString("0.00");
             _population = Interface.GetPopulation().ToString();
