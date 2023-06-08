@@ -16,6 +16,7 @@
             Data.SizeX = map.SizeX;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             //_defaultMap = CreateNewMap();
+            Data.InitialStreets = new List<(int, int)>();
             for (int x = 0; x < map.SizeX; x++)
             {
                 for (int y = 0; y < map.SizeY; y++)

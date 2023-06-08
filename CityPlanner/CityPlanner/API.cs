@@ -36,8 +36,8 @@ public class API
 
     public void NextGeneration()
     {
-        var newMap = appctrl.NextGeneration();
-        if(currentMap == null&&newMap!=null) { SetNewMap(newMap);return; }
+        Map newMap = appctrl.NextGeneration();
+        if(getGeneration() == 1&&newMap!=null) { setNewMap(newMap);return; }
         if (newMap.GetScore() > currentMap.GetScore())
         {
             SetNewMap(newMap);
@@ -208,6 +208,7 @@ public class API
             map.AddMove(move);
         }
 
+        map.CalculateScore();
         return map;
     }
 }
