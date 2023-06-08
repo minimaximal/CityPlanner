@@ -43,6 +43,7 @@ public class Map : ICloneable
             Data.GridType.Industry => new Industry(old),
             Data.GridType.Street => new Street(old),
             Data.GridType.Commercial => new Commercial(old),
+            Data.GridType.Subway => new Subway(old),
             Data.GridType.Empty => old,
             Data.GridType.Blocked => new Blocked(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
@@ -245,10 +246,19 @@ public class Map : ICloneable
                         Console.Write("H");
 
                         break;
+                    case Data.GridType.Subway:
+                        Console.BackgroundColor = ConsoleColor.DarkMagenta;
+                        Console.Write("S");
+                        
+                        break;
                     case Data.GridType.Street:
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.Write("+");
 
+                        break;
+                    case Data.GridType.Blocked:
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.Write("#");
                         break;
                     case Data.GridType.Empty:
                         Console.BackgroundColor = ConsoleColor.White;

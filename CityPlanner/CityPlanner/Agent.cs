@@ -204,7 +204,7 @@
             Move move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced;
             if (_map.ValidateStreet(move)
-            && random.NextDouble() < _map.GetGridElement(move).getwarscheinlichkeit())
+            && random.NextDouble() < _map.GetGridElement(move)!.getwarscheinlichkeit())
             {
                 toBePlaced = Data.GridType.Street;
             }
@@ -219,9 +219,12 @@
                 {
                     toBePlaced = Data.GridType.Commercial;
                 }
-                else // 20% Chance
+                else if (rand < 0.95)// 15% Chance
                 {
                     toBePlaced = Data.GridType.Industry;
+                }else
+                {
+                    toBePlaced = Data.GridType.Subway;
                 }
             }
 

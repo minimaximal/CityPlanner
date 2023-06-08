@@ -7,9 +7,11 @@ public static class Data
         Housing,
         Commercial,
         Industry,
+        Subway,
         Street,
-        Empty,
-        Blocked
+        Blocked,
+        Empty
+        
     };
 
     //holds the amount of grid types excluding Empty
@@ -20,7 +22,9 @@ public static class Data
         { GridType.Housing, 5 },
         { GridType.Commercial, 6.5 },
         { GridType.Industry, 4.9 },
+        { GridType.Subway, 4.5 },
         { GridType.Street, 3.5 },
+        { GridType.Blocked, 0 },
         { GridType.Empty, 0 }
     };
 
