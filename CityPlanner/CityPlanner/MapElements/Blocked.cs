@@ -1,25 +1,25 @@
-﻿//Author: Kevin Kern
+﻿// @author: Kevin Kern
 
 namespace CityPlanner.MapElements;
 
 public class Blocked : MapElement
 {
-    public Blocked(MapElement mapElement) : base(mapElement)
-    {
-    }
-    
-    public override Data.GridType GetGridType()
-    {
-        return Data.GridType.Blocked;
-    }
+   public Blocked(MapElement mapElement) : base(mapElement)
+   {
+   }
 
-    public override int CalculateScore()
-    {
-        return 0;
-    }
+   public override Data.GridType GetGridType()
+   {
+      return Data.GridType.Blocked;
+   }
 
-    public override MapElement Clone()
-    {
-        return new Blocked(this);
-    }
+   public override int CalculateScore()
+   {
+      return 0;
+   }
+
+   public override MapElement Clone()
+   {
+      return new Blocked(this);
+   }
 }

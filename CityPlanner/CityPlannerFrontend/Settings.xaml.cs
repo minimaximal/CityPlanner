@@ -1,9 +1,11 @@
+// @author: Leo Schnüll, Maximilian Koch
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace CityPlannerFrontend
 {
-    public sealed partial class Settings : Page
+   public sealed partial class Settings : Page
    {
       public int Population = 10000;
       public int ImportQuota = 10; // 0 bis 100 (percent)
@@ -35,23 +37,23 @@ namespace CityPlannerFrontend
       private void Button_Click_MapEditor(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-            MapEditorHelpers.Population = Population;
-            MapEditorHelpers.ImportQuota = ImportQuota;
-            MapEditorHelpers.X = X;
-            MapEditorHelpers.Y = Y;
-            MapEditorHelpers.MapTool = _gridTool;
+         MapEditorHelpers.Population = Population;
+         MapEditorHelpers.ImportQuota = ImportQuota;
+         MapEditorHelpers.X = X;
+         MapEditorHelpers.Y = Y;
+         MapEditorHelpers.MapTool = _gridTool;
          Frame.Navigate(typeof(MapEditor));
       }
 
       private bool InputValidation()
       {
-          if (X >= 5 && Y >= 5)
-          {
-              return true;
-          }
+         if (X >= 5 && Y >= 5)
+         {
+            return true;
+         }
 
-          Maptoosmall.IsOpen = true;
-          return false;
+         Maptoosmall.IsOpen = true;
+         return false;
 
       }
    }

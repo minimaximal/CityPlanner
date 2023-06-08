@@ -1,53 +1,53 @@
-﻿//Author: Kevin Kern
+﻿// @author: Kevin Kern
 
 namespace CityPlanner.MapElements;
 
 public class Sight : MapElement
 {
-    public Sight(MapElement mapElement) : base(mapElement)
-    {
-    }
+   public Sight(MapElement mapElement) : base(mapElement)
+   {
+   }
 
-    public override void AddDependency(Data.GridType gridType, double distance)
-    {
-        switch (gridType)
-        {
-            case Data.GridType.Street:
-            case Data.GridType.Commercial:
-            case Data.GridType.Housing:
-                Dependency[gridType].Add(distance);
-                break;
-        }
-    }
+   public override void AddDependency(Data.GridType gridType, double distance)
+   {
+      switch (gridType)
+      {
+         case Data.GridType.Street:
+         case Data.GridType.Commercial:
+         case Data.GridType.Housing:
+            Dependency[gridType].Add(distance);
+            break;
+      }
+   }
 
-    public override int CalculateScore()
-    {
-        Score = 0;
-        
+   public override int CalculateScore()
+   {
+      Score = 0;
 
-        Score += Dependency[Data.GridType.Housing].Count * 50;
 
-        //base cost
-        Score += 20;
+      Score += Dependency[Data.GridType.Housing].Count * 50;
 
-        //Level
-        UpdateLevel();
+      // Base cost
+      Score += 20;
 
-        return Score;
-    }
-    
-    public override bool IsInRangeOfStreet()
-    {
-        return Dependency[Data.GridType.Street].Count() > 0;
-    }
+      // Level
+      UpdateLevel();
 
-    public override Data.GridType GetGridType()
-    {
-        return Data.GridType.Sight;
-    }
+      return Score;
+   }
 
-    public override Sight Clone()
-    {
-        return new Sight(this);
-    }
+   public override bool IsInRangeOfStreet()
+   {
+      return Dependency[Data.GridType.Street].Count() > 0;
+   }
+
+   public override Data.GridType GetGridType()
+   {
+      return Data.GridType.Sight;
+   }
+
+   public override Sight Clone()
+   {
+      return new Sight(this);
+   }
 }

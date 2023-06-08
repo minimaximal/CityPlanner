@@ -1,4 +1,4 @@
-﻿//Author: Kevin Kern, Paul Antoni, Sander Stella
+﻿// @author: Kevin Kern, Paul Antoni, Sander Stella
 
 namespace CityPlanner;
 
