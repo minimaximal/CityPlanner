@@ -11,10 +11,13 @@ namespace CityPlannerFrontend
     
     public sealed partial class MapEditor : Page
     {
+        public static int Population=10000;
+        public static int ImportQuota = 10; // 0 bis 100 (percent)
 
         public static int X;
         public static int Y;
-        public static MapTools GridTool;
+        
+        public static MapTools MapTool;
 
         private static byte[,] _map;
         private static Grid _grid;
@@ -145,5 +148,20 @@ namespace CityPlannerFrontend
                     break;
             }
         }
+
+        private void Button_Click_MapView(object sender, RoutedEventArgs e)
+        {
+            var @interface = new API(Population, _map, ImportQuota);
+            MapView.Interface = @interface;
+            MapView.MapTool = MapTool;
+            Frame.Navigate(typeof(MapView));
+        }
+
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Settings));
+        }
+
     }
 }

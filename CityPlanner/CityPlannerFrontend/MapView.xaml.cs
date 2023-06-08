@@ -47,12 +47,12 @@ namespace CityPlannerFrontend
          while (!_pause)
          {
             Debug.WriteLine("Next Generation");
-            Interface.nextGeneration();
+            Interface.NextGeneration();
             Debug.WriteLine(Interface.existsNewMap());
 
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _generationCount = Interface.getGeneration().ToString();
+            _generationCount = Interface.GetGeneration().ToString();
 
             _dispatcherQueue.TryEnqueue(() =>
             {
@@ -65,15 +65,15 @@ namespace CityPlannerFrontend
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
             _mapElementCount = Interface.getPlacedBuildings().ToString();
-            _satisfaction = Interface.getSatisfaction().ToString();
-            _avarageBuildingLevel = Interface.getAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
-            _population = Interface.getPopulation().ToString();
+            _satisfaction = Interface.GetSatisfaction().ToString();
+            _avarageBuildingLevel = Interface.GetAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
+            _population = Interface.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 
             _dispatcherQueue.TryEnqueue(() =>
             {
                // update UI elements with the updated variable values
-               MapGridScrollViewer.Content = MapTool.MapGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               MapGridScrollViewer.Content = MapTool.MapGenerator(Interface.GetMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                GridCount.Text = _mapElementCount;
                Satisfaction.Text = _satisfaction;
                AvarageBuildingLevel.Text = _avarageBuildingLevel;

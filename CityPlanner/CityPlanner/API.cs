@@ -10,7 +10,7 @@ public class API
     private AppController appctrl;
     private bool newMapFlag;
     private Map currentMap;
-    private Byte[,] ByteMap;
+    private byte[,] ByteMap;
     private int Score;
     private int People;
     private int placedBuildings;
@@ -19,7 +19,7 @@ public class API
 
     // do one time setup on start of application
     // pull map preferences
-    public API(int population, Byte[,] byteMap, int importQuota)
+    public API(int population, byte[,] byteMap, int importQuota)
     {
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
@@ -30,21 +30,21 @@ public class API
         ByteMap = byteMap;
         Score = 0;
         People = 0;
-        currentMap = transformByteArrayToObjectArray(byteMap, population);
+        currentMap = TransformByteArrayToObjectArray(byteMap, population);
         appctrl = new AppController(population, currentMap, importQuota);
     }
 
-    public void nextGeneration()
+    public void NextGeneration()
     {
-        Map newMap = appctrl.NextGeneration();
-        if(currentMap == null&&newMap!=null) { setNewMap(newMap);return; }
+        var newMap = appctrl.NextGeneration();
+        if(currentMap == null&&newMap!=null) { SetNewMap(newMap);return; }
         if (newMap.GetScore() > currentMap.GetScore())
         {
-            setNewMap(newMap);
+            SetNewMap(newMap);
         }
     }
 
-    private void setNewMap(Map newMap)
+    private void SetNewMap(Map newMap)
     {
         currentMap = newMap;
         newMapFlag = true;
@@ -57,7 +57,7 @@ public class API
     }
 
     // function call looks like : API.ToFrontend(map)
-    public Byte[,] getMapToFrontend()
+    public byte[,] GetMapToFrontend()
     {
         Score = currentMap.GetScore();
         People = currentMap.GetPeople(); 
@@ -67,11 +67,11 @@ public class API
         }
         
         
-        for (int x = 0; x < currentMap.SizeX; x++)
+        for (var x = 0; x < currentMap.SizeX; x++)
         {
-            for (int y = 0; y < currentMap.SizeY; y++)
+            for (var y = 0; y < currentMap.SizeY; y++)
             {
-                ByteMap[x, y] = transform(currentMap.GetGridElement(x, y));
+                ByteMap[x, y] = Transform(currentMap.GetGridElement(x, y));
             }
         }
 
@@ -79,27 +79,23 @@ public class API
         return ByteMap;
     }
 
-    public int getSatisfaction()
+    public int GetSatisfaction()
     {
         return Score;
     }
 
     //returns average building Level, has to be called after getPlacedBuildings()
-    public float getAverageBuildLevel()
+    public float GetAverageBuildLevel()
     {
         float average = 0;
-        int buildingAmount = 0;
-        foreach (byte num in ByteMap)
+        var buildingAmount = 0;
+        foreach (var num in ByteMap)
         {
-            if (num > 100)
-            {
-                int level = Int32.Parse(num.ToString().Substring(2, 1));
-                if (level != 5)
-                {
-                    average += level;
-                    buildingAmount++;
-                }
-            }
+            if (num <= 100) continue;
+            var level = int.Parse(num.ToString().Substring(2, 1));
+            if (level == 5) continue;
+            average += level;
+            buildingAmount++;
         }
 
         average /= buildingAmount;
@@ -108,29 +104,21 @@ public class API
 
     public int getPlacedBuildings()
     {
-        int buildings = 0;
-        foreach (var num in ByteMap)
-        {
-            if (num != 0)
-            {
-                buildings++;
-            }
-        }
-        return buildings;
+        return ByteMap.Cast<byte>().Count(num => num != 0);
     }
 
-    public int getPopulation()
+    public int GetPopulation()
     {
         return People;
     }
 
-    public int getGeneration()
+    public int GetGeneration()
     {
         return appctrl.GetGeneration();
     }
 
 
-    public byte transform(GridElement input)
+    public byte Transform(GridElement input)
     {
         switch (input.GetGridType())
         {
@@ -182,35 +170,41 @@ public class API
         return 255;
     }
 
-    private Map transformByteArrayToObjectArray(Byte[,] byteMap, int population)
+    private static Map TransformByteArrayToObjectArray(byte[,] byteMap, int population)
     {
-        int SizeX = byteMap.GetLength(0);
-        int SizeY = byteMap.GetLength(1);
-        Map map = new Map(SizeX, SizeY, population);
-        bool hasStreet = false;
-        for (int x = 0; x < SizeX; x++)
+        var SizeX = byteMap.GetLength(0);
+        var SizeY = byteMap.GetLength(1);
+        var map = new Map(SizeX, SizeY, population);
+        var hasStreet = false;
+        for (var x = 0; x < SizeX; x++)
         {
-            for (int y = 0; y < SizeY; y++)
+            for (var y = 0; y < SizeY; y++)
             {
                 if (byteMap[x,y] == 11)
                 {
-                    Move move = new Move(x,y);
-                    move.GridType = Data.GridType.Street;
+                    var move = new Move(x,y)
+                    {
+                        GridType = Data.GridType.Street
+                    };
                     map.AddMove(move);
                     hasStreet = true;
                 } else if (byteMap[x,y] == 21)
                 {
-                    Move move = new Move(x,y);
-                    move.GridType = Data.GridType.Empty;
+                    var move = new Move(x,y)
+                    {
+                        GridType = Data.GridType.Empty
+                    };
                     map.AddMove(move);
                 }
             }
         }
 
-        if (!hasStreet)
+        if (hasStreet) return map;
         {
-            Move move = new Move(SizeX/2,SizeY/2);
-            move.GridType = Data.GridType.Street;
+            var move = new Move(SizeX/2,SizeY/2)
+            {
+                GridType = Data.GridType.Street
+            };
             map.AddMove(move);
         }
 
