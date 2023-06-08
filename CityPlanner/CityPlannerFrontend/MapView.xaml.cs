@@ -9,25 +9,19 @@ using System.Globalization;
 using System.Threading.Tasks;
 
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace CityPlannerFrontend
 {
-   /// <summary>
-   /// An empty page that can be used on its own or navigated to within a Frame.
-   /// </summary>
+   
    public sealed partial class MapView : Page
    {
       public static API Interface { get; set; }
-      public static GridTools GridTool;
+      public static MapTools MapTool;
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
       private bool _pause = false;
-
-      
-
-      private string _gridCount;
+        
+      private string _mapElementCount;
       private string _satisfaction;
       private string _avarageBuildingLevel;
       private string _population;
@@ -70,7 +64,7 @@ namespace CityPlannerFrontend
             Debug.WriteLine("New Map");
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _gridCount = Interface.getPlacedBuildings().ToString();
+            _mapElementCount = Interface.getPlacedBuildings().ToString();
             _satisfaction = Interface.getSatisfaction().ToString();
             _avarageBuildingLevel = Interface.getAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
             _population = Interface.getPopulation().ToString();
@@ -79,8 +73,8 @@ namespace CityPlannerFrontend
             _dispatcherQueue.TryEnqueue(() =>
             {
                // update UI elements with the updated variable values
-               MapGridScrollViewer.Content = GridTool.GridGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
-               GridCount.Text = _gridCount;
+               MapGridScrollViewer.Content = MapTool.MapGenerator(Interface.getMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               GridCount.Text = _mapElementCount;
                Satisfaction.Text = _satisfaction;
                AvarageBuildingLevel.Text = _avarageBuildingLevel;
                Population.Text = _population;
@@ -90,7 +84,6 @@ namespace CityPlannerFrontend
 
          return Task.CompletedTask;
       }
-
 
 
       private void Pause_onclick(object sender, RoutedEventArgs e)
@@ -108,13 +101,12 @@ namespace CityPlannerFrontend
          }
          _pause = !_pause;
       }
+
+
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
          _pause = true;
          Frame.Navigate(typeof(Settings));
       }
-
-
-      
-   }
+    }
 }

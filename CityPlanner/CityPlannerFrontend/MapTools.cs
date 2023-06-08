@@ -5,12 +5,12 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace CityPlannerFrontend;
 
-public class GridTools
+public class MapTools
 {
 
     private readonly BitmapImage[] _textureBitmapImages;
 
-    public GridTools()
+    public MapTools()
     {
         _textureBitmapImages = new BitmapImage[255];
         for (var i = 0; i < 255; i++)
@@ -20,7 +20,7 @@ public class GridTools
     }
     
     
-    public Grid GridGenerator(byte[,] map)
+    public Grid MapGenerator(byte[,] map)
     {
         var grid = new Grid();
         var rows = map.GetLength(0);
@@ -52,29 +52,15 @@ public class GridTools
         {
             for (var j = 0; j < cols; j++)
             {
-               
-                var img = new Image
+                var tile = new Image
                 {
                     Source = _textureBitmapImages[map[i, j]]
                 };
-                var tile = new Button
-                {
-                    Content = img,
-                    Padding = new Thickness(0),
-                    BorderThickness = new Thickness(0),
-                    CornerRadius = new CornerRadius(0),
-                    ClickMode = ClickMode.Press
-                };
-                //tile.Click += MapEditor.GridTile_click;
                 grid.Children.Add(tile);
                 Grid.SetColumn(tile, j);
                 Grid.SetRow(tile, i); // set row too!
             }
-
-            
         }
-
-        
         return grid;
     }
 }

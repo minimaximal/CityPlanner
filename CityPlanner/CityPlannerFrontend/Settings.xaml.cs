@@ -18,7 +18,7 @@ namespace CityPlannerFrontend
         public int X=50;
         public int Y=30;
         public int Importquota = 10; // 0 bis 100 (percent)
-        private GridTools _gridTool = new GridTools();
+        private MapTools _gridTool = new MapTools();
         
         public Settings()
         {
@@ -35,7 +35,7 @@ namespace CityPlannerFrontend
             if (!inputValidation()) return;
             API Interface = new API(IEinwohnerzahl, X, Y, Importquota);
             MapView.Interface = Interface;
-            MapView.GridTool = _gridTool;
+            MapView.MapTool = _gridTool;
             Frame.Navigate(typeof(MapView));
         }
 
