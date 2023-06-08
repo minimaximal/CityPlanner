@@ -9,16 +9,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 namespace CityPlannerFrontend
 {
     
-    public sealed partial class MapEditor : Page
+    public sealed partial class MapEditor
     {
-        public static int Population=10000;
-        public static int ImportQuota = 10; // 0 bis 100 (percent)
-
-        public static int X;
-        public static int Y;
-        
-        public static MapTools MapTool;
-
         private static byte[,] _map;
         private static Grid _grid;
         private byte _selectedMapElement = 0;
@@ -36,7 +28,7 @@ namespace CityPlannerFrontend
             }
 
             this.InitializeComponent();
-            _map = new byte[X,Y];
+            _map = new byte[MapEditorHelpers.X, MapEditorHelpers.Y];
             _grid = GridGenerator(_map);
             MapGridScrollViewer.Content = _grid;
             
@@ -151,9 +143,9 @@ namespace CityPlannerFrontend
 
         private void Button_Click_MapView(object sender, RoutedEventArgs e)
         {
-            var @interface = new API(Population, _map, ImportQuota);
+            var @interface = new API(MapEditorHelpers.Population, _map, MapEditorHelpers.ImportQuota);
             MapView.Interface = @interface;
-            MapView.MapTool = MapTool;
+            MapView.MapTool = MapEditorHelpers.MapTool;
             Frame.Navigate(typeof(MapView));
         }
 

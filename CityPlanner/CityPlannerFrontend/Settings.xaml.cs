@@ -1,18 +1,9 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace CityPlannerFrontend
 {
-   /// <summary>
-   /// An empty page that can be used on its own or navigated to within a Frame.
-   /// </summary>
-   public sealed partial class Settings : Page
+    public sealed partial class Settings : Page
    {
       public int Population = 10000;
       public int ImportQuota = 10; // 0 bis 100 (percent)
@@ -44,15 +35,13 @@ namespace CityPlannerFrontend
       private void Button_Click_MapEditor(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         MapEditor.Population = Population;
-         MapEditor.ImportQuota = ImportQuota;
-         MapEditor.X = X;
-         MapEditor.Y = Y;
-         MapEditor.MapTool = _gridTool;
+            MapEditorHelpers.Population = Population;
+            MapEditorHelpers.ImportQuota = ImportQuota;
+            MapEditorHelpers.X = X;
+            MapEditorHelpers.Y = Y;
+            MapEditorHelpers.MapTool = _gridTool;
          Frame.Navigate(typeof(MapEditor));
       }
-
-
 
       private bool InputValidation()
       {

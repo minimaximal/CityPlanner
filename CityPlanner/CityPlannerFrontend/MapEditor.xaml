@@ -1,10 +1,6 @@
-<!-- Copyright (c) Microsoft Corporation and Contributors. -->
-<!-- Licensed under the MIT License. -->
-
 <Page x:Class="CityPlannerFrontend.MapEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CityPlannerFrontend"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -25,8 +21,7 @@
             <Button Click="Button_Click_MapView" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
         </StackPanel>
 
-        <ScrollViewer x:Name="MapGridScrollViewer" Grid.Column="1" ZoomMode="Enabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" ManipulationMode="TranslateX,TranslateY">
-        </ScrollViewer>
+        <ScrollViewer x:Name="MapGridScrollViewer" Grid.Column="1" ZoomMode="Enabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" ManipulationMode="TranslateX,TranslateY" />
 
     </Grid>
 </Page>

@@ -6,17 +6,12 @@ namespace CityPlannerFrontend.Services;
 
 public class ThemeSelectorService : IThemeSelectorService
 {
-    private const string SettingsKey = "AppBackgroundRequestedTheme";
-
     public ElementTheme Theme { get; set; } = ElementTheme.Default;
 
-    
-    
 
     public async Task InitializeAsync()
     {
-        ElementTheme elementTheme = Theme;
-        elementTheme = (ElementTheme)1;
+        const ElementTheme elementTheme = (ElementTheme)1;
         Theme = elementTheme;
         await Task.CompletedTask;
     }

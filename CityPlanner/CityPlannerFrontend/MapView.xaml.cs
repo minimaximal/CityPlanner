@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,22 +5,22 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
 
-
-
 namespace CityPlannerFrontend
 {
-   
-   public sealed partial class MapView : Page
-   {
+    public sealed partial class MapView
+    {
       public static API Interface { get; set; }
-      public static MapTools MapTool;
+      public static MapTools MapTool { get; internal set; }
+
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
-      private bool _pause = false;
-        
-      private string _mapElementCount;
+      private bool _pause;
+
+      
+
+      private string _gridCount;
       private string _satisfaction;
-      private string _avarageBuildingLevel;
+      private string _averageBuildingLevel;
       private string _population;
       private string _generationCount;
       private string _lastNewMap;
@@ -64,9 +61,9 @@ namespace CityPlannerFrontend
             Debug.WriteLine("New Map");
 
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _mapElementCount = Interface.getPlacedBuildings().ToString();
+            _gridCount = Interface.getPlacedBuildings().ToString();
             _satisfaction = Interface.GetSatisfaction().ToString();
-            _avarageBuildingLevel = Interface.GetAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
+            _averageBuildingLevel = Interface.GetAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
             _population = Interface.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 
@@ -74,9 +71,9 @@ namespace CityPlannerFrontend
             {
                // update UI elements with the updated variable values
                MapGridScrollViewer.Content = MapTool.MapGenerator(Interface.GetMapToFrontend()); // for MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
-               GridCount.Text = _mapElementCount;
+               GridCount.Text = _gridCount;
                Satisfaction.Text = _satisfaction;
-               AvarageBuildingLevel.Text = _avarageBuildingLevel;
+               AverageBuildingLevel.Text = _averageBuildingLevel;
                Population.Text = _population;
                LastNewMap.Text = _lastNewMap;
             });
@@ -101,12 +98,10 @@ namespace CityPlannerFrontend
          }
          _pause = !_pause;
       }
-
-
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
          _pause = true;
          Frame.Navigate(typeof(Settings));
       }
-    }
+   }
 }
