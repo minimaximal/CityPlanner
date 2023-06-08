@@ -193,7 +193,7 @@ namespace CityPlanner{
         public void ValidAPICalls()
         {
             Byte[,] map;
-            API api = new API(30000, 20, 20 , 0);
+            API api = new API(30000, new byte[20,20] , 0);
             
             for (int j = 0; j < 10; j++)
             {

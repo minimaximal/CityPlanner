@@ -11,7 +11,7 @@
 
 using CityPlanner;
 
-AppController appController = new AppController(30000, 50, 20 , 0);
+AppController appController = new AppController(30000, new Map(20,20,30000) , 0);
 Map bestMap = null;
 Map map = null;
 for (int j = 0; j < 1000000; j++)

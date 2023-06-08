@@ -19,17 +19,19 @@ public class API
 
     // do one time setup on start of application
     // pull map preferences
-    public API(int population, int sizeX, int sizeY, int importQuota)
+    public API(int population, Byte[,] byteMap, int importQuota)
     {
 
         foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
         {
             stats.Add(gridType, 0);
         }
-        ByteMap = new byte[sizeX, sizeY];
+
+        ByteMap = byteMap;
         Score = 0;
         People = 0;
-        appctrl = new AppController(population, sizeX, sizeY, importQuota);
+        currentMap = transformByteArrayToObjectArray(byteMap, population);
+        appctrl = new AppController(population, currentMap, importQuota);
     }
 
     public void nextGeneration()
@@ -178,5 +180,40 @@ public class API
         }
 
         return 255;
+    }
+
+    private Map transformByteArrayToObjectArray(Byte[,] byteMap, int population)
+    {
+        int SizeX = byteMap.GetLength(0);
+        int SizeY = byteMap.GetLength(1);
+        Map map = new Map(SizeX, SizeY, population);
+        bool hasStreet = false;
+        for (int x = 0; x < SizeX; x++)
+        {
+            for (int y = 0; y < SizeY; y++)
+            {
+                if (byteMap[x,y] == 11)
+                {
+                    Move move = new Move(x,y);
+                    move.GridType = Data.GridType.Street;
+                    map.AddMove(move);
+                    hasStreet = true;
+                } else if (byteMap[x,y] == 21)
+                {
+                    Move move = new Move(x,y);
+                    move.GridType = Data.GridType.Empty;
+                    map.AddMove(move);
+                }
+            }
+        }
+
+        if (!hasStreet)
+        {
+            Move move = new Move(SizeX/2,SizeY/2);
+            move.GridType = Data.GridType.Street;
+            map.AddMove(move);
+        }
+
+        return map;
     }
 }

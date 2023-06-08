@@ -4,9 +4,6 @@
     {
         private List<Agent> _agents = new();
         private readonly int _agentAmount;
-        private readonly (int x, int y) _mapSize;
-        private readonly (int x, int y)[] _stratingPoints;
-        private readonly int _targetPopulation;
         private readonly Map _defaultMap;
         private Agent _bestOfAllTime;
         private int _moveLimitEstimate;
@@ -14,16 +11,24 @@
         private bool _includeBestOfAllTime = true;
 
 
-        public AgentController((int x, int y) mapSize, (int x, int y)[] startingPoints, int targetPopulation,
-            int agentAmount)
+        public AgentController(Map map, int agentAmount)
         {
-            Data.SizeX = mapSize.x;
-            _mapSize = mapSize;
-            _stratingPoints = startingPoints;
-            _targetPopulation = targetPopulation;
+            Data.SizeX = map.SizeX;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
-            _defaultMap = CreateNewMap();
-            Data.InitialStreets = startingPoints.ToList();
+            //_defaultMap = CreateNewMap();
+            for (int x = 0; x < map.SizeX; x++)
+            {
+                for (int y = 0; y < map.SizeY; y++)
+                {
+                    if (map.GetGridElement(x,y)!.GetGridType() == Data.GridType.Street)
+                    {
+                        Data.InitialStreets.Add((x,y));
+                    }
+                }
+            }
+
+            _defaultMap = map;
+            _moveLimitEstimate = map.SizeX * map.SizeY - Data.InitialStreets.Count;
         }
 
         public Agent ExecuteEvolutionStep()
@@ -82,7 +87,7 @@
             return precedingAgents.OrderByDescending(agent => agent.Score).Take(3).ToList();
         }
 
-        private Map CreateNewMap()
+        /*private Map CreateNewMap()
         {
             // todo wenn das frontend eine map übergibt müssen die EMPTY hier gezählt werden
             _moveLimitEstimate = _mapSize.x * _mapSize.y - 1;
@@ -98,6 +103,6 @@
             }
 
             return map;
-        }
+        }*/
     }
 }
