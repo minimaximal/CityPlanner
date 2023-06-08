@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using ABI.System.Collections.Generic;
 using CityPlanner;
 using CityPlanner.Grid;
 
@@ -160,6 +161,9 @@ public class API
             case Data.GridType.Street:
                 stats[Data.GridType.Street]++;
                 return 31;
+            case Data.GridType.Highway:
+                stats[Data.GridType.Highway]++;
+                return 32;
             case Data.GridType.Subway:
                 stats[Data.GridType.Subway]++;
                 return 41;
@@ -200,6 +204,13 @@ public class API
                     var move = new Move(x,y)
                     {
                         GridType = Data.GridType.Blocked
+                    };
+                    map.AddMove(move);
+                } else if (byteMap[x, y] == 32)
+                {
+                    var move = new Move(x,y)
+                    {
+                        GridType = Data.GridType.Highway
                     };
                     map.AddMove(move);
                 }

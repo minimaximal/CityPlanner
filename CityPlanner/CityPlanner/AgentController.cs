@@ -1,4 +1,6 @@
-﻿namespace CityPlanner
+﻿using CityPlanner.Grid;
+
+namespace CityPlanner
 {
     public class AgentController
     {
@@ -13,6 +15,7 @@
 
         public AgentController(Map map, int agentAmount)
         {
+            
             Data.SizeX = map.SizeX;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             //_defaultMap = CreateNewMap();

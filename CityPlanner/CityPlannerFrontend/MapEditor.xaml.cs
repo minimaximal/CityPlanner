@@ -32,7 +32,7 @@ namespace CityPlannerFrontend
             _grid = GridGenerator(_map);
             MapGridScrollViewer.Content = _grid;
             
-            _btnList = new[] { Btn0, Btn11, Btn21};
+            _btnList = new[] {Btn0, Btn11, Btn21, Btn32};
         }
 
 
@@ -137,6 +137,10 @@ namespace CityPlannerFrontend
                 case 21:
                     Btn21.BorderThickness = new Thickness(3);
                     Btn21.BorderBrush = new SolidColorBrush(Colors.Red);
+                    break;
+                case 32:
+                    Btn32.BorderThickness = new Thickness(3);
+                    Btn32.BorderBrush = new SolidColorBrush(Colors.Red);
                     break;
             }
         }

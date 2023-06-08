@@ -47,6 +47,7 @@ public class Map : ICloneable
             Data.GridType.Sight => new Sight(old),
             Data.GridType.Empty => old,
             Data.GridType.Blocked => new Blocked(old),
+            Data.GridType.Highway => new Highway(old),
             _ => throw new Exception("This Switch case must be exhaustive!")
         };
     }
@@ -59,7 +60,8 @@ public class Map : ICloneable
             {
                 GridElement gridElement = GetGridElement(i, j)!;
                 if (gridElement.GetGridType() == Data.GridType.Street
-                    || gridElement.GetGridType() == Data.GridType.Blocked) continue;
+                    || gridElement.GetGridType() == Data.GridType.Blocked
+                    || gridElement.GetGridType() == Data.GridType.Highway) continue;
                 if (gridElement.isInRangeOfStreet() )
                 {
                     AddDependenciesFor(i, j);
@@ -265,6 +267,10 @@ public class Map : ICloneable
                     case Data.GridType.Blocked:
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.Write("#");
+                        break;
+                    case Data.GridType.Highway:
+                        Console.BackgroundColor = ConsoleColor.Magenta;
+                        Console.Write("$");
                         break;
                     case Data.GridType.Empty:
                         Console.BackgroundColor = ConsoleColor.White;

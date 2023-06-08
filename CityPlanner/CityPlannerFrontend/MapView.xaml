@@ -40,6 +40,8 @@
             <Image Source="/Assets/Grid/131.png" Height="16" Width="16" />
             <TextBlock Margin="1,5,1,0">Stra&#223;e:</TextBlock>
             <Image Source="/Assets/Grid/31.png" Height="16" Width="16" />
+            <TextBlock Margin="1,5,1,0">Autobahn:</TextBlock>
+            <Image Source="/Assets/Grid/32.png" Height="16" Width="16" />
             <TextBlock Margin="1,5,1,0">U-Bahn:</TextBlock>
             <Image Source="/Assets/Grid/41.png" Height="16" Width="16" />
             <TextBlock Margin="1,5,1,0">Sehensw&#252;rdigkeit:</TextBlock>
