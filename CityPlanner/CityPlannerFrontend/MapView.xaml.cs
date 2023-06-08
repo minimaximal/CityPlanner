@@ -63,7 +63,7 @@ namespace CityPlannerFrontend
             // saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
             _gridCount = Interface.getPlacedBuildings().ToString();
             _satisfaction = Interface.GetSatisfaction().ToString();
-            _averageBuildingLevel = Interface.GetAverageBuildLevel().ToString(CultureInfo.InvariantCulture);
+            _averageBuildingLevel = Interface.GetAverageBuildLevel().ToString("0.00");
             _population = Interface.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 

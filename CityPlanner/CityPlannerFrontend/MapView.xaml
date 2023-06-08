@@ -39,6 +39,8 @@
             <Image Source="/Assets/Grid/31.png" Height="16" Width="16" />
             <TextBlock Margin="1,5,1,0">U-Bahn:</TextBlock>
             <Image Source="/Assets/Grid/41.png" Height="16" Width="16" />
+            <TextBlock Margin="1,5,1,0">Sehensw&#252;rdigkeit:</TextBlock>
+            <Image Source="/Assets/Grid/51.png" Height="16" Width="16" />
             <TextBlock Margin="1,5,1,0">Sperrfl&#228;che:</TextBlock>
             <Image Source="/Assets/Grid/21.png" Height="16" Width="16" />
         </StackPanel>
