@@ -17,6 +17,7 @@
             <Button Name="Btn0" Click="MapElement_Click" Tag="0"> <Image Source="/Assets/Grid/0.png" Height="16" Width="16"/> </Button>
             <Button Name="Btn11" Click="MapElement_Click" Tag="11"> <Image Source="/Assets/Grid/11.png" Height="16" Width="16"/> </Button>
             <Button Name="Btn21" Click="MapElement_Click" Tag="21"> <Image Source="/Assets/Grid/21.png" Height="16" Width="16"/> </Button>
+            <Button Name="Btn32" Click="MapElement_Click" Tag="32"> <Image Source="/Assets/Grid/32.png" Height="16" Width="16"/> </Button>
 
             <Button Click="Button_Click_MapView" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
         </StackPanel>

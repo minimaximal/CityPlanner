@@ -16,13 +16,6 @@ namespace CityPlanner
         public AgentController(Map map, int agentAmount)
         {
             
-            ////TEMPORARY TESTING DONT Commit
-          
-            map.AddMove(new Move(0,10)
-            {
-                GridType =  Data.GridType.Highway
-            });
-
             Data.SizeX = map.SizeX;
             _agentAmount = agentAmount < 6 ? 6 : agentAmount;
             //_defaultMap = CreateNewMap();
