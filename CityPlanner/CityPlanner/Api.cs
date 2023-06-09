@@ -31,7 +31,7 @@ public class Api
       _score = 0;
       _people = 0;
       _currentMap = TransformByteArrayToObjectArray(byteMap, population);
-      _appController = new AppController(population, _currentMap, importQuota,numberAgents);
+      _appController = new AppController( _currentMap, importQuota,numberAgents);
    }
 
    public void NextGeneration()

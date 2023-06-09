@@ -7,10 +7,10 @@ public class AppController
    private readonly AgentController _agentController;
    private int _generation;
 
-   public AppController(int population, Map map, int importQuota, int numberAgents)
+   public AppController(Map map, int importQuota, int numberAgents)
    {
       Data.ImportQuota = importQuota;
-      Data.OptimalIndustryAmount = (population * ((100 - Data.ImportQuota) / 100) / 1250);
+      Data.OptimalIndustryAmount = (map.GetTargetPopulation() * ((100 - Data.ImportQuota) / 100) / 1250);
       _agentController = new AgentController(map, numberAgents);
       _generation = 0;
    }
