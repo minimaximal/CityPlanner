@@ -26,6 +26,12 @@ public class Housing : MapElement
             if (distance <= 3.4)
                Dependency[gridType].Add(distance);
             break;
+         case Data.GridType.Sight:
+            Dependency[gridType].Add(distance);
+            break;
+         case Data.GridType.Subway:
+            Dependency[gridType].Add(distance);
+            break;
       }
    }
 
@@ -36,8 +42,14 @@ public class Housing : MapElement
       Score += Dependency[Data.GridType.Commercial].Count * 50;
       Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
       Score += Dependency[Data.GridType.Industry].Count * -100;
-      Score += Dependency[Data.GridType.Subway].Count * 100;
-      Score += Dependency[Data.GridType.Sight].Count * 200;
+      if (Dependency[Data.GridType.Subway].Count > 0)
+      {
+         Score += 140;
+      }
+      if (Dependency[Data.GridType.Sight].Count > 0)
+      {
+         Score += 200;
+      }
 
       // Base cost
       Score -= 5;
@@ -56,15 +68,15 @@ public class Housing : MapElement
             Level = 1;
             _people = 0;
             break;
-         case <= 250:
+         case <= 280:
             Level = 1;
             _people = 8;
             break;
-         case > 250 and <= 600:
+         case > 280 and <= 690:
             Level = 2;
             _people = 95;
             break;
-         case > 600:
+         case > 690:
             Level = 3;
             _people = 200;
             break;

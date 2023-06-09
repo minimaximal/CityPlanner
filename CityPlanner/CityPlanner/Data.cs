@@ -32,7 +32,7 @@ public static class Data
         { GridType.Housing, 5 },
         { GridType.Commercial, 6.5 },
         { GridType.Industry, 4.9 },
-        { GridType.Subway, 4.5 },
+        { GridType.Subway, 5.0 },
         { GridType.Sight, 6.0 },
         { GridType.Street, 3.5 },
         { GridType.Blocked, 0 },

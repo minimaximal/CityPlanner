@@ -24,6 +24,10 @@ public class Commercial : MapElement
             if (distance <= 4)
                Dependency[gridType].Add(distance);
             break;
+         case Data.GridType.Subway:
+            if (distance <= 1.5)
+               Dependency[gridType].Add(distance);
+            break;
       }
    }
 
@@ -34,7 +38,10 @@ public class Commercial : MapElement
 
       Score += Dependency[Data.GridType.Housing].Count * 2;
       Score += Dependency[Data.GridType.Industry].Count * 500;
-      Score += Dependency[Data.GridType.Subway].Count * 200;
+      if (Dependency[Data.GridType.Subway].Count > 0)
+      {
+         Score += 150;
+      }
 
       foreach (double commercial in Dependency[Data.GridType.Commercial])
       {
