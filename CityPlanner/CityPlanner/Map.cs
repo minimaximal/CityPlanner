@@ -209,6 +209,11 @@ public class Map : ICloneable
     {
         return _score;
     }
+    public int GetTargetPopulation()
+    {
+        return _score;
+    }
+
 
 
     // For backend testing only
