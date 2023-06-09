@@ -68,9 +68,9 @@ public class Commercial : MapElement
    {
       Level = Score switch
       {
-         < -350 => 1,
-         < 250 => 2,
-         > 250 => 3,
+         < -550 => 1,
+         < 150 => 2,
+         > 150 => 3,
          _ => Level
       };
    }

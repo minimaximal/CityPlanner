@@ -145,7 +145,7 @@ public class Map : ICloneable
 
       // Import quota
       int industryDiff = industryAmount - Data.OptimalIndustryAmount;
-      _industryRatioScore = -(industryDiff * industryDiff + 10) * 7000;
+      _industryRatioScore = -(industryDiff * industryDiff + 10) * 8000;
       globalScore += _industryRatioScore;
 
       // Commercial quota
