@@ -65,4 +65,9 @@ public class MapTools
       }
       return grid;
    }
+
+   public BitmapImage[] GetTextureBitmapImages()
+   {
+      return _textureBitmapImages;
+   }
 }

@@ -2,24 +2,19 @@
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using System.Diagnostics;
-using System.Globalization;
 using System.Threading.Tasks;
+using CityPlannerFrontend.UiPassing;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace CityPlannerFrontend
 {
    public sealed partial class MapView
    {
-      public static Api Interface { get; set; }
-      public static MapTools MapTool { get; internal set; }
-
+       private Api _interface; 
+       private static MapTools _mapTool;
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
       private bool _pause;
-
-
-
       private string _gridCount;
       private string _satisfaction;
       private string _averageBuildingLevel;
@@ -27,31 +22,50 @@ namespace CityPlannerFrontend
       private string _generationCount;
       private string _lastNewMap;
 
+      private int _targetPopulation;
+      private int _importQuota;
+      private int _sizeX;
+      private int _sizeY;
+
 
 
       public MapView()
       {
          this.InitializeComponent();
-
-
-
-         Task task = new(() => { _ = BackendLoopAsync(); });
-         task.Start();
       }
+
+      
+      protected override void OnNavigatedTo(NavigationEventArgs e)
+      {
+          if (e.Parameter is ToMapView settingsToMapView)
+          {
+              _interface = settingsToMapView.GetApi();
+              _mapTool = settingsToMapView.GetMapTool();
+              _targetPopulation = settingsToMapView.GetPopulation();
+              _importQuota = settingsToMapView.GetImportQuota();
+              _sizeX = settingsToMapView.GetSizeX();
+              _sizeY = settingsToMapView.GetSizeY();
+          }
+          base.OnNavigatedTo(e);
+          
+          Task task = new(() => { _ = BackendLoopAsync(); });
+          task.Start();
+      }
+        
 
       private Task BackendLoopAsync()
       {
          Debug.WriteLine("entered backend loop");
-         if (Interface == null) return Task.CompletedTask;
+         if (_interface == null) return Task.CompletedTask;
          while (!_pause)
          {
             Debug.WriteLine("next generation");
-            Interface.NextGeneration();
-            Debug.WriteLine(Interface.ExistsNewMap());
+            _interface.NextGeneration();
+            Debug.WriteLine(_interface.ExistsNewMap());
 
 
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _generationCount = Interface.GetGeneration().ToString();
+            _generationCount = _interface.GetGeneration().ToString();
 
             _dispatcherQueue.TryEnqueue(() =>
             {
@@ -59,20 +73,20 @@ namespace CityPlannerFrontend
                Generation.Text = _generationCount;
             });
 
-            if (!Interface.ExistsNewMap()) continue;
+            if (!_interface.ExistsNewMap()) continue;
             Debug.WriteLine("new map");
 
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _gridCount = Interface.GetPlacedBuildingsAmount().ToString();
-            _satisfaction = Interface.GetSatisfaction().ToString();
-            _averageBuildingLevel = Interface.GetAverageBuildLevel().ToString("0.00");
-            _population = Interface.GetPopulation().ToString();
+            _gridCount = _interface.GetPlacedBuildingsAmount().ToString();
+            _satisfaction = _interface.GetSatisfaction().ToString();
+            _averageBuildingLevel = _interface.GetAverageBuildLevel().ToString("0.00");
+            _population = _interface.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 
             _dispatcherQueue.TryEnqueue(() =>
             {
                // Update UI elements with the updated variable values
-               MapGridScrollViewer.Content = MapTool.MapGenerator(Interface.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               MapGridScrollViewer.Content = _mapTool.MapGenerator(_interface.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                GridCount.Text = _gridCount;
                Satisfaction.Text = _satisfaction;
                AverageBuildingLevel.Text = _averageBuildingLevel;
@@ -100,10 +114,15 @@ namespace CityPlannerFrontend
          }
          _pause = !_pause;
       }
+
+
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
          _pause = true;
-         Frame.Navigate(typeof(Settings));
+         
+         var toSettings = new ToSettings(_targetPopulation, _importQuota, _sizeX, _sizeY);
+         
+         Frame.Navigate(typeof(Settings), toSettings);
       }
    }
 }

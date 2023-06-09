@@ -1,40 +1,51 @@
 // @author: Maximilian Koch
 
-using System;
+using CityPlannerFrontend.UiPassing;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-
+using Microsoft.UI.Xaml.Navigation;
 
 namespace CityPlannerFrontend
 {
 
    public sealed partial class MapEditor
    {
-      private static byte[,] _map;
-      private static Grid _grid;
-      private byte _selectedMapElement = 0;
+       private int _population;
+       private int _importQuota;
+       private int _sizeX;
+       private int _sizeY;
+       private MapTools _mapTool;
 
-      private readonly BitmapImage[] _textureBitmapImages;
+       private static byte[,] _map;
+       private static Grid _grid; 
+       private byte _selectedMapElement = 0;
 
-      private readonly Button[] _btnList;
+       private readonly Button[] _btnList;
+
 
       public MapEditor()
       {
-         _textureBitmapImages = new BitmapImage[255];
-         for (var i = 0; i < 255; i++)
-         {
-            _textureBitmapImages[i] = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + i + ".png"));
-         }
-
          this.InitializeComponent();
-         _map = new byte[MapEditorHelpers.X, MapEditorHelpers.Y];
-         _grid = GridGenerator(_map);
-         MapGridScrollViewer.Content = _grid;
-
          _btnList = new[] { Btn0, Btn11, Btn21, Btn32 };
+      }
+
+      protected override void OnNavigatedTo(NavigationEventArgs e)
+      {
+          if (e.Parameter is SettingsToMapEditor settingsToMapEditor)
+          {
+              _population = settingsToMapEditor.GetPopulation();
+              _importQuota = settingsToMapEditor.GetImportQuota();
+              _sizeX = settingsToMapEditor.GetSizeX();
+              _sizeY = settingsToMapEditor.GetSizeY();
+              _mapTool = settingsToMapEditor.GetMapTool();
+          }
+          base.OnNavigatedTo(e);
+
+          _map = new byte[_sizeX, _sizeY];
+          _grid = GridGenerator(_map);
+          MapGridScrollViewer.Content = _grid;
       }
 
 
@@ -94,7 +105,7 @@ namespace CityPlannerFrontend
       {
          var img = new Image
          {
-            Source = _textureBitmapImages[mapElementId]
+            Source = _mapTool.GetTextureBitmapImages()[mapElementId]
          };
          var tile = new Button
          {
@@ -149,16 +160,17 @@ namespace CityPlannerFrontend
 
       private void Button_Click_MapView(object sender, RoutedEventArgs e)
       {
-         var @interface = new Api(MapEditorHelpers.Population, _map, MapEditorHelpers.ImportQuota);
-         MapView.Interface = @interface;
-         MapView.MapTool = MapEditorHelpers.MapTool;
-         Frame.Navigate(typeof(MapView));
+         var appInterface = new Api(_population, _map, _importQuota);
+         var toMapView = new ToMapView(appInterface, _mapTool);
+         Frame.Navigate(typeof(MapView), toMapView);
       }
 
 
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
-         Frame.Navigate(typeof(Settings));
+         var toSettings = new ToSettings(_population, _importQuota, _sizeX, _sizeY);
+          
+         Frame.Navigate(typeof(Settings), toSettings);
       }
 
    }
