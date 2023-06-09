@@ -1,4 +1,5 @@
 ﻿// @author: Maximilian Koch
+// Object wrapper class for passing data from page settings to page map editor, because only one parameter can be passed
 
 namespace CityPlannerFrontend.UiPassing
 {

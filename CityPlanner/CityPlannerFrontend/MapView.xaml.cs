@@ -1,4 +1,6 @@
 // @author: Maximilian Koch, Leo Schnüll
+// UI class for the display of the current map and the corresponding statistics
+// It is the most important page in the frontend
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -36,6 +38,7 @@ namespace CityPlannerFrontend
          this.InitializeComponent();
       }
 
+      // Copy variables from settings or map editor page into map views own variables
       protected override void OnNavigatedTo(NavigationEventArgs e)
       {
           if (e.Parameter is ToMapView settingsToMapView)
@@ -51,21 +54,24 @@ namespace CityPlannerFrontend
           }
           base.OnNavigatedTo(e);
           
+          // Set ui elements to the values of the used parameters for the simulation (fixed values)
           MapSize.Text = _sizeX + " x " + _sizeY;
           TargetPopulation.Text = _targetPopulation.ToString();
           ImportQuota.Text = (_importQuota*100) + "%";
           NumberAgents.Text = _numberAgents.ToString();
           MutationChance.Text = (_mutationChance*100).ToString("0.00")  + "%";
 
+          // Create and start backend loop, which updates the ui elements with the current values of the simulation
           Task task = new(() => { _ = BackendLoopAsync(); });
           task.Start();
       }
       
-
+      // async background loop which updates the ui elements with the current values of the simulation
       private Task BackendLoopAsync()
       {
          Debug.WriteLine("entered backend loop");
          if (_api == null) return Task.CompletedTask;
+         // Loop runs until the user presses the pause button
          while (!_pause)
          {
             Debug.WriteLine("next generation");
@@ -76,6 +82,7 @@ namespace CityPlannerFrontend
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
             _generationCount = _api.GetGeneration().ToString();
 
+            // Dispatchers are needed because the ui elements are not allowed to be updated from a different thread than the main thread
             _dispatcherQueue.TryEnqueue(() =>
             {
                // Update UI elements with the updated variable values
@@ -92,6 +99,7 @@ namespace CityPlannerFrontend
             _averageBuildingLevel = _api.GetAverageBuildLevel().ToString("0.00");
             _lastNewMap = _generationCount;
 
+            // Dispatchers are needed because the ui elements are not allowed to be updated from a different thread than the main thread
             _dispatcherQueue.TryEnqueue(() =>
             {
                // Update UI elements with the updated variable values
@@ -99,10 +107,7 @@ namespace CityPlannerFrontend
                Satisfaction.Text = _satisfaction;
                GridCount.Text = _gridCount;
                AverageBuildingLevel.Text = _averageBuildingLevel;
-               
-               // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
-               MapGridScrollViewer.Content = FillMap(_api.GetMapToFrontend()); 
-               
+               MapGridScrollViewer.Content = FillMap(_api.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                LastNewMap.Text = _lastNewMap;
             });
          }

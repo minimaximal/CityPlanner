@@ -1,4 +1,5 @@
 ﻿// @author: Maximilian Koch
+// class for holding map element textures and preparing empty maps according to the given size
 
 using System;
 using Microsoft.UI.Xaml;
@@ -14,14 +15,18 @@ public class MapTools
 
    public MapTools()
    {
-      _textureBitmapImages = new BitmapImage[255];
+       // Load bitmap images for map elements from assets folder and store them in an array
+       // Since the map elements are represented by byte values, the array index is the byte value
+       // All not existing files will be ignored and the corresponding array element will be null
+       // Since this is a static array, it will be loaded only once and the performance effect for not found files is negligible
+       _textureBitmapImages = new BitmapImage[255];
       for (var i = 0; i < 255; i++)
       {
          _textureBitmapImages[i] = new BitmapImage(new Uri("ms-appx:///Assets//Grid//" + i + ".png"));
       }
    }
 
-
+   // Create with the given size a corresponding ui control grid
    public static Grid PrepareEmptyMap(int rows, int cols)
    {
       var grid = new Grid();

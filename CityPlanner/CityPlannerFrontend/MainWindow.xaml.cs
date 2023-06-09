@@ -1,6 +1,6 @@
 // @author: Leo Schnüll
+// Main and only window of the application. It is responsible for setting the title of the window.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using WinRT.Interop;
@@ -8,7 +8,7 @@ using WinRT.Interop;
 
 namespace CityPlannerFrontend
 {
-   public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow
    {
       public MainWindow()
       {

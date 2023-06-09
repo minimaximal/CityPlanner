@@ -1,4 +1,5 @@
 // @author: Maximilian Koch
+// Map editor page, enables the user to place map elements on the map
 
 using CityPlanner;
 using CityPlannerFrontend.UiPassing;
@@ -33,6 +34,7 @@ namespace CityPlannerFrontend
 
       protected override void OnNavigatedTo(NavigationEventArgs e)
       {
+          // Copy variables from settings page into map editors own variables
           if (e.Parameter is SettingsToMapEditor settingsToMapEditor)
           {
               _sizeX = settingsToMapEditor.GetSizeX();
@@ -45,12 +47,13 @@ namespace CityPlannerFrontend
           }
           base.OnNavigatedTo(e);
 
+          // Create and display default empty map
           _map = new byte[_sizeX, _sizeY];
           _grid = FillMap(_map);
           MapGridScrollViewer.Content = _grid;
       }
 
-        
+      // Create from 2d byte array a corresponding ui control grid 
       private Grid FillMap(byte[,] map)
       {
           var rows = map.GetLength(0);
@@ -68,12 +71,15 @@ namespace CityPlannerFrontend
           return grid;
       }
         
+      // Change a single map element in the ui control grid
       private Grid ChangeSingleMapElement(byte mapElementId, Grid grid, int row, int col)
       {
-         var img = new Image
+          // Prepare needed texture image ui control
+          var img = new Image
          {
             Source = _mapTool.GetTextureBitmapImages()[mapElementId]
          };
+         // Create button ui control with texture image as content
          var tile = new Button
          {
             Content = img,
@@ -84,7 +90,7 @@ namespace CityPlannerFrontend
          };
          tile.Click += BtnMapElement;
 
-
+         // Add created button ui control to grid
          grid.Children.Add(tile);
          Grid.SetRow(tile, row);
          Grid.SetColumn(tile, col);
@@ -92,7 +98,7 @@ namespace CityPlannerFrontend
          return grid;
       }
 
-
+      // Change a single map element in the map to the selected map element from the toolbar if user clicks on it
       public void BtnMapElement(object sender, RoutedEventArgs e)
       {
           var row = Grid.GetRow((FrameworkElement)sender);
@@ -102,6 +108,7 @@ namespace CityPlannerFrontend
           MapGridScrollViewer.Content = ChangeSingleMapElement(_selectedMapElement, _grid, row, col);
       }
 
+      // Change the selected map element to the one the user clicked on in the toolbar
       private void BtnMapElementToolBar(object sender, RoutedEventArgs e)
       {
          var btn = byte.Parse(((Button)sender).Tag.ToString() ?? "0");
@@ -113,7 +120,7 @@ namespace CityPlannerFrontend
             button.BorderBrush = new SolidColorBrush(Colors.Transparent);
          }
 
-         // Switch over all button tags
+         // Switch over all button tags to set the border of the selected button
          switch (btn)
          {
             case 0:
@@ -135,6 +142,7 @@ namespace CityPlannerFrontend
          }
       }
 
+      // create api to start simulation and navigate to map view
       private void BtnMapView(object sender, RoutedEventArgs e)
       {
           var api = new Api(_population, _map, _importQuota, _numberAgents, _mutationChance);
@@ -142,7 +150,7 @@ namespace CityPlannerFrontend
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
-
+      // navigate back to settings page
       private void BtnSettings(object sender, RoutedEventArgs e)
       {
          var toSettings = new ToSettings(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance);

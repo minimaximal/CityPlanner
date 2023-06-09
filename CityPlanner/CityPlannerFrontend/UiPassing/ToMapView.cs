@@ -1,4 +1,5 @@
 ﻿// @author: Maximilian Koch
+// Object wrapper class for passing data from page settings and page map editor to page map view, because only one parameter can be passed
 
 using CityPlanner;
 

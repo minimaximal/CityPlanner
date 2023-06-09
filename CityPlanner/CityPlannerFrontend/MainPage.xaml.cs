@@ -1,4 +1,5 @@
 // @author: Leo Schnüll
+// Main page of the application, which is the first page the user sees when starting the application
 
 using Microsoft.UI.Xaml;
 

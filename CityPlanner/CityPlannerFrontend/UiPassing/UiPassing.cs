@@ -1,4 +1,7 @@
-﻿namespace CityPlannerFrontend.UiPassing
+﻿// @author: Maximilian Koch
+// Object wrapper base class for passing data from one page to another, because only one parameter can be passed
+
+namespace CityPlannerFrontend.UiPassing
 {
     internal class UiPassing
     {
