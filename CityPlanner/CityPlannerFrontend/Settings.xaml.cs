@@ -10,13 +10,14 @@ namespace CityPlannerFrontend
 {
    public sealed partial class Settings : Page
    {
-      private int _population = 50000;
-      private int _importQuota; // 0 bis 100 (percent)
-      private int _sizeX = 40;
-      private int _sizeY = 40;
-      private int _numberAgents = 20;
-      private double _mutationChance = 0.001;
-      private readonly MapTools _mapTool = new();
+       private int _sizeX = 40;
+       private int _sizeY = 40;
+       private int _population = 50000;
+       private int _importQuota; // 0 bis 100 (percent)
+       private int _numberAgents = 20;
+       private double _mutationChance = 0.001;
+      
+       private readonly MapTools _mapTool = new();
 
       public Settings()
       {
@@ -38,29 +39,23 @@ namespace CityPlannerFrontend
       }
 
 
-      private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+      private void BtnMain(object sender, RoutedEventArgs e)
       {
          Frame.Navigate(typeof(MainPage));
       }
 
-      private void Button_Click_MapView(object sender, RoutedEventArgs e)
+      private void BtnMapView(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         
-         var map = new byte[_sizeX, _sizeY];
-         var appInterface = new Api(_population, map, _importQuota, _numberAgents, _mutationChance);
-         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
-
+         var api = new Api(_population, new byte[_sizeX, _sizeY], _importQuota, _numberAgents, _mutationChance);
+         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
-
-      private void Button_Click_MapEditor(object sender, RoutedEventArgs e)
+      private void BtnMapEditor(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-
          var settingsToMapEditor = new SettingsToMapEditor(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool);
-
          Frame.Navigate(typeof(MapEditor), settingsToMapEditor);
       }
 
@@ -73,7 +68,6 @@ namespace CityPlannerFrontend
 
          Maptoosmall.IsOpen = true;
          return false;
-
       }
    }
 }

@@ -17,12 +17,7 @@ namespace CityPlannerFrontend
          var mAppWindow = GetAppWindowForCurrentWindow();
          mAppWindow.Title = "City Planner";
       }
-
-      private void MyButton_Click(object sender, RoutedEventArgs e)
-      {
-         MyButton.Content = "Clicked";
-      }
-
+      
       private AppWindow GetAppWindowForCurrentWindow()
       {
          var hWnd = WindowNative.GetWindowHandle(this);
