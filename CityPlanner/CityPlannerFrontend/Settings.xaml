@@ -8,8 +8,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="pageTitle" Text="Einstellungen"
-               Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
+        <TextBlock Text="Einstellungen"
+                   Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
         <HyperlinkButton Content="Hauptmen&#252;"
                               Click="HyperlinkButton_Click"
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>

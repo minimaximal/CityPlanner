@@ -11,7 +11,7 @@ namespace CityPlannerFrontend
    public sealed partial class Settings : Page
    {
       private int _population = 50000;
-      private int _importQuota = 0; // 0 bis 100 (percent)
+      private int _importQuota; // 0 bis 100 (percent)
       private int _sizeX = 40;
       private int _sizeY = 40;
       private readonly MapTools _mapTool = new();

@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="*"/>
@@ -61,8 +61,6 @@
             </Expander>
         </StackPanel>
         </ScrollViewer>
-
         <ScrollViewer x:Name="MapGridScrollViewer" Grid.Column="1" ZoomMode="Enabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" IsHorizontalScrollChainingEnabled="True" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto" ManipulationMode="TranslateX,TranslateY" />
-
     </Grid>
 </Page>

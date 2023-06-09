@@ -1,11 +1,10 @@
 // @author: Leo Schnüll
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace CityPlannerFrontend
 {
-   public sealed partial class MainPage : Page
+   public sealed partial class MainPage
    {
       public MainPage()
       {

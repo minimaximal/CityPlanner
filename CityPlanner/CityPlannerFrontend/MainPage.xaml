@@ -8,8 +8,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock x:Name="pageTitle" Text="Main Page"
-         Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
+        <TextBlock Text="Main Page"
+                   Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
         <StackPanel VerticalAlignment="Center">
         <TextBlock HorizontalAlignment="Center" FontSize="40" Text="City Planner"/>
         <HyperlinkButton Content="Neue Simulation"

@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 namespace CityPlannerFrontend
 {
 
-   public sealed partial class MapEditor
+    public sealed partial class MapEditor
    {
        private int _population;
        private int _importQuota;
@@ -21,7 +21,7 @@ namespace CityPlannerFrontend
 
        private static byte[,] _map;
        private static Grid _grid; 
-       private byte _selectedMapElement = 0;
+       private byte _selectedMapElement;
 
        private readonly Button[] _btnList;
 
