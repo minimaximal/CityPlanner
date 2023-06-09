@@ -11,7 +11,7 @@
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0" ZoomMode="Disabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" IsHorizontalScrollChainingEnabled="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" ManipulationMode="TranslateX,TranslateY">
-            <StackPanel Width="140" Background="LightBlue" HorizontalAlignment="Left">
+            <StackPanel Width="140" HorizontalAlignment="Left">
         
             <HyperlinkButton Click="BtnSettings" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
 
