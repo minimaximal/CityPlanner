@@ -11,6 +11,7 @@ namespace CityPlanner
       private static Move _firstPossibleMove = null!;
       private static Move _lastPossibleMove = null!;
 
+      private int _streetCounter; 
       public bool NoMoreValidMoves;
       public int Score;
 
@@ -191,7 +192,40 @@ namespace CityPlanner
          if (move.GridType != Data.GridType.Street) return false;
          return !_map.ValidateStreet(move);
       }
+      public bool gridModusLOL(Move move)
+      {
+         int x_off = Data.InitialStreets[0].Item1 % 7;
+         int y_off = Data.InitialStreets[0].Item2 % 7;
+         return (move.X % 7 == x_off || move.Y % 7 == x_off);
+      }
+      public bool gridModusChangse()
+      {
+         return true;
+         Random random = new Random();
+         return random.NextDouble()  <(-0.025 * _streetCounter + 1.5);
+      }
 
+
+
+
+      public bool shoudTheAgentBuildAStrteet(Move move)
+      {
+         Random random = new Random();
+         if (gridModusLOL(move))
+         {
+            if (gridModusChangse())
+            {
+               return true;
+            }
+         }
+
+         if (random.NextDouble() < _map.GetGridElement(move).GetProbability())
+         {
+            return true;
+         }
+
+         return false;
+      }
       private Move GetRandomMove()
       {
          Random random = new Random();
@@ -205,9 +239,10 @@ namespace CityPlanner
          Move move = _possibleMoves.ElementAt(pick);
          Data.GridType toBePlaced;
          if (_map.ValidateStreet(move)
-         && random.NextDouble() < _map.GetGridElement(move)!.GetProbability())
+         && shoudTheAgentBuildAStrteet(move) )
          {
             toBePlaced = Data.GridType.Street;
+            _streetCounter++;
          }
          else
          {
