@@ -2,41 +2,13 @@
 
 namespace CityPlannerFrontend.UiPassing
 {
-    internal class SettingsToMapEditor
+    internal class SettingsToMapEditor : UiPassing
     {
-        private readonly int _population;
-        private readonly int _importQuota;
-        private readonly int _sizeX;
-        private readonly int _sizeY;
         private readonly MapTools _mapTool;
 
-        public SettingsToMapEditor(int population, int importQuota, int sizeX, int sizeY, MapTools mapTool)
+        public SettingsToMapEditor(int sizeX, int sizeY, int population, int importQuota, MapTools mapTool) : base(sizeX, sizeY, population, importQuota)
         {
-            _population = population;
-            _importQuota = importQuota;
-            _sizeX = sizeX;
-            _sizeY = sizeY;
             _mapTool = mapTool;
-        }
-
-        public int GetPopulation()
-        {
-            return _population;
-        }
-
-        public int GetImportQuota()
-        {
-            return _importQuota;
-        }
-
-        public int GetSizeX()
-        {
-            return _sizeX;
-        }
-
-        public int GetSizeY()
-        {
-            return _sizeY;
         }
 
         public MapTools GetMapTool()

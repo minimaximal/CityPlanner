@@ -44,7 +44,7 @@ namespace CityPlannerFrontend
          
          var map = new byte[_sizeX, _sizeY];
          var appInterface = new Api(_population, map, _importQuota);
-         var toMapView = new ToMapView(appInterface, _mapTool, _population, _importQuota, _sizeX, _sizeY);
+         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _mapTool, appInterface);
 
          Frame.Navigate(typeof(MapView), toMapView);
       }
