@@ -15,39 +15,50 @@
             <Button Click="Pause_onclick" Margin="1,10,1,5" Name="PauseButton">Pause</Button>
             <HyperlinkButton Click="HyperlinkButton_Click" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
             
-           
-            
-            <TextBlock Margin="1,5,1,5">Statistiken:</TextBlock>
-            <TextBlock Margin="1,5,1,0">Rasteranzahl:</TextBlock>
-            <TextBlock Name="GridCount" Margin="1,0,1,5">0</TextBlock>
-            <TextBlock Margin="1,5,1,0">Zufriedenheit:</TextBlock>
-            <TextBlock Name="Satisfaction" Margin="1,0,1,5">0</TextBlock>
-            <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
-            <TextBlock Name="AverageBuildingLevel" Margin="1,0,1,5">0</TextBlock>
-            <TextBlock Margin="1,5,1,5">Bev&#246;lkerung</TextBlock>
-            <TextBlock Name="Population" Margin="1,0,1,5">0</TextBlock>
-            <TextBlock Margin="1,5,1,0">Generation:</TextBlock>
-            <TextBlock Name="Generation" Margin="1,0,1,5">0</TextBlock>
-            <TextBlock Margin="1,5,1,5">letztes Update:</TextBlock>
-            <TextBlock Name="LastNewMap" Margin="1,0,1,5">0</TextBlock>
-
-            <TextBlock Margin="1,5,1,5">Legende:</TextBlock>
-            <TextBlock Margin="1,5,1,0">Wohngebiet:</TextBlock>
-            <Image Source="/Assets/Grid/111.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Gewerbegebiet:</TextBlock>
-            <Image Source="/Assets/Grid/121.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Industriegebiet:</TextBlock>
-            <Image Source="/Assets/Grid/131.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Stra&#223;e:</TextBlock>
-            <Image Source="/Assets/Grid/31.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Autobahn:</TextBlock>
-            <Image Source="/Assets/Grid/32.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">U-Bahn:</TextBlock>
-            <Image Source="/Assets/Grid/41.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Sehensw&#252;rdigkeit:</TextBlock>
-            <Image Source="/Assets/Grid/51.png" Height="16" Width="16" />
-            <TextBlock Margin="1,5,1,0">Sperrfl&#228;che:</TextBlock>
-            <Image Source="/Assets/Grid/21.png" Height="16" Width="16" />
+            <Expander
+                IsExpanded="False"
+                ExpandDirection="Down"
+                VerticalAlignment="Top"
+                Header="Statistiken">
+                <StackPanel>
+                    <TextBlock Margin="1,5,1,0">Rasteranzahl:</TextBlock>
+                    <TextBlock Name="GridCount" Margin="1,0,1,5">0</TextBlock>
+                    <TextBlock Margin="1,5,1,0">Zufriedenheit:</TextBlock>
+                    <TextBlock Name="Satisfaction" Margin="1,0,1,5">0</TextBlock>
+                    <TextBlock Margin="1,5,1,0">Geb&#228;udelevel:</TextBlock>
+                    <TextBlock Name="AverageBuildingLevel" Margin="1,0,1,5">0</TextBlock>
+                    <TextBlock Margin="1,5,1,5">Bev&#246;lkerung</TextBlock>
+                    <TextBlock Name="Population" Margin="1,0,1,5">0</TextBlock>
+                    <TextBlock Margin="1,5,1,0">Generation:</TextBlock>
+                    <TextBlock Name="Generation" Margin="1,0,1,5">0</TextBlock>
+                    <TextBlock Margin="1,5,1,5">letztes Update:</TextBlock>
+                    <TextBlock Name="LastNewMap" Margin="1,0,1,5">0</TextBlock>
+                </StackPanel>
+            </Expander>
+            <Expander
+                IsExpanded="False"
+                ExpandDirection="Down"
+                VerticalAlignment="Top"
+                Header="Legende">
+                <StackPanel>
+                    <TextBlock Margin="1,5,1,0">Wohngebiet:</TextBlock>
+                    <Image Source="/Assets/Grid/111.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Gewerbegebiet:</TextBlock>
+                    <Image Source="/Assets/Grid/121.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Industriegebiet:</TextBlock>
+                    <Image Source="/Assets/Grid/131.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Stra&#223;e:</TextBlock>
+                    <Image Source="/Assets/Grid/31.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Autobahn:</TextBlock>
+                    <Image Source="/Assets/Grid/32.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">U-Bahn:</TextBlock>
+                    <Image Source="/Assets/Grid/41.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Sehensw&#252;rdigkeit:</TextBlock>
+                    <Image Source="/Assets/Grid/51.png" Height="16" Width="16" />
+                    <TextBlock Margin="1,5,1,0">Sperrfl&#228;che:</TextBlock>
+                    <Image Source="/Assets/Grid/21.png" Height="16" Width="16" />
+                </StackPanel>
+            </Expander>
         </StackPanel>
         </ScrollViewer>
 
