@@ -27,6 +27,8 @@ namespace CityPlannerFrontend
       private int _importQuota;
       private int _sizeX;
       private int _sizeY;
+      private int _numberAgents;
+      private double _mutationChance;
 
 
 
@@ -121,7 +123,7 @@ namespace CityPlannerFrontend
       {
          _pause = true;
          
-         var toSettings = new ToSettings(_targetPopulation, _importQuota, _sizeX, _sizeY);
+         var toSettings = new ToSettings(_sizeX, _sizeY, _targetPopulation, _importQuota, _numberAgents, _mutationChance);
          
          Frame.Navigate(typeof(Settings), toSettings);
       }

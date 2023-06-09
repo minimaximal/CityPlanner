@@ -6,13 +6,17 @@
         private readonly int _sizeY;
         private readonly int _population;
         private readonly int _importQuota;
+        private readonly int _numberAgents;
+        private readonly double _mutationChance;
         
-        public UiPassing(int sizeX, int sizeY, int population, int importQuota)
+        public UiPassing(int sizeX, int sizeY, int population, int importQuota, int numberAgents, double mutationChance)
         {
             _sizeX = sizeX;
             _sizeY = sizeY;
             _population = population;
             _importQuota = importQuota;
+            _numberAgents = numberAgents;
+            _mutationChance = mutationChance;
         }
 
         public int GetSizeX()
@@ -34,5 +38,16 @@
         {
             return _importQuota;
         }
+
+        public int GetNumberAgents()
+        {
+            return _numberAgents;
+        }
+
+        public double GetMutationChance()
+        {
+            return _mutationChance;
+        }
     }
 }
+

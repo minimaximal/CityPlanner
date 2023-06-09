@@ -6,7 +6,7 @@ namespace CityPlannerFrontend.UiPassing
     {
         private readonly MapTools _mapTool;
 
-        public SettingsToMapEditor(int sizeX, int sizeY, int population, int importQuota, MapTools mapTool) : base(sizeX, sizeY, population, importQuota)
+        public SettingsToMapEditor(int sizeX, int sizeY, int population, int importQuota, int numberAgents, double mutationChance, MapTools mapTool) : base(sizeX, sizeY, population, importQuota, numberAgents, mutationChance)
         {
             _mapTool = mapTool;
         }

@@ -14,6 +14,8 @@ namespace CityPlannerFrontend
       private int _importQuota; // 0 bis 100 (percent)
       private int _sizeX = 40;
       private int _sizeY = 40;
+      private int _numberAgents = 20;
+      private double _mutationChance = 0.001;
       private readonly MapTools _mapTool = new();
 
       public Settings()
@@ -45,7 +47,7 @@ namespace CityPlannerFrontend
          
          var map = new byte[_sizeX, _sizeY];
          var appInterface = new Api(_population, map, _importQuota);
-         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _mapTool, appInterface);
+         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
 
          Frame.Navigate(typeof(MapView), toMapView);
       }
@@ -55,7 +57,7 @@ namespace CityPlannerFrontend
       {
          if (!InputValidation()) return;
 
-         var settingsToMapEditor = new SettingsToMapEditor(_population, _importQuota, _sizeX, _sizeY, _mapTool);
+         var settingsToMapEditor = new SettingsToMapEditor(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool);
 
          Frame.Navigate(typeof(MapEditor), settingsToMapEditor);
       }

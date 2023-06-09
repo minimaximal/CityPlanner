@@ -17,6 +17,8 @@ namespace CityPlannerFrontend
        private int _importQuota;
        private int _sizeX;
        private int _sizeY;
+       private int _numberAgents;
+       private double _mutationChance;
        private MapTools _mapTool;
 
        private static byte[,] _map;
@@ -162,14 +164,14 @@ namespace CityPlannerFrontend
       private void Button_Click_MapView(object sender, RoutedEventArgs e)
       {
          var appInterface = new Api(_population, _map, _importQuota);
-         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _mapTool, appInterface);
+         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
 
       private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
       {
-         var toSettings = new ToSettings(_sizeX, _sizeY, _population, _importQuota);
+         var toSettings = new ToSettings(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance);
          Frame.Navigate(typeof(Settings), toSettings);
       }
 

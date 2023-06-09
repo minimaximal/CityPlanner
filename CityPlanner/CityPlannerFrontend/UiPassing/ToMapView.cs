@@ -9,7 +9,7 @@ namespace CityPlannerFrontend.UiPassing
         private readonly MapTools _mapTool;
         private readonly Api _api;
         
-        public ToMapView(int sizeX, int sizeY, int population, int importQuota, MapTools mapTool, Api api) : base(sizeX, sizeY, population, importQuota)
+        public ToMapView(int sizeX, int sizeY, int population, int importQuota, int numberAgents, double mutationChance, MapTools mapTool, Api api) : base(sizeX, sizeY, population, importQuota, numberAgents, mutationChance)
         {
             _mapTool = mapTool;
             _api = api;
