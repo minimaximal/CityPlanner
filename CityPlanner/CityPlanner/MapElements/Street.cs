@@ -4,8 +4,21 @@ namespace CityPlanner.MapElements;
 
 public class Street : MapElement
 {
+   
+   
    public Street(MapElement mapElement) : base(mapElement)
    {
+   }
+
+   public override void AddDependency(Data.GridType gridType, double distance)
+   {
+      switch (gridType)
+      {
+         case Data.GridType.Street:
+         case Data.GridType.Highway :
+            Dependency[gridType].Add(distance);
+            break;
+      }
    }
 
    public override int CalculateScore()
