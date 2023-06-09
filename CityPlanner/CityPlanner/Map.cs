@@ -149,7 +149,7 @@ public class Map : ICloneable
       globalScore += _industryRatioScore;
 
       // Commercial quota
-      int commercialDiff = commercialAmount - (_targetPopulation / 550);
+      int commercialDiff = commercialAmount - (_population / 550);
       _commercialScore = -(commercialDiff * commercialDiff + 10) * 4000;
       globalScore += _commercialScore;
 
