@@ -15,7 +15,7 @@ AppController appController = new AppController( map, 0,20);
 
 Map? bestMap = null;
 
-for (int j = 0; j < 1000000; j++)
+for (int j = 0; j < 100; j++)
 {
    Map nextMap = appController.NextGeneration();
 

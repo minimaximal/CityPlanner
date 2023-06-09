@@ -4,57 +4,57 @@ namespace CityPlanner.MapElements;
 
 public class Subway : MapElement
 {
-   public Subway(MapElement mapElement) : base(mapElement)
-   {
-   }
+    public Subway(MapElement mapElement) : base(mapElement)
+    {
+    }
 
-   public override void AddDependency(Data.GridType gridType, double distance)
-   {
-      switch (gridType)
-      {
-         case Data.GridType.Street:
-         case Data.GridType.Commercial:
-            Dependency[gridType].Add(distance);
-            break;
-         case Data.GridType.Housing:
-            if (distance <= 4.5)
-               Dependency[gridType].Add(distance);
-            break;
-      }
-   }
+    public override void AddDependency(Data.GridType gridType, double distance)
+    {
+        switch (gridType)
+        {
+            case Data.GridType.Street:
+            case Data.GridType.Commercial:
+            case Data.GridType.Subway:
+                Dependency[gridType].Add(distance);
+                break;
+            case Data.GridType.Housing:
+                if (distance <= 4.5)
+                    Dependency[gridType].Add(distance);
+                break;
+        }
+    }
 
-   public override int CalculateScore()
-   {
-      Score = 0;
-
-
-      Score += Dependency[Data.GridType.Housing].Count * 50;
-      // The closer another Subway is the more minus points it gets 
-      Score += Dependency[Data.GridType.Subway].Count *-1500;
+    public override int CalculateScore()
+    {
+        Score = 0;
 
 
+        Score += Dependency[Data.GridType.Housing].Count * 50;
+        // The closer another Subway is the more minus points it gets 
+        Score += Dependency[Data.GridType.Subway].Count * -1500;
 
-      // Base cost
-      Score += 20;
 
-      // Level
-      UpdateLevel();
+        // Base cost
+        Score += 20;
 
-      return Score;
-   }
+        // Level
+        UpdateLevel();
 
-   public override bool IsInRangeOfStreet()
-   {
-      return Dependency[Data.GridType.Street].Any();
-   }
+        return Score;
+    }
 
-   public override Data.GridType GetGridType()
-   {
-      return Data.GridType.Subway;
-   }
+    public override bool IsInRangeOfStreet()
+    {
+        return Dependency[Data.GridType.Street].Any();
+    }
 
-   public override Subway Clone()
-   {
-      return new Subway(this);
-   }
+    public override Data.GridType GetGridType()
+    {
+        return Data.GridType.Subway;
+    }
+
+    public override Subway Clone()
+    {
+        return new Subway(this);
+    }
 }
