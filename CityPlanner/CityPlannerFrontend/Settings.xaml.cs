@@ -7,10 +7,10 @@ namespace CityPlannerFrontend
 {
    public sealed partial class Settings : Page
    {
-      public int Population = 10000;
-      public int ImportQuota = 10; // 0 bis 100 (percent)
-      public int X = 50;
-      public int Y = 30;
+      public int Population = 50000;
+      public int ImportQuota = 0; // 0 bis 100 (percent)
+      public int X = 40;
+      public int Y = 40;
       private readonly MapTools _gridTool = new();
 
       public Settings()
