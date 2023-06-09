@@ -8,6 +8,8 @@ public static class Data
    public static int OptimalIndustryAmount;
    public static List<(int, int)> InitialStreets = null!;
 
+   public static double mutationChance;
+
 
    // Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
    public enum GridType

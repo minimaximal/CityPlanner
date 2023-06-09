@@ -165,7 +165,7 @@ namespace CityPlanner
             } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
          }
 
-         if (move == null || random.NextDouble() < 0.001 ||
+         if (move == null || random.NextDouble() < Data.mutationChance ||
              (IsIllegalStreet(move)))
          {
             if (_possibleMoves.Count > 0)
