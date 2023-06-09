@@ -2,327 +2,325 @@
 
 namespace CityPlanner
 {
-   public class Agent
-   {
-      private Map _map = null!;
-      private readonly List<Move> _parentMoves = new List<Move>();
-      private readonly List<Move> _moves = new List<Move>();
-      private List<Move> _possibleMoves = new List<Move>();
-      private static Move _firstPossibleMove = null!;
-      private static Move _lastPossibleMove = null!;
+    public class Agent
+    {
+        private Map _map = null!;
+        private readonly List<Move> _parentMoves = new List<Move>();
+        private readonly List<Move> _moves = new List<Move>();
+        private List<Move> _possibleMoves = new List<Move>();
+        private static Move _firstPossibleMove = null!;
+        private static Move _lastPossibleMove = null!;
 
-      private int _streetCounter; 
-      public bool NoMoreValidMoves;
-      public int Score;
+        private int _streetCounter;
+        public bool NoMoreValidMoves;
+        public int Score;
 
-      // Basic Constructor for first gen of Agents
-      public Agent(Map map)
-      {
-         BasicSetup(map);
-      }
+        // Basic Constructor for first gen of Agents
+        public Agent(Map map)
+        {
+            BasicSetup(map);
+        }
 
-      /*advanced Constructor that contains previous Agents for Mixture as well as
-      split Point that tells how much to take from which parent*/
-      public Agent(Map map, Agent parent1, Agent parent2, double split)
-      {
-         _parentMoves = SelectMovesFromParents(parent1, parent2, split);
-         BasicSetup(map);
-      }
+        /*advanced Constructor that contains previous Agents for Mixture as well as
+        split Point that tells how much to take from which parent*/
+        public Agent(Map map, Agent parent1, Agent parent2, double split)
+        {
+            _parentMoves = SelectMovesFromParents(parent1, parent2, split);
+            BasicSetup(map);
+        }
 
-      private void BasicSetup(Map map)
-      {
-         _map = map;
-         _firstPossibleMove = new Move(0, 0);
-         _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1);
-         NoMoreValidMoves = false;
-         _possibleMoves.AddRange(_parentMoves);
-         _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
+        private void BasicSetup(Map map)
+        {
+            _map = map;
+            _firstPossibleMove = new Move(0, 0);
+            _lastPossibleMove = new Move(_map.SizeX - 1, _map.SizeY - 1);
+            NoMoreValidMoves = false;
+            _possibleMoves.AddRange(_parentMoves);
+            _possibleMoves = _possibleMoves.OrderBy(move => move.IndexNumber()).ToList();
 
-         FillGapsInMovesList();
-         _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
-      }
+            FillGapsInMovesList();
+            _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
+        }
 
-      // Splits moves of parents at splitPoint and generates new move list
-      private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
-      {
-         List<Move> result = new List<Move>();
-         if (split >= 1)
-         {
-            split = 1;
-         }
-
-         int shorterParentCount = parent1._moves.Count;
-
-         if (parent2._moves.Count < parent1._moves.Count)
-         {
-            shorterParentCount = parent2._moves.Count;
-         }
-
-         for (int i = 0; i < shorterParentCount * split; i++)
-         {
-            result.Add(new Move(parent1._moves.ElementAt(i)));
-         }
-
-         for (int i = result.Count; i < parent2._moves.Count; i++)
-         {
-            result.Add(new Move(parent2._moves.ElementAt(i)));
-         }
-
-
-         if (shorterParentCount == parent2._moves.Count)
-         {
-            for (int i = result.Count; i < parent1._moves.Count; i++)
+        // Splits moves of parents at splitPoint and generates new move list
+        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
+        {
+            List<Move> result = new List<Move>();
+            if (split >= 1)
             {
-               result.Add(new Move(parent1._moves.ElementAt(i)));
+                split = 1;
             }
-         }
 
-         return result;
-      }
+            int shorterParentCount = parent1._moves.Count;
 
-      private void FillGapsInMovesList()
-      {
-         _possibleMoves.Insert(0, _firstPossibleMove);
-         _possibleMoves.Add(_lastPossibleMove);
-
-         for (int i = 0; i < _possibleMoves.Count - 1; i++)
-         {
-            if (_possibleMoves[i].IndexNumber() - _possibleMoves[i + 1].IndexNumber() < -1)
+            if (parent2._moves.Count < parent1._moves.Count)
             {
-               FillGapAt(i);
+                shorterParentCount = parent2._moves.Count;
             }
-         }
 
-         _possibleMoves.Remove(_firstPossibleMove);
-         _possibleMoves.Remove(_lastPossibleMove); // Remove moves again since they were just used as a border
-
-         AddFirstAndLastPossibleMoveToPossibleMovesIfMissing();
-      }
-
-      // Gets called by FillGapsInMovesList()
-      private void FillGapAt(int index)
-      {
-         Move gapBeginning = _possibleMoves.ElementAt(index);
-         int gapOffset = 0;
-         do
-         {
-            int tmp = (gapBeginning.X + gapOffset + 1);
-            int x = tmp % _map.SizeX;
-            int y = gapBeginning.Y + tmp / _map.SizeX;
-            if (_map.GetGridElement(x, y)!.GetGridType() == Data.GridType.Empty)
+            for (int i = 0; i < shorterParentCount * split; i++)
             {
-               _possibleMoves.Insert(index + 1, new Move(x, y));
-               break;
+                result.Add(new Move(parent1._moves.ElementAt(i)));
             }
-            gapOffset++;
-         } while (gapBeginning.IndexNumber() + gapOffset + 1 < _possibleMoves[index + 1].IndexNumber());
-      }
 
-      // Gets called by FillGapsInMovesList() in order to add first and last moves again if they are necessary
-      private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
-      {
-         if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
-         {
-            if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
+            for (int i = result.Count; i < parent2._moves.Count; i++)
             {
-               _possibleMoves.Insert(0, new Move(_firstPossibleMove));
+                result.Add(new Move(parent2._moves.ElementAt(i)));
             }
-         }
 
-         if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
-         {
-            if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
+
+            if (shorterParentCount == parent2._moves.Count)
             {
-               _possibleMoves.Add(new Move(_lastPossibleMove));
+                for (int i = result.Count; i < parent1._moves.Count; i++)
+                {
+                    result.Add(new Move(parent1._moves.ElementAt(i)));
+                }
             }
-         }
-      }
 
-      public void CalculateScore()
-      {
-         Score = _map.CalculateScore();
-      }
+            return result;
+        }
 
-      public void MakeNMoves(int n)
-      {
-         for (int move = 0; move < n; move++)
-         {
-            MakeOneMove();
-         }
-      }
+        private void FillGapsInMovesList()
+        {
+            _possibleMoves.Insert(0, _firstPossibleMove);
+            _possibleMoves.Add(_lastPossibleMove);
 
-      // Gets called by MakeNMoves(int)
-      public void MakeOneMove()
-      {
-         Random random = new Random();
-         Move? move = null;
-         if (_parentMoves.Count > 0)
-         {
+            for (int i = 0; i < _possibleMoves.Count - 1; i++)
+            {
+                if (_possibleMoves[i].IndexNumber() - _possibleMoves[i + 1].IndexNumber() < -1)
+                {
+                    FillGapAt(i);
+                }
+            }
+
+            _possibleMoves.Remove(_firstPossibleMove);
+            _possibleMoves.Remove(_lastPossibleMove); // Remove moves again since they were just used as a border
+
+            AddFirstAndLastPossibleMoveToPossibleMovesIfMissing();
+        }
+
+        // Gets called by FillGapsInMovesList()
+        private void FillGapAt(int index)
+        {
+            Move gapBeginning = _possibleMoves.ElementAt(index);
+            int gapOffset = 0;
             do
             {
-               move = _parentMoves[0];
-               _parentMoves.RemoveAt(0);
-               // If parent move is blocked continue on with the next
-            } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
-         }
+                int tmp = (gapBeginning.X + gapOffset + 1);
+                int x = tmp % _map.SizeX;
+                int y = gapBeginning.Y + tmp / _map.SizeX;
+                if (_map.GetGridElement(x, y)!.GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(index + 1, new Move(x, y));
+                    break;
+                }
 
-         if (move == null || random.NextDouble() < Data.mutationChance ||
-             (IsIllegalStreet(move)))
-         {
-            if (_possibleMoves.Count > 0)
+                gapOffset++;
+            } while (gapBeginning.IndexNumber() + gapOffset + 1 < _possibleMoves[index + 1].IndexNumber());
+        }
+
+        // Gets called by FillGapsInMovesList() in order to add first and last moves again if they are necessary
+        private void AddFirstAndLastPossibleMoveToPossibleMovesIfMissing()
+        {
+            if (_possibleMoves[0].IndexNumber() != _firstPossibleMove.IndexNumber())
             {
-               move = GetRandomMove();
+                if (_map.GetGridElement(_firstPossibleMove)!.GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Insert(0, new Move(_firstPossibleMove));
+                }
+            }
+
+            if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
+            {
+                if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
+                {
+                    _possibleMoves.Add(new Move(_lastPossibleMove));
+                }
+            }
+        }
+
+        public void CalculateScore()
+        {
+            Score = _map.CalculateScore();
+        }
+
+        public void MakeNMoves(int n)
+        {
+            for (int move = 0; move < n; move++)
+            {
+                MakeOneMove();
+            }
+        }
+
+        // Gets called by MakeNMoves(int)
+        public void MakeOneMove()
+        {
+            Random random = new Random();
+            Move? move = null;
+            if (_parentMoves.Count > 0)
+            {
+                do
+                {
+                    move = _parentMoves[0];
+                    _parentMoves.RemoveAt(0);
+                    // If parent move is blocked continue on with the next
+                } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
+            }
+
+            if (move == null || random.NextDouble() < Data.mutationChance ||
+                (IsIllegalStreet(move)))
+            {
+                if (_possibleMoves.Count > 0)
+                {
+                    move = GetRandomMove();
+                }
+                else
+                {
+                    NoMoreValidMoves = true;
+                    // Stop
+                    return;
+                }
+            }
+
+            RemoveFromPossibleMoves(move);
+            _moves.Add(move);
+            _map.AddMove(move);
+        }
+
+        // Returns false if not a street or street invalid
+        private bool IsIllegalStreet(Move move)
+        {
+            if (move.GridType != Data.GridType.Street) return false;
+            return !_map.ValidateStreet(move);
+        }
+
+        public bool isOnGrid(Move move)
+        {
+            int x_off = Data.InitialStreets[0].Item1 % 7;
+            int y_off = Data.InitialStreets[0].Item2 % 7;
+            return (move.X % 7 == x_off || move.Y % 7 == x_off);
+        }
+
+        public bool shoudUtiliseGrid()
+        {
+         
+            Random random = new Random();
+            return random.NextDouble() < (-0.025 * _streetCounter + 2);
+        }
+
+
+        public bool shoudTheAgentBuildAStrteet(Move move)
+        {
+            Random random = new Random();
+            if (isOnGrid(move) && shoudUtiliseGrid())
+            {
+                return true;
+            }
+            if (random.NextDouble() < _map.GetGridElement(move)!.GetProbability())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private Move GetRandomMove()
+        {
+            Random random = new Random();
+
+            int pick = 0;
+            if (_moves.Count>10 && _possibleMoves.Count > 10)
+            {
+                pick = random.Next() % 10;
+            }
+
+            Move move = _possibleMoves.ElementAt(pick);
+            Data.GridType toBePlaced;
+            if (_map.ValidateStreet(move)
+                && shoudTheAgentBuildAStrteet(move))
+            {
+                toBePlaced = Data.GridType.Street;
+                _streetCounter++;
             }
             else
             {
-               NoMoreValidMoves = true;
-               // Stop
-               return;
+                double rand = random.NextDouble();
+                if (rand < 0.5) // 50% Chance
+                {
+                    toBePlaced = Data.GridType.Housing;
+                }
+                else if (rand < 0.78) // 28% Chance
+                {
+                    toBePlaced = Data.GridType.Commercial;
+                }
+                else if (rand < 0.93) // 15% Chance
+                {
+                    toBePlaced = Data.GridType.Industry;
+                }
+                else if (rand < 0.98) // 5% Chance
+                {
+                    toBePlaced = Data.GridType.Subway;
+                }
+                else // 2 % Chance
+                {
+                    toBePlaced = Data.GridType.Sight;
+                }
             }
-         }
 
-         RemoveFromPossibleMoves(move);
-         _moves.Add(move);
-         _map.AddMove(move);
-      }
+            move.GridType = toBePlaced;
+            return move;
+        }
 
-      // Returns false if not a street or street invalid
-      private bool IsIllegalStreet(Move move)
-      {
-         if (move.GridType != Data.GridType.Street) return false;
-         return !_map.ValidateStreet(move);
-      }
-      public bool gridModusLOL(Move move)
-      {
-         int x_off = Data.InitialStreets[0].Item1 % 7;
-         int y_off = Data.InitialStreets[0].Item2 % 7;
-         return (move.X % 7 == x_off || move.Y % 7 == x_off);
-      }
-      public bool gridModusChangse()
-      {
-         return true;
-         Random random = new Random();
-         return random.NextDouble()  <(-0.025 * _streetCounter + 1.5);
-      }
-
-
-
-
-      public bool shoudTheAgentBuildAStrteet(Move move)
-      {
-         Random random = new Random();
-         if (gridModusLOL(move))
-         {
-            if (gridModusChangse())
+        // Gets called by MakeOneMove() in order to remove an already used move
+        private void RemoveFromPossibleMoves(Move move)
+        {
+            int index = _possibleMoves.IndexOf(move); // Index should always be 0
+            // Removes the move from possibleMoves list and checks sorted neighbors for dupes 
+            if (index > 0)
             {
-               return true;
+                Move inFrontOf = _possibleMoves[index - 1];
+                if (inFrontOf.X == move.X &&
+                    inFrontOf.Y == move.Y)
+                {
+                    _possibleMoves.Remove(inFrontOf);
+                }
             }
-         }
 
-         if (random.NextDouble() < _map.GetGridElement(move).GetProbability())
-         {
-            return true;
-         }
-
-         return false;
-      }
-      private Move GetRandomMove()
-      {
-         Random random = new Random();
-
-         int pick = 0;
-         if (_possibleMoves.Count > 10)
-         {
-            pick = random.Next() % 10;
-         }
-
-         Move move = _possibleMoves.ElementAt(pick);
-         Data.GridType toBePlaced;
-         if (_map.ValidateStreet(move)
-         && shoudTheAgentBuildAStrteet(move) )
-         {
-            toBePlaced = Data.GridType.Street;
-            _streetCounter++;
-         }
-         else
-         {
-            double rand = random.NextDouble();
-            if (rand < 0.5) // 50% Chance
+            if (index + 1 < _possibleMoves.Count)
             {
-               toBePlaced = Data.GridType.Housing;
+                Move justBehind = _possibleMoves[index + 1];
+                if (justBehind.X == move.X &&
+                    justBehind.Y == move.Y)
+                {
+                    _possibleMoves.Remove(justBehind);
+                }
             }
-            else if (rand < 0.78) // 28% Chance
+
+            _possibleMoves.Remove(move);
+        }
+
+        public Map GetMap()
+        {
+            return _map;
+        }
+
+
+        #region DEBUG
+
+        public List<int> IsInList(Move move)
+        {
+            List<int> hits = new List<int>();
+            foreach (var m in _possibleMoves)
             {
-               toBePlaced = Data.GridType.Commercial;
+                if (m.X == move.X && m.Y == move.Y)
+                {
+                    hits.Add(_possibleMoves.IndexOf(m));
+                }
             }
-            else if (rand < 0.93) // 15% Chance
-            {
-               toBePlaced = Data.GridType.Industry;
-            }
-            else if (rand < 0.98) // 5% Chance
-            {
-               toBePlaced = Data.GridType.Subway;
-            }
-            else // 2 % Chance
-            {
-               toBePlaced = Data.GridType.Sight;
-            }
-         }
 
-         move.GridType = toBePlaced;
-         return move;
-      }
+            return hits;
+        }
 
-      // Gets called by MakeOneMove() in order to remove an already used move
-      private void RemoveFromPossibleMoves(Move move)
-      {
-         int index = _possibleMoves.IndexOf(move); // Index should always be 0
-                                                   // Removes the move from possibleMoves list and checks sorted neighbors for dupes 
-         if (index > 0)
-         {
-            Move inFrontOf = _possibleMoves[index - 1];
-            if (inFrontOf.X == move.X &&
-                inFrontOf.Y == move.Y)
-            {
-               _possibleMoves.Remove(inFrontOf);
-            }
-         }
-
-         if (index + 1 < _possibleMoves.Count)
-         {
-            Move justBehind = _possibleMoves[index + 1];
-            if (justBehind.X == move.X &&
-                justBehind.Y == move.Y)
-            {
-               _possibleMoves.Remove(justBehind);
-            }
-         }
-
-         _possibleMoves.Remove(move);
-      }
-
-      public Map GetMap()
-      {
-         return _map;
-      }
-
-
-      #region DEBUG
-
-      public List<int> IsInList(Move move)
-      {
-         List<int> hits = new List<int>();
-         foreach (var m in _possibleMoves)
-         {
-            if (m.X == move.X && m.Y == move.Y)
-            {
-               hits.Add(_possibleMoves.IndexOf(m));
-            }
-         }
-
-         return hits;
-      }
-
-      #endregion
-   }
+        #endregion
+    }
 }

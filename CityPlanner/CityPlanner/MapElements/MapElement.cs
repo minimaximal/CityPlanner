@@ -86,7 +86,16 @@ public class MapElement
          counter++;
       }
 
-      return 0.8 - 0.2 * (counter);
+      if (Dependency[Data.GridType.Street].Exists(x =>x is > 1.3 and < 1.5) && counter ==2)
+      {
+         //if map looks kile this (S = street C= to check)
+         // SS
+         // SC
+         //dont build a street
+         return 0.0;
+      }
+      
+      return 1.3 - 0.5 * (counter);
    }
 
    // Checks if there is a street nearby according to the rules for the specific MapElement
