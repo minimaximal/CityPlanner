@@ -87,7 +87,7 @@ public class Housing : MapElement
 
    public override bool IsInRangeOfStreet()
    {
-      return Dependency[Data.GridType.Street].Count() > 0;
+      return Dependency[Data.GridType.Street].Any();
    }
 
 

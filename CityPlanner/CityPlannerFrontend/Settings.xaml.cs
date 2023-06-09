@@ -1,5 +1,6 @@
 // @author: Leo Schnüll, Maximilian Koch
 
+using CityPlanner;
 using CityPlannerFrontend.UiPassing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

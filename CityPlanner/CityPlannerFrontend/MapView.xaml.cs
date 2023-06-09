@@ -4,6 +4,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CityPlanner;
 using CityPlannerFrontend.UiPassing;
 using Microsoft.UI.Xaml.Navigation;
 

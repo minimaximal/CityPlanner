@@ -1,12 +1,13 @@
 // @author: Kevin Kern, Sander Stella
 
-using CityPlanner;
 using CityPlanner.MapElements;
+
+namespace CityPlanner;
 
 public class Api
 {
 
-   private AppController _appctrl;
+   private readonly AppController _appController;
    private bool _newMapFlag;
    private Map _currentMap;
    private readonly byte[,] _byteMap;
@@ -28,12 +29,12 @@ public class Api
       _score = 0;
       _people = 0;
       _currentMap = TransformByteArrayToObjectArray(byteMap, population);
-      _appctrl = new AppController(population, _currentMap, importQuota);
+      _appController = new AppController(population, _currentMap, importQuota);
    }
 
    public void NextGeneration()
    {
-      Map newMap = _appctrl.NextGeneration();
+      Map newMap = _appController.NextGeneration();
       if (GetGeneration() == 1) { SetNewMap(newMap); return; }
       if (newMap.GetScore() > _currentMap.GetScore())
       {
@@ -52,7 +53,7 @@ public class Api
       return _newMapFlag;
    }
 
-   // Returns Map as Bytemap for Frontend in order to be cheaper for further processing
+   // Returns Map as ByteMap for Frontend in order to be cheaper for further processing
    public byte[,] GetMapToFrontend()
    {
       _score = _currentMap.GetScore();
@@ -110,10 +111,10 @@ public class Api
 
    public int GetGeneration()
    {
-      return _appctrl.GetGeneration();
+      return _appController.GetGeneration();
    }
 
-   // Transforms one Mapelement from Object to Bytecode
+   // Transforms one MapElement from Object to Bytecode
    private byte Transform(MapElement input)
    {
       switch (input.GetGridType())

@@ -26,11 +26,15 @@ namespace CityPlanner
       public void CopyOfMap_Deep()
       {
          Map newMap = new Map(50, 50, 5000);
-         Move nextMove = new Move(49, 49);
-         nextMove.GridType = Data.GridType.Street;
+         Move nextMove = new Move(49, 49)
+         {
+            GridType = Data.GridType.Street
+         };
          newMap.AddMove(nextMove);
-         nextMove = new Move(49, 48);
-         nextMove.GridType = Data.GridType.Commercial;
+         nextMove = new Move(49, 48)
+         {
+            GridType = Data.GridType.Commercial
+         };
          newMap.AddMove(nextMove);
          Map clonedMap = (Map)newMap.Clone();
 
@@ -52,25 +56,29 @@ namespace CityPlanner
       public void MoveSort()
       {
          Data.SizeX = 5;
-         List<Move> actualList = new List<Move>();
+         List<Move> actualList = new List<Move>
+         {
+            new Move(3, 1),
+            new Move(1, 3),
+            new Move(1, 1),
+            new Move(1, 4),
+            new Move(1, 2),
+            new Move(3, 1),
+            new Move(3, 2)
+         };
 
-         actualList.Add(new Move(3, 1));
-         actualList.Add(new Move(1, 3));
-         actualList.Add(new Move(1, 1));
-         actualList.Add(new Move(1, 4));
-         actualList.Add(new Move(1, 2));
-         actualList.Add(new Move(3, 1));
-         actualList.Add(new Move(3, 2));
          actualList.Insert(4, new Move(5, 5));
 
-         List<Move> expectedList = new List<Move>();
-         expectedList.Add(new Move(1, 1));
-         expectedList.Add(new Move(3, 1));
-         expectedList.Add(new Move(3, 1));
-         expectedList.Add(new Move(1, 2));
-         expectedList.Add(new Move(3, 2));
-         expectedList.Add(new Move(1, 3));
-         expectedList.Add(new Move(1, 4));
+         List<Move> expectedList = new List<Move>
+         {
+            new Move(1, 1),
+            new Move(3, 1),
+            new Move(3, 1),
+            new Move(1, 2),
+            new Move(3, 2),
+            new Move(1, 3),
+            new Move(1, 4)
+         };
          expectedList.Insert(7, new Move(5, 5));
 
          actualList.Sort();
@@ -88,8 +96,7 @@ namespace CityPlanner
       {
          Map newMap = new Map(50, 50, 5000);
          Move nextMove = new Move(24, 24);
-         Data.InitialStreets = new List<(int, int)>();
-         Data.InitialStreets.Add((24, 24));
+         Data.InitialStreets = new List<(int, int)> { (24, 24) };
          nextMove.GridType = Data.GridType.Street;
          newMap.AddMove(nextMove);
          Agent agent = new Agent(newMap);
@@ -113,7 +120,7 @@ namespace CityPlanner
 
          }
 
-         if (agent.NoMoreValidMoves == true)
+         if (agent.NoMoreValidMoves)
          {
             Assert.Less(moveCount, 2500);
          }
@@ -128,10 +135,11 @@ namespace CityPlanner
       public void CheckIfAgentIsChild()
       {
          Map newMap = new Map(50, 50, 5000);
-         Data.InitialStreets = new List<(int, int)>();
-         Data.InitialStreets.Add((24, 24));
-         Move nextMove = new Move(24, 24);
-         nextMove.GridType = Data.GridType.Street;
+         Data.InitialStreets = new List<(int, int)> { (24, 24) };
+         Move nextMove = new Move(24, 24)
+         {
+            GridType = Data.GridType.Street
+         };
          newMap.AddMove(nextMove);
          Agent parentAgent = new Agent((Map)newMap.Clone());
          Agent parentAgent2 = new Agent((Map)newMap.Clone());
@@ -153,10 +161,11 @@ namespace CityPlanner
       public void ValidStreets()
       {
          Map newMap = new Map(50, 50, 5000);
-         Move nextMove = new Move(24, 24);
-         nextMove.GridType = Data.GridType.Street;
-         Data.InitialStreets = new List<(int, int)>();
-         Data.InitialStreets.Add((24, 24));
+         Move nextMove = new Move(24, 24)
+         {
+            GridType = Data.GridType.Street
+         };
+         Data.InitialStreets = new List<(int, int)> { (24, 24) };
          newMap.AddMove(nextMove);
          Agent agent = new Agent(newMap);
 
@@ -183,7 +192,7 @@ namespace CityPlanner
                   }
                   catch (Exception)
                   {
-
+                     // ignored
                   }
                }
             }
@@ -195,13 +204,12 @@ namespace CityPlanner
       [Test]
       public void ValidApiCalls()
       {
-         Byte[,] map;
          Api api = new Api(30000, new byte[20, 20], 0);
 
          for (int j = 0; j < 10; j++)
          {
             api.NextGeneration();
-            map = api.GetMapToFrontend();
+            api.GetMapToFrontend();
          }
 
          Assert.AreEqual(10, api.GetGeneration());

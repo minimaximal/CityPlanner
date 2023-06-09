@@ -4,11 +4,11 @@ namespace CityPlanner
 {
    public class AgentController
    {
-      private List<Agent> _agents = new();
+      private readonly List<Agent> _agents = new();
       private readonly int _agentAmount;
       private readonly Map _defaultMap;
-      private Agent _bestOfAllTime;
-      private int _moveLimitEstimate;
+      private Agent? _bestOfAllTime;
+      private readonly int _moveLimit;
 
       private bool _includeBestOfAllTime = true;
 
@@ -31,7 +31,7 @@ namespace CityPlanner
          }
 
          _defaultMap = map;
-         _moveLimitEstimate = map.SizeX * map.SizeY - Data.InitialStreets.Count;
+         _moveLimit = map.SizeX * map.SizeY - Data.InitialStreets.Count;
       }
 
       public Agent ExecuteEvolutionStep()
@@ -47,11 +47,11 @@ namespace CityPlanner
 
          _includeBestOfAllTime = true;
 
-         _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimitEstimate));
+         _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimit));
          _agents.AsParallel().ForAll(agent => agent.CalculateScore());
 
          Agent generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
-         if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) ;
+         if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) 
          {
             _bestOfAllTime = generationalBestAgent;
             _includeBestOfAllTime = false;
@@ -75,7 +75,7 @@ namespace CityPlanner
       {
          List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
          if (_includeBestOfAllTime)
-            bestThreeAgents[2] = _bestOfAllTime;
+            bestThreeAgents[2] = _bestOfAllTime!;
          _agents.Clear();
          (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
              { (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1) };

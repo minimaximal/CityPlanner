@@ -6,7 +6,7 @@ public static class Data
    public static int SizeX; // This is used in the sort move context at that point we dont have access to the map
    public static int ImportQuota;
    public static int OptimalIndustryAmount;
-   public static List<(int, int)> InitialStreets;
+   public static List<(int, int)> InitialStreets = null!;
 
 
    // Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
@@ -25,7 +25,7 @@ public static class Data
    };
 
    // Holds the amount of grid types excluding Empty
-   public static readonly int GridTypeAmount = Enum.GetValues(typeof(Data.GridType)).Length - 1;
+   public static readonly int GridTypeAmount = Enum.GetValues(typeof(GridType)).Length - 1;
 
    public static readonly Dictionary<GridType, double> GridTypeMaxRange = new Dictionary<GridType, double>()
     {
