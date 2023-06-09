@@ -31,7 +31,7 @@ public class Subway : MapElement
       Score += Dependency[Data.GridType.Housing].Count * 50;
       if (Dependency[Data.GridType.Subway].Count > 0)
       {
-         Score /= 2;
+         Score /= 4;
       }
 
       // Base cost
