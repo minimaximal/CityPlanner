@@ -17,19 +17,21 @@ public class Api
 
 
    // Do one time setup on start of application
-   public Api(int population, byte[,] byteMap, int importQuota)
+   public Api(int population, byte[,] byteMap, int importQuota,int numberAgents, double mutationChance)
    {
 
       foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
       {
          _stats.Add(gridType, 0);
       }
-
+      
+      Data.mutationChance = mutationChance;
+      
       _byteMap = byteMap;
       _score = 0;
       _people = 0;
       _currentMap = TransformByteArrayToObjectArray(byteMap, population);
-      _appController = new AppController(population, _currentMap, importQuota);
+      _appController = new AppController(population, _currentMap, importQuota,numberAgents);
    }
 
    public void NextGeneration()

@@ -10,7 +10,7 @@ Move move = new Move(10, 10)
    GridType = Data.GridType.Street
 };
 map.AddMove(move);
-AppController appController = new AppController(30000, map, 0);
+AppController appController = new AppController(30000, map, 0,20);
 Map? bestMap = null;
 
 for (int j = 0; j < 1000000; j++)
