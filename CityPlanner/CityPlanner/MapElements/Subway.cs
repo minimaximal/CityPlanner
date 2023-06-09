@@ -30,11 +30,8 @@ public class Subway : MapElement
 
       Score += Dependency[Data.GridType.Housing].Count * 50;
       // The closer another Subway is the more minus points it gets 
-      foreach (var distace in Dependency[Data.GridType.Subway])
-      {
-         Score +=(int) (distace- 5.5) * 50; 
-      }
-     
+      Score += Dependency[Data.GridType.Subway].Count *-1500;
+
 
 
       // Base cost
