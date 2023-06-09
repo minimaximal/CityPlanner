@@ -70,7 +70,7 @@ public class Api
       {
          for (var y = 0; y < _currentMap.SizeY; y++)
          {
-            _byteMap[x, y] = Transform(_currentMap.GetGridElement(x, y)!);
+            _byteMap[x, y] = TransformMapElementToByte(_currentMap.GetGridElement(x, y)!);
          }
       }
 
@@ -117,7 +117,8 @@ public class Api
    }
 
    // Transforms one MapElement from Object to Bytecode
-   private byte Transform(MapElement input)
+   // from backend to frontend (map view)
+   private byte TransformMapElementToByte(MapElement input)
    {
       switch (input.GetGridType())
       {
@@ -181,6 +182,7 @@ public class Api
       return 255;
    }
 
+   // from frontend to backend (map editor)
    private static Map TransformByteArrayToObjectArray(byte[,] byteMap, int population)
    {
       var sizeX = byteMap.GetLength(0);

@@ -86,13 +86,10 @@ public class MapElement
          counter++;
       }
 
+      // If there are only two roads nearby and one road is placed diagonally, the probability is 0
       if (Dependency[Data.GridType.Street].Exists(x =>x is > 1.3 and < 1.5) && counter ==2)
       {
-         //if map looks kile this (S = street C= to check)
-         // SS
-         // SC
-         //dont build a street
-         return 0.0;
+          return 0.0;
       }
       
       return 1.3 - 0.5 * (counter);
