@@ -41,7 +41,7 @@ public class Housing : MapElement
 
       Score += Dependency[Data.GridType.Commercial].Count * 50;
       Score += (int)(5 * (2 * Math.Sin(1.1 * (Dependency[Data.GridType.Street][0]) - 0.6)));
-      Score += Dependency[Data.GridType.Industry].Count * -100;
+      Score += Dependency[Data.GridType.Industry].Count * -150;
       if (Dependency[Data.GridType.Subway].Count > 0)
       {
          Score += 140;
