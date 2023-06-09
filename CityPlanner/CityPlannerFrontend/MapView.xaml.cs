@@ -6,38 +6,36 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using CityPlanner;
 using CityPlannerFrontend.UiPassing;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace CityPlannerFrontend
 {
    public sealed partial class MapView
    {
-       private Api _api; 
+       private int _sizeX;
+       private int _sizeY;
+       private int _targetPopulation;
+       private int _importQuota;
+       private int _numberAgents;
+       private double _mutationChance;
        private static MapTools _mapTool;
-      private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-      private bool _pause;
-      private string _gridCount;
-      private string _satisfaction;
-      private string _averageBuildingLevel;
-      private string _population;
-      private string _generationCount;
-      private string _lastNewMap;
-
-      private int _targetPopulation;
-      private int _importQuota;
-      private int _sizeX;
-      private int _sizeY;
-      private int _numberAgents;
-      private double _mutationChance;
-
-
+       private Api _api; 
+       private string _population;
+       private string _satisfaction;
+       private string _gridCount;
+       private string _averageBuildingLevel;
+       private string _generationCount;
+       private string _lastNewMap;
+       private bool _pause;
+       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+      
 
       public MapView()
       {
          this.InitializeComponent();
       }
 
-      
       protected override void OnNavigatedTo(NavigationEventArgs e)
       {
           if (e.Parameter is ToMapView settingsToMapView)
@@ -53,10 +51,16 @@ namespace CityPlannerFrontend
           }
           base.OnNavigatedTo(e);
           
+          MapSize.Text = _sizeX + " x " + _sizeY;
+          TargetPopulation.Text = _targetPopulation.ToString();
+          ImportQuota.Text = (_importQuota*100) + "%";
+          NumberAgents.Text = _numberAgents.ToString();
+          MutationChance.Text = (_mutationChance*100).ToString("0.00")  + "%";
+
           Task task = new(() => { _ = BackendLoopAsync(); });
           task.Start();
       }
-        
+      
 
       private Task BackendLoopAsync()
       {
@@ -82,20 +86,23 @@ namespace CityPlannerFrontend
             Debug.WriteLine("new map");
 
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _gridCount = _api.GetPlacedBuildingsAmount().ToString();
+            _population = _api.GetPopulation() + " / " +  _targetPopulation;
             _satisfaction = _api.GetSatisfaction().ToString();
+            _gridCount = _api.GetPlacedBuildingsAmount().ToString();
             _averageBuildingLevel = _api.GetAverageBuildLevel().ToString("0.00");
-            _population = _api.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 
             _dispatcherQueue.TryEnqueue(() =>
             {
                // Update UI elements with the updated variable values
-               MapGridScrollViewer.Content = _mapTool.MapGenerator(_api.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
-               GridCount.Text = _gridCount;
-               Satisfaction.Text = _satisfaction;
-               AverageBuildingLevel.Text = _averageBuildingLevel;
                Population.Text = _population;
+               Satisfaction.Text = _satisfaction;
+               GridCount.Text = _gridCount;
+               AverageBuildingLevel.Text = _averageBuildingLevel;
+               
+               // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               MapGridScrollViewer.Content = FillMap(_api.GetMapToFrontend()); 
+               
                LastNewMap.Text = _lastNewMap;
             });
          }
@@ -103,8 +110,31 @@ namespace CityPlannerFrontend
          return Task.CompletedTask;
       }
 
+      private static Grid FillMap(byte[,] map)
+      {
+          var rows = map.GetLength(0);
+          var cols = map.GetLength(1);
+          var grid = MapTools.PrepareEmptyMap(rows, cols);
+          
+          // 3. Add each item and set row and column
+          for (var i = 0; i < rows; i++)
+          {
+              for (var j = 0; j < cols; j++)
+              {
+                  var element = new Image
+                  {
+                      Source = _mapTool.GetTextureBitmapImages()[map[i, j]]
+                  };
+                  grid.Children.Add(element);
+                  Grid.SetColumn(element, j);
+                  Grid.SetRow(element, i);
+              }
+          }
+          return grid;
+      }
 
-      private void Pause_onclick(object sender, RoutedEventArgs e)
+
+      private void BtnPause(object sender, RoutedEventArgs e)
       {
          if (_pause)
          {
@@ -120,13 +150,10 @@ namespace CityPlannerFrontend
          _pause = !_pause;
       }
 
-
-      private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+      private void BtnSettings(object sender, RoutedEventArgs e)
       {
          _pause = true;
-         
          var toSettings = new ToSettings(_sizeX, _sizeY, _targetPopulation, _importQuota, _numberAgents, _mutationChance);
-         
          Frame.Navigate(typeof(Settings), toSettings);
       }
    }

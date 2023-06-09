@@ -22,12 +22,9 @@ public class MapTools
    }
 
 
-   public Grid MapGenerator(byte[,] map)
+   public static Grid PrepareEmptyMap(int rows, int cols)
    {
       var grid = new Grid();
-      var rows = map.GetLength(0);
-      var cols = map.GetLength(1);
-
 
       // 1. Prepare RowDefinitions
       for (var i = 0; i < rows; i++)
@@ -49,20 +46,6 @@ public class MapTools
          grid.ColumnDefinitions.Add(column);
       }
 
-      // 3. Add each item and set row and column
-      for (var i = 0; i < rows; i++)
-      {
-         for (var j = 0; j < cols; j++)
-         {
-            var tile = new Image
-            {
-               Source = _textureBitmapImages[map[i, j]]
-            };
-            grid.Children.Add(tile);
-            Grid.SetColumn(tile, j);
-            Grid.SetRow(tile, i);
-         }
-      }
       return grid;
    }
 

@@ -10,23 +10,20 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace CityPlannerFrontend
 {
-
     public sealed partial class MapEditor
-   {
-       private int _population;
-       private int _importQuota;
-       private int _sizeX;
-       private int _sizeY;
-       private int _numberAgents;
-       private double _mutationChance;
-       private MapTools _mapTool;
-
-       private static byte[,] _map;
-       private static Grid _grid; 
-       private byte _selectedMapElement;
-
-       private readonly Button[] _btnList;
-
+    {
+        private int _sizeX;
+        private int _sizeY;
+        private int _population;
+        private int _importQuota;
+        private int _numberAgents;
+        private double _mutationChance;
+        private MapTools _mapTool;
+        private static byte[,] _map;
+        private static Grid _grid; 
+        private byte _selectedMapElement;
+        private readonly Button[] _btnList;
+        
 
       public MapEditor()
       {
@@ -49,63 +46,28 @@ namespace CityPlannerFrontend
           base.OnNavigatedTo(e);
 
           _map = new byte[_sizeX, _sizeY];
-          _grid = GridGenerator(_map);
+          _grid = FillMap(_map);
           MapGridScrollViewer.Content = _grid;
       }
 
-
-      public void GridTile_Click(object sender, RoutedEventArgs e)
+        
+      private Grid FillMap(byte[,] map)
       {
-         var row = Grid.GetRow((FrameworkElement)sender);
-         var col = Grid.GetColumn((FrameworkElement)sender);
-
-
-         _map[row, col] = _selectedMapElement;
-
-         _grid.Children.Remove((FrameworkElement)sender);
-         MapGridScrollViewer.Content = ChangeSingleMapElement(_selectedMapElement, _grid, row, col);
+          var rows = map.GetLength(0);
+          var cols = map.GetLength(1);
+          var grid = MapTools.PrepareEmptyMap(rows, cols);
+          
+          // 3. Add each item and set row and column
+          for (var i = 0; i < rows; i++)
+          {
+              for (var j = 0; j < cols; j++)
+              {
+                  grid = ChangeSingleMapElement(map[i, j], grid, i, j);
+              }
+          }
+          return grid;
       }
-
-
-      public Grid GridGenerator(byte[,] map)
-      {
-         var grid = new Grid();
-         var rows = map.GetLength(0);
-         var cols = map.GetLength(1);
-
-
-         // 1. Prepare RowDefinitions
-         for (var i = 0; i < rows; i++)
-         {
-            var row = new RowDefinition
-            {
-               Height = new GridLength(0, GridUnitType.Auto)
-            };
-            grid.RowDefinitions.Add(row);
-         }
-
-         // 2. Prepare ColumnDefinitions
-         for (var j = 0; j < cols; j++)
-         {
-            var column = new ColumnDefinition
-            {
-               Width = new GridLength(0, GridUnitType.Auto)
-            };
-            grid.ColumnDefinitions.Add(column);
-         }
-
-         // 3. Add each item and set row and column
-         for (var i = 0; i < rows; i++)
-         {
-            for (var j = 0; j < cols; j++)
-            {
-               grid = ChangeSingleMapElement(map[i, j], grid, i, j);
-            }
-         }
-         return grid;
-      }
-
-
+        
       private Grid ChangeSingleMapElement(byte mapElementId, Grid grid, int row, int col)
       {
          var img = new Image
@@ -120,7 +82,7 @@ namespace CityPlannerFrontend
             CornerRadius = new CornerRadius(0),
             ClickMode = ClickMode.Press
          };
-         tile.Click += GridTile_Click;
+         tile.Click += BtnMapElement;
 
 
          grid.Children.Add(tile);
@@ -130,7 +92,17 @@ namespace CityPlannerFrontend
          return grid;
       }
 
-      private void MapElement_Click(object sender, RoutedEventArgs e)
+
+      public void BtnMapElement(object sender, RoutedEventArgs e)
+      {
+          var row = Grid.GetRow((FrameworkElement)sender);
+          var col = Grid.GetColumn((FrameworkElement)sender);
+          _map[row, col] = _selectedMapElement;
+          _grid.Children.Remove((FrameworkElement)sender);
+          MapGridScrollViewer.Content = ChangeSingleMapElement(_selectedMapElement, _grid, row, col);
+      }
+
+      private void BtnMapElementToolBar(object sender, RoutedEventArgs e)
       {
          var btn = byte.Parse(((Button)sender).Tag.ToString() ?? "0");
          _selectedMapElement = btn;
@@ -163,19 +135,18 @@ namespace CityPlannerFrontend
          }
       }
 
-      private void Button_Click_MapView(object sender, RoutedEventArgs e)
+      private void BtnMapView(object sender, RoutedEventArgs e)
       {
-          var appInterface = new Api(_population, _map, _importQuota, _numberAgents, _mutationChance);
-         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
+          var api = new Api(_population, _map, _importQuota, _numberAgents, _mutationChance);
+         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
 
-      private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+      private void BtnSettings(object sender, RoutedEventArgs e)
       {
          var toSettings = new ToSettings(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance);
          Frame.Navigate(typeof(Settings), toSettings);
       }
-
-   }
+    }
 }

@@ -19,6 +19,7 @@ namespace CityPlannerFrontend
       
        private readonly MapTools _mapTool = new();
 
+
       public Settings()
       {
          this.InitializeComponent();
@@ -39,7 +40,7 @@ namespace CityPlannerFrontend
       }
 
 
-      private void BtnMain(object sender, RoutedEventArgs e)
+      private void BtnMainPage(object sender, RoutedEventArgs e)
       {
          Frame.Navigate(typeof(MainPage));
       }

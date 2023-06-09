@@ -9,6 +9,7 @@
         private readonly int _numberAgents;
         private readonly double _mutationChance;
         
+
         public UiPassing(int sizeX, int sizeY, int population, int importQuota, int numberAgents, double mutationChance)
         {
             _sizeX = sizeX;
@@ -18,6 +19,7 @@
             _numberAgents = numberAgents;
             _mutationChance = mutationChance;
         }
+
 
         public int GetSizeX()
         {
