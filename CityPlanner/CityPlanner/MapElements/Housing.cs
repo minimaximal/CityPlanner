@@ -68,15 +68,15 @@ public class Housing : MapElement
             Level = 1;
             _people = 0;
             break;
-         case <= 310:
+         case <= 440:
             Level = 1;
             _people = 8;
             break;
-         case > 310 and <= 725:
+         case > 440 and <= 790:
             Level = 2;
             _people = 95;
             break;
-         case > 725:
+         case > 790:
             Level = 3;
             _people = 200;
             break;
