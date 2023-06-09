@@ -204,7 +204,7 @@ namespace CityPlanner
       [Test]
       public void ValidApiCalls()
       {
-         Api api = new Api(30000, new byte[20, 20], 0);
+         Api api = new Api(30000, new byte[20, 20], 0, 20, 0.001);
 
          for (int j = 0; j < 10; j++)
          {

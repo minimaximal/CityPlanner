@@ -38,10 +38,12 @@ namespace CityPlannerFrontend
       {
           if (e.Parameter is SettingsToMapEditor settingsToMapEditor)
           {
-              _population = settingsToMapEditor.GetPopulation();
-              _importQuota = settingsToMapEditor.GetImportQuota();
               _sizeX = settingsToMapEditor.GetSizeX();
               _sizeY = settingsToMapEditor.GetSizeY();
+              _population = settingsToMapEditor.GetPopulation();
+              _importQuota = settingsToMapEditor.GetImportQuota();
+              _numberAgents = settingsToMapEditor.GetNumberAgents();
+              _mutationChance = settingsToMapEditor.GetMutationChance();
               _mapTool = settingsToMapEditor.GetMapTool();
           }
           base.OnNavigatedTo(e);
@@ -163,7 +165,7 @@ namespace CityPlannerFrontend
 
       private void Button_Click_MapView(object sender, RoutedEventArgs e)
       {
-         var appInterface = new Api(_population, _map, _importQuota);
+          var appInterface = new Api(_population, _map, _importQuota, _numberAgents, _mutationChance);
          var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
          Frame.Navigate(typeof(MapView), toMapView);
       }

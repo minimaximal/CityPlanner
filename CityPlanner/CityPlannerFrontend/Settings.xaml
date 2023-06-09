@@ -14,24 +14,48 @@
                               Click="HyperlinkButton_Click"
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
-            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenbreite"/>
-            <NumberBox Value="{x:Bind Path=_sizeX, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
-            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
-            <NumberBox Value="{x:Bind Path=_sizeY, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
-            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Einwohnerzahl"/>
-            <NumberBox Value="{x:Bind Path=_population, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
-            <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Importquote"/>
-            <NumberBox Value="{x:Bind Path=_importQuota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
-            <Button Click="Button_Click_MapEditor" Width="200" HorizontalAlignment="Right" Margin="0 30 45 0"> -> Karte anpassen -></Button>
-            <Button Click="Button_Click_MapView" Width="200" HorizontalAlignment="Right" Margin="0 10 45 0"> -> Simulation starten -></Button>
+            <Expander
+                HorizontalAlignment="Center"
+                IsExpanded="True"
+                ExpandDirection="Down"
+                VerticalAlignment="Top"
+                Header="Optionen">
+                <StackPanel>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenbreite"/>
+                    <NumberBox Value="{x:Bind Path=_sizeX, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
+                    <NumberBox Value="{x:Bind Path=_sizeY, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Einwohnerzahl"/>
+                    <NumberBox Value="{x:Bind Path=_population, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Importquote"/>
+                    <NumberBox Value="{x:Bind Path=_importQuota, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                </StackPanel>
+            </Expander>
+            <Expander
+                Margin="0 20 0 0"
+                HorizontalAlignment="Center"
+                IsExpanded="False"
+                ExpandDirection="Down"
+                VerticalAlignment="Top"
+                Header="erweiterter Optionen (nur f&#252;r ehrfahrene Anwender)">
+                <StackPanel>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Anzahl gleichzeitige Simulationen"/>
+                    <NumberBox Value="{x:Bind Path=_numberAgents, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Mutationschance"/>
+                    <NumberBox Value="{x:Bind Path=_mutationChance, Mode=TwoWay}" HorizontalAlignment="Center" Width="200"/>
+                </StackPanel>
+            </Expander>
+                <Button Click="Button_Click_MapEditor" Width="200" HorizontalAlignment="Right" Margin="0 30 45 0"> -> Karte anpassen -></Button>
+                <Button Click="Button_Click_MapView" Width="200" HorizontalAlignment="Right" Margin="0 10 45 0"> -> Simulation starten -></Button>
         </StackPanel>
+        
+        
         <TeachingTip x:Name="Maptoosmall"
-	Title="Die Karte ist zu klein"
-	Subtitle="Empfohlen ist eine Mindestgr&#246;&#223;e von 10 mal 10"
-	PreferredPlacement="Auto"
-	PlacementMargin="20"
-	IsLightDismissEnabled="True"
-	CloseButtonContent="Schlie&#223;en" />
-
+                     Title="Die Karte ist zu klein"
+                     Subtitle="Empfohlen ist eine Mindestgr&#246;&#223;e von 10 mal 10"
+                     PreferredPlacement="Auto"
+                     PlacementMargin="20"
+                     IsLightDismissEnabled="True"
+                     CloseButtonContent="Schlie&#223;en" />
     </Grid>
 </Page>

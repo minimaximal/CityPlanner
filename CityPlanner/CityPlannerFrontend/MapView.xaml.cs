@@ -12,7 +12,7 @@ namespace CityPlannerFrontend
 {
    public sealed partial class MapView
    {
-       private Api _interface; 
+       private Api _api; 
        private static MapTools _mapTool;
       private readonly DispatcherQueue _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
       private bool _pause;
@@ -42,12 +42,14 @@ namespace CityPlannerFrontend
       {
           if (e.Parameter is ToMapView settingsToMapView)
           {
-              _interface = settingsToMapView.GetApi();
-              _mapTool = settingsToMapView.GetMapTool();
-              _targetPopulation = settingsToMapView.GetPopulation();
-              _importQuota = settingsToMapView.GetImportQuota();
               _sizeX = settingsToMapView.GetSizeX();
               _sizeY = settingsToMapView.GetSizeY();
+              _targetPopulation = settingsToMapView.GetPopulation();
+              _importQuota = settingsToMapView.GetImportQuota();
+              _numberAgents = settingsToMapView.GetNumberAgents();
+              _mutationChance = settingsToMapView.GetMutationChance();
+              _mapTool = settingsToMapView.GetMapTool();
+              _api = settingsToMapView.GetApi();
           }
           base.OnNavigatedTo(e);
           
@@ -59,16 +61,16 @@ namespace CityPlannerFrontend
       private Task BackendLoopAsync()
       {
          Debug.WriteLine("entered backend loop");
-         if (_interface == null) return Task.CompletedTask;
+         if (_api == null) return Task.CompletedTask;
          while (!_pause)
          {
             Debug.WriteLine("next generation");
-            _interface.NextGeneration();
-            Debug.WriteLine(_interface.ExistsNewMap());
+            _api.NextGeneration();
+            Debug.WriteLine(_api.ExistsNewMap());
 
 
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _generationCount = _interface.GetGeneration().ToString();
+            _generationCount = _api.GetGeneration().ToString();
 
             _dispatcherQueue.TryEnqueue(() =>
             {
@@ -76,20 +78,20 @@ namespace CityPlannerFrontend
                Generation.Text = _generationCount;
             });
 
-            if (!_interface.ExistsNewMap()) continue;
+            if (!_api.ExistsNewMap()) continue;
             Debug.WriteLine("new map");
 
             // Saved in variable before because of multithreading, makes dispatchers execution time shorter and less likely to fail / show wrong or old values
-            _gridCount = _interface.GetPlacedBuildingsAmount().ToString();
-            _satisfaction = _interface.GetSatisfaction().ToString();
-            _averageBuildingLevel = _interface.GetAverageBuildLevel().ToString("0.00");
-            _population = _interface.GetPopulation().ToString();
+            _gridCount = _api.GetPlacedBuildingsAmount().ToString();
+            _satisfaction = _api.GetSatisfaction().ToString();
+            _averageBuildingLevel = _api.GetAverageBuildLevel().ToString("0.00");
+            _population = _api.GetPopulation().ToString();
             _lastNewMap = _generationCount;
 
             _dispatcherQueue.TryEnqueue(() =>
             {
                // Update UI elements with the updated variable values
-               MapGridScrollViewer.Content = _mapTool.MapGenerator(_interface.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
+               MapGridScrollViewer.Content = _mapTool.MapGenerator(_api.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                GridCount.Text = _gridCount;
                Satisfaction.Text = _satisfaction;
                AverageBuildingLevel.Text = _averageBuildingLevel;

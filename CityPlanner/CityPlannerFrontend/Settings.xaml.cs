@@ -27,10 +27,12 @@ namespace CityPlannerFrontend
       {
           if (e.Parameter is ToSettings toSettings)
           {
-              _population = toSettings.GetPopulation();
-              _importQuota = toSettings.GetImportQuota();
               _sizeX = toSettings.GetSizeX();
               _sizeY = toSettings.GetSizeY();
+              _population = toSettings.GetPopulation();
+              _importQuota = toSettings.GetImportQuota();
+              _numberAgents = toSettings.GetNumberAgents();
+              _mutationChance = toSettings.GetMutationChance();
           }
           base.OnNavigatedTo(e);
       }
@@ -46,7 +48,7 @@ namespace CityPlannerFrontend
          if (!InputValidation()) return;
          
          var map = new byte[_sizeX, _sizeY];
-         var appInterface = new Api(_population, map, _importQuota);
+         var appInterface = new Api(_population, map, _importQuota, _numberAgents, _mutationChance);
          var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, appInterface);
 
          Frame.Navigate(typeof(MapView), toMapView);
