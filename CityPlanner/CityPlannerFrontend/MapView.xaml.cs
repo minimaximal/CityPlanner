@@ -66,7 +66,7 @@ namespace CityPlannerFrontend
           task.Start();
       }
       
-      // async background loop which updates the ui elements with the current values of the simulation
+      // Async background loop which updates the ui elements with the current values of the simulation
       private Task BackendLoopAsync()
       {
          Debug.WriteLine("entered backend loop");
@@ -115,6 +115,7 @@ namespace CityPlannerFrontend
          return Task.CompletedTask;
       }
 
+      // Create from the current 2d byte array a corresponding ui control grid 
       private static Grid FillMap(byte[,] map)
       {
           var rows = map.GetLength(0);
@@ -138,7 +139,9 @@ namespace CityPlannerFrontend
           return grid;
       }
 
-
+      // Pauses the simulation (when the button is pressed) and continues it (when the button is pressed again)
+      // Visualizes the pause with a change of the opacity of the map grid
+      // Pause is realized by stopping the async background task
       private void BtnPause(object sender, RoutedEventArgs e)
       {
          if (_pause)
