@@ -6,8 +6,8 @@ public class MapElement
 {
    protected int Score;
    protected int Level = 1;
-   // Holds Lists that contain distances to the next Mapelement
-   protected IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
+   // Holds Lists that contain distances to the next MapElement
+   protected readonly IDictionary<Data.GridType, List<double>> Dependency = new Dictionary<Data.GridType, List<double>>();
 
    // Basic Constructor for initializing map
    public MapElement()
@@ -18,7 +18,7 @@ public class MapElement
       }
    }
 
-   // Advanced Constructor for replacing existing Mapelements with new ones
+   // Advanced Constructor for replacing existing MapElements with new ones
    protected MapElement(MapElement oldMapElement)
    {
       foreach (var dependency in oldMapElement.Dependency)
@@ -56,7 +56,7 @@ public class MapElement
       return Data.GridType.Empty;
    }
 
-   // Checks if Mapelement could possibly be a street
+   // Checks if MapElement could possibly be a street
    public bool IsValidStreet()
    {
       Dependency[Data.GridType.Street].Sort();
@@ -74,7 +74,7 @@ public class MapElement
       return new MapElement(this);
    }
 
-   // Returns probability for a Mapelement becoming a street instead
+   // Returns probability for a MapElement becoming a street instead
    public double GetProbability()
    {
       // Returns value between 0 and 1 
@@ -89,7 +89,7 @@ public class MapElement
       return 0.8 - 0.2 * (counter);
    }
 
-   // Checks if there is a street nearby according to the rules for the specific Mapelement
+   // Checks if there is a street nearby according to the rules for the specific MapElement
    public virtual bool IsInRangeOfStreet()
    {
       return false;

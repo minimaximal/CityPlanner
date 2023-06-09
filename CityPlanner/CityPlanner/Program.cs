@@ -5,11 +5,13 @@
 using CityPlanner;
 
 Map map = new Map(20, 20, 30000);
-Move move = new Move(10, 10);
-move.GridType = Data.GridType.Street;
+Move move = new Move(10, 10)
+{
+   GridType = Data.GridType.Street
+};
 map.AddMove(move);
 AppController appController = new AppController(30000, map, 0);
-Map bestMap = null;
+Map? bestMap = null;
 
 for (int j = 0; j < 1000000; j++)
 {

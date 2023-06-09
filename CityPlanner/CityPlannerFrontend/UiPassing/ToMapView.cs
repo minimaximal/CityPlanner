@@ -1,5 +1,7 @@
 ﻿// @author: Maximilian Koch
 
+using CityPlanner;
+
 namespace CityPlannerFrontend.UiPassing
 {
     internal class ToMapView

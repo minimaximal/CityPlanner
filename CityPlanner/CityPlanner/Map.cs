@@ -1,6 +1,5 @@
 ﻿// @author: Kevin Kern, Sander Stella, Antoni Paul
 
-using System.Diagnostics;
 using CityPlanner.MapElements;
 
 namespace CityPlanner;
@@ -15,9 +14,9 @@ public class Map : ICloneable
    public readonly int SizeX;
    public readonly int SizeY;
 
-   private int _populationScore = 0;
-   private int _industryRatioScore = 0;
-   private int _commercialScore = 0;
+   private int _populationScore;
+   private int _industryRatioScore;
+   private int _commercialScore;
 
 
    public Map(int x, int y, int targetPopulation)
@@ -53,7 +52,7 @@ public class Map : ICloneable
       };
    }
 
-   // Calculates Dependencies for the whole Map and every mapelement except for predefined elements and streets
+   // Calculates Dependencies for the whole Map and every mapElement except for predefined elements and streets
    private void CalculateDependencies()
    {
       for (int i = 0; i < SizeX; i++)
@@ -213,9 +212,9 @@ public class Map : ICloneable
       Console.Write("------------------------------\n");
       Console.WriteLine("score:" + _score);
       Console.WriteLine("People:" + _population);
-      Console.WriteLine("poulation Dif Score:" + _populationScore);
+      Console.WriteLine("Population Dif Score:" + _populationScore);
       Console.WriteLine("industryRatioScore:" + _industryRatioScore);
-      Console.WriteLine("comertialScore:" + _commercialScore);
+      Console.WriteLine("CommercialScore:" + _commercialScore);
 
 
       for (int y = 0; y < SizeY; y++)

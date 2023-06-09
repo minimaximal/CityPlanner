@@ -4,7 +4,7 @@ namespace CityPlanner
 {
    public class Agent
    {
-      private Map _map;
+      private Map _map = null!;
       private readonly List<Move> _parentMoves = new List<Move>();
       private readonly List<Move> _moves = new List<Move>();
       private List<Move> _possibleMoves = new List<Move>();
@@ -41,7 +41,7 @@ namespace CityPlanner
          _possibleMoves = _possibleMoves.OrderBy(move => move.DistanceToCenter()).ToList();
       }
 
-      // Splits moves of parents at splitpoint and generates new move list
+      // Splits moves of parents at splitPoint and generates new move list
       private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
       {
          List<Move> result = new List<Move>();
@@ -108,7 +108,7 @@ namespace CityPlanner
             int tmp = (gapBeginning.X + gapOffset + 1);
             int x = tmp % _map.SizeX;
             int y = gapBeginning.Y + tmp / _map.SizeX;
-            if (_map.GetGridElement(x, y).GetGridType() == Data.GridType.Empty)
+            if (_map.GetGridElement(x, y)!.GetGridType() == Data.GridType.Empty)
             {
                _possibleMoves.Insert(index + 1, new Move(x, y));
                break;
@@ -212,7 +212,7 @@ namespace CityPlanner
          else
          {
             double rand = random.NextDouble();
-            if (rand < 0.5) // 50% Cahnce
+            if (rand < 0.5) // 50% Chance
             {
                toBePlaced = Data.GridType.Housing;
             }
@@ -242,7 +242,7 @@ namespace CityPlanner
       private void RemoveFromPossibleMoves(Move move)
       {
          int index = _possibleMoves.IndexOf(move); // Index should always be 0
-                                                   // Removes the move from posibleMoves list and checks sorted neighbors for dupes 
+                                                   // Removes the move from possibleMoves list and checks sorted neighbors for dupes 
          if (index > 0)
          {
             Move inFrontOf = _possibleMoves[index - 1];
