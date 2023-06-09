@@ -161,7 +161,7 @@ namespace CityPlannerFrontend
       private void Button_Click_MapView(object sender, RoutedEventArgs e)
       {
          var appInterface = new Api(_population, _map, _importQuota);
-         var toMapView = new ToMapView(appInterface, _mapTool);
+         var toMapView = new ToMapView(appInterface, _mapTool, _population, _importQuota, _sizeX, _sizeY);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
