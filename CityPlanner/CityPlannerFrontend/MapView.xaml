@@ -12,7 +12,7 @@
 
         <ScrollViewer Grid.Column="0" ZoomMode="Disabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" IsHorizontalScrollChainingEnabled="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" ManipulationMode="TranslateX,TranslateY">
         <StackPanel>
-            <Button Content="&lt;- Einstellelungen &lt;-" Click="BtnSettings" Margin="5,15,5,0" Width="240"/>
+            <Button Content="&lt;- Einstellungen &lt;-" Click="BtnSettings" Margin="5,15,5,0" Width="240"/>
             <Button Name="ButtonPause" Content="Pause" Click="BtnPause" Margin="5,15,5,0" Width="240"/>
            
             <Expander
