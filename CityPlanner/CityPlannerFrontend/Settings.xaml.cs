@@ -27,6 +27,7 @@ namespace CityPlannerFrontend
 
       protected override void OnNavigatedTo(NavigationEventArgs e)
       {
+          // Copy variables from map editor or view page into settings own variables
           if (e.Parameter is ToSettings toSettings)
           {
               SizeX.Value = toSettings.GetSizeX();
@@ -36,6 +37,7 @@ namespace CityPlannerFrontend
               NumberAgents.Value = toSettings.GetNumberAgents();
               MutationChance.Value = toSettings.GetMutationChance();
           }
+          // If no variables are passed, set default values
           else
           {
               SizeX.Value = DefaultSizeX;

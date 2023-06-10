@@ -6,12 +6,12 @@
 
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <ScrollViewer Grid.Column="0" ZoomMode="Disabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" IsHorizontalScrollChainingEnabled="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" ManipulationMode="TranslateX,TranslateY">
-            <StackPanel Width="140" HorizontalAlignment="Left">
+            <StackPanel>
         
             <HyperlinkButton Click="BtnSettings" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
 

@@ -38,9 +38,9 @@ namespace CityPlannerFrontend
          this.InitializeComponent();
       }
 
-      // Copy variables from settings or map editor page into map views own variables
       protected override void OnNavigatedTo(NavigationEventArgs e)
       {
+          // Copy variables from settings or map editor page into map views own variables
           if (e.Parameter is ToMapView settingsToMapView)
           {
               _sizeX = settingsToMapView.GetSizeX();
