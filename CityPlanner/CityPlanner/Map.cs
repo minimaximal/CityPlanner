@@ -162,9 +162,12 @@ public class Map : ICloneable
             _industryRatioScore =
                 -2 * factor / Data.OptimalIndustryAmount * Math.Abs(industryAmount - Data.OptimalIndustryAmount) +
                 factor;
-            globalScore += _industryRatioScore;
         }
-
+        else
+        {
+            _industryRatioScore = industryAmount * -10000;
+        }
+        globalScore += _industryRatioScore;
         //commercial quota
         var targetCommercial = (_targetPopulation / 550);
         _commercialScore = -2 * factor / targetCommercial * Math.Abs(commercialAmount - targetCommercial) + factor;

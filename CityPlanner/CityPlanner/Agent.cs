@@ -251,6 +251,9 @@ namespace CityPlanner
                 };
             }
 
+            if (toBePlaced == Data.GridType.Industry && Data.OptimalIndustryAmount == 0)
+                toBePlaced = Data.GridType.Housing;
+                
             move.GridType = toBePlaced;
             return move;
         }
