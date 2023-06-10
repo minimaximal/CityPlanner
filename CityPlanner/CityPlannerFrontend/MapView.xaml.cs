@@ -161,7 +161,7 @@ namespace CityPlannerFrontend
       private void BtnSettings(object sender, RoutedEventArgs e)
       {
          _pause = true;
-         var toSettings = new ToSettings(_sizeX, _sizeY, _targetPopulation, _importQuota, _numberAgents, _mutationChance);
+         ToSettings toSettings = new (_sizeX, _sizeY, _targetPopulation, _importQuota, _numberAgents, _mutationChance);
          Frame.Navigate(typeof(Settings), toSettings);
       }
    }

@@ -76,7 +76,7 @@ namespace CityPlannerFrontend
       private void BtnMapEditor(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         var settingsToMapEditor = new SettingsToMapEditor((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool);
+         SettingsToMapEditor settingsToMapEditor = new ((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool);
          Frame.Navigate(typeof(MapEditor), settingsToMapEditor);
       }
 
