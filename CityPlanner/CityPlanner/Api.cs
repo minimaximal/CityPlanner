@@ -80,7 +80,7 @@ public class Api
 
    public int GetSatisfaction()
    {
-      return (_score / 1000 + 10000);
+      return (_score);
    }
 
    // Returns average building Level, has to be called after getPlacedBuildings()
