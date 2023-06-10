@@ -19,6 +19,7 @@ namespace CityPlannerFrontend
 
          MainAppWindow = GetAppWindowForCurrentWindow();
          MainAppWindow.Title = "City Planner";
+         MainAppWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
          MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 800));
       }
       
