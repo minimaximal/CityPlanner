@@ -55,7 +55,7 @@ namespace CityPlannerFrontend
           base.OnNavigatedTo(e);
           
           // Set ui elements to the values of the used parameters for the simulation (fixed values)
-          MapSize.Text = _sizeX + " x " + _sizeY;
+          MapSize.Text = _sizeX + " x " + _sizeY + " ("+ (_sizeX*_sizeY) + ")";
           TargetPopulation.Text = _targetPopulation.ToString();
           ImportQuota.Text = (_importQuota).ToString("0.00") + " %";
           NumberAgents.Text = _numberAgents.ToString();
@@ -105,8 +105,8 @@ namespace CityPlannerFrontend
                // Update UI elements with the updated variable values
                Population.Text = _population;
                Satisfaction.Text = _satisfaction;
-               GridCount.Text = _gridCount;
-               AverageBuildingLevel.Text = _averageBuildingLevel;
+               MapElementCount.Text = _gridCount;
+               AverageMapElementLevel.Text = _averageBuildingLevel;
                MapGridScrollViewer.Content = FillMap(_api.GetMapToFrontend()); // For MapGrid it's not possible to prepare the updated grid in advance because it's a nested object
                LastNewMap.Text = _lastNewMap;
             });
