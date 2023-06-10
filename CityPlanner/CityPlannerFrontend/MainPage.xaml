@@ -8,13 +8,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock Text="Main Page"
-                   Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
-        <StackPanel VerticalAlignment="Center">
-        <TextBlock HorizontalAlignment="Center" FontSize="40" Text="City Planner"/>
-        <HyperlinkButton Content="Neue Simulation"
-                     Click="HyperlinkButton_Click"
-                     HorizontalAlignment="Center"/>
-         </StackPanel>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="City Planner" FontSize="60" FontWeight="Bold"/>
+            <Button Content="Neue Simulation" Click="BtnSettings" FontSize="30" HorizontalAlignment="Center" Margin="15"/>
+        </StackPanel>
     </Grid>
 </Page>

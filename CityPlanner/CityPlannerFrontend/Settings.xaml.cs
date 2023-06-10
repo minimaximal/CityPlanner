@@ -13,9 +13,9 @@ namespace CityPlannerFrontend
        private const int DefaultSizeX = 40;
        private const int DefaultSizeY = 40;
        private const int DefaultPopulation = 50000;
-       private const int DefaultImportQuota = 0; // 0 bis 100 (percent)
+       private const int DefaultImportQuota = 33; // 0 bis 100 (percent)
        private const int DefaultNumberAgents = 20;
-       private const double DefaultMutationChance = 0.001;
+       private const double DefaultMutationChance = 0.1;
 
        private readonly MapTools _mapTool = new();
 
@@ -68,8 +68,8 @@ namespace CityPlannerFrontend
       private void BtnMapView(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         var api = new Api((int)Population.Value, new byte[(int)SizeX.Value, (int)SizeY.Value], (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value);
-         var toMapView = new ToMapView((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool, api);
+         Api api = new ((int)Population.Value, new byte[(int)SizeX.Value, (int)SizeY.Value], (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value*100.0);
+         ToMapView toMapView = new ((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 

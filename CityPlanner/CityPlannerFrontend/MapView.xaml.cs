@@ -59,7 +59,7 @@ namespace CityPlannerFrontend
           TargetPopulation.Text = _targetPopulation.ToString();
           ImportQuota.Text = (_importQuota) + "%";
           NumberAgents.Text = _numberAgents.ToString();
-          MutationChance.Text = (_mutationChance*100).ToString("0.00")  + "%";
+          MutationChance.Text = (_mutationChance).ToString("0.00")  + "%";
 
           // Create and start backend loop, which updates the ui elements with the current values of the simulation
           Task task = new(() => { _ = BackendLoopAsync(); });

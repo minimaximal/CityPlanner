@@ -8,13 +8,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <TextBlock Text="Einstellungen"
-                   Margin="16" Style="{StaticResource TitleTextBlockStyle}"/>
-        <HyperlinkButton Content="Hauptmen&#252;"
-                              Click="BtnMainPage"
-                              HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="&lt;- Hauptmen&#252; &lt;-" Click="BtnMainPage" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15" Width="200"/>
         <StackPanel VerticalAlignment="Center">
-            <Button Click="BtnResetParameter" Width="200" HorizontalAlignment="Right" Margin="0 0 45 30">Parameter zur&#252;cksetzen</Button>
+            <Button Content="Parameter zur&#252;cksetzen" Click="BtnResetParameter" HorizontalAlignment="Right" Margin="0 0 45 30" Width="200" />
             <Expander
                 Width="450"
                 HorizontalAlignment="Center"
@@ -23,13 +19,13 @@
                 VerticalAlignment="Top"
                 Header="Parameter">
                 <StackPanel>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenbreite"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Kartenbreite (Rasteranzahl)"/>
                     <NumberBox Name="SizeX"  HorizontalAlignment="Center" Width="200"/>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Kartenl&#228;nge"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Kartenl&#228;nge (Rasteranzahl)"/>
                     <NumberBox Name="SizeY"  HorizontalAlignment="Center" Width="200"/>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Zielbev&#246;lkerung"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Zielbev&#246;lkerung"/>
                     <NumberBox Name="Population"  HorizontalAlignment="Center" Width="200"/>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Importquote"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Importquote (in Prozent)"/>
                     <NumberBox Name="ImportQuota"  HorizontalAlignment="Center" Width="200"/>
                 </StackPanel>
             </Expander>
@@ -42,14 +38,14 @@
                 VerticalAlignment="Top"
                 Header="erweiterter Parameter (nur f&#252;r ehrfahrene Anwender)">
                 <StackPanel>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Anzahl gleichzeitiger Simulationen"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Anzahl gleichzeitiger Simulationen (Agents / Threads)"/>
                     <NumberBox Name="NumberAgents"  HorizontalAlignment="Center" Width="200"/>
-                    <TextBlock Margin="0 10 0 0" HorizontalAlignment="Center" Text="Mutationschance"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Mutationschance (in Prozent)"/>
                     <NumberBox Name="MutationChance"  HorizontalAlignment="Center" Width="200"/>
                 </StackPanel>
             </Expander>
-                <Button Click="BtnMapEditor" Width="200" HorizontalAlignment="Right" Margin="0 30 45 0"> -> Karte anpassen -></Button>
-                <Button Click="BtnMapView" Width="200" HorizontalAlignment="Right" Margin="0 10 45 0"> -> Simulation starten -></Button>
+            <Button Content="-> Karte anpassen ->" Click="BtnMapEditor" HorizontalAlignment="Right" Margin="0 30 45 0" Width="200"/>
+            <Button Content="-> Simulation starten ->" Click="BtnMapView" HorizontalAlignment="Right" Margin="0 10 45 0" Width="200"/> 
         </StackPanel>
         
         

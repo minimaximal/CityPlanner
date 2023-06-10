@@ -12,7 +12,7 @@ namespace CityPlannerFrontend
          this.InitializeComponent();
       }
 
-      private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+      private void BtnSettings(object sender, RoutedEventArgs e)
       {
          Frame.Navigate(typeof(Settings));
       }
