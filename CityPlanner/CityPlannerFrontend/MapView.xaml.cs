@@ -57,7 +57,7 @@ namespace CityPlannerFrontend
           // Set ui elements to the values of the used parameters for the simulation (fixed values)
           MapSize.Text = _sizeX + " x " + _sizeY;
           TargetPopulation.Text = _targetPopulation.ToString();
-          ImportQuota.Text = (_importQuota*100) + "%";
+          ImportQuota.Text = (_importQuota) + "%";
           NumberAgents.Text = _numberAgents.ToString();
           MutationChance.Text = (_mutationChance*100).ToString("0.00")  + "%";
 

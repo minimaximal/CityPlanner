@@ -17,14 +17,6 @@ namespace CityPlannerFrontend
        private const int DefaultNumberAgents = 20;
        private const double DefaultMutationChance = 0.001;
 
-
-       private int _sizeX = DefaultSizeX;
-       private int _sizeY = DefaultSizeY;
-       private int _population = DefaultPopulation;
-       private int _importQuota = DefaultImportQuota; 
-       private int _numberAgents = DefaultNumberAgents;
-       private double _mutationChance = DefaultMutationChance;
-      
        private readonly MapTools _mapTool = new();
 
 
@@ -37,25 +29,33 @@ namespace CityPlannerFrontend
       {
           if (e.Parameter is ToSettings toSettings)
           {
-              _sizeX = toSettings.GetSizeX();
-              _sizeY = toSettings.GetSizeY();
-              _population = toSettings.GetPopulation();
-              _importQuota = toSettings.GetImportQuota();
-              _numberAgents = toSettings.GetNumberAgents();
-              _mutationChance = toSettings.GetMutationChance();
+              SizeX.Value = toSettings.GetSizeX();
+              SizeY.Value = toSettings.GetSizeY();
+              Population.Value = toSettings.GetPopulation();
+              ImportQuota.Value = toSettings.GetImportQuota();
+              NumberAgents.Value = toSettings.GetNumberAgents();
+              MutationChance.Value = toSettings.GetMutationChance();
+          }
+          else
+          {
+              SizeX.Value = DefaultSizeX;
+              SizeY.Value = DefaultSizeY;
+              Population.Value = DefaultPopulation;
+              ImportQuota.Value = DefaultImportQuota;
+              NumberAgents.Value = DefaultNumberAgents;
+              MutationChance.Value = DefaultMutationChance;
           }
           base.OnNavigatedTo(e);
       }
 
-      // TODO: fix this method because it is not working
       private void BtnResetParameter(object sender, RoutedEventArgs e)
       {
-         _sizeX = DefaultSizeX;
-         _sizeY = DefaultSizeY;
-         _population = DefaultPopulation;
-         _importQuota = DefaultImportQuota;
-         _numberAgents = DefaultNumberAgents;
-         _mutationChance = DefaultMutationChance;
+          SizeX.Value = DefaultSizeX;
+          SizeY.Value = DefaultSizeY;
+          Population.Value = DefaultPopulation;
+          ImportQuota.Value = DefaultImportQuota;
+          NumberAgents.Value = DefaultNumberAgents;
+          MutationChance.Value = DefaultMutationChance;
       }
 
       private void BtnMainPage(object sender, RoutedEventArgs e)
@@ -66,21 +66,21 @@ namespace CityPlannerFrontend
       private void BtnMapView(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         var api = new Api(_population, new byte[_sizeX, _sizeY], _importQuota, _numberAgents, _mutationChance);
-         var toMapView = new ToMapView(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, api);
+         var api = new Api((int)Population.Value, new byte[(int)SizeX.Value, (int)SizeY.Value], (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value);
+         var toMapView = new ToMapView((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }
 
       private void BtnMapEditor(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         var settingsToMapEditor = new SettingsToMapEditor(_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool);
+         var settingsToMapEditor = new SettingsToMapEditor((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool);
          Frame.Navigate(typeof(MapEditor), settingsToMapEditor);
       }
 
       private bool InputValidation()
       {
-         if (_sizeX >= 5 && _sizeY >= 5)
+         if (SizeX.Value >= 5 && SizeY.Value >= 5)
          {
             return true;
          }
