@@ -198,7 +198,7 @@ namespace CityPlanner
             return (move.X % 7 == xOff || move.Y % 7 == xOff);
         }
 
-        public bool ShoudUtiliseGrid()
+        public bool ShouldUtiliseGrid()
         {
          
             var random = new Random();
@@ -206,10 +206,10 @@ namespace CityPlanner
         }
 
 
-        public bool ShoudTheAgentBuildAStrteet(Move move)
+        public bool ShouldTheAgentBuildAStreet(Move move)
         {
             var random = new Random();
-            if (IsOnGrid(move) && ShoudUtiliseGrid())
+            if (IsOnGrid(move) && ShouldUtiliseGrid())
             {
                 return true;
             }
@@ -229,7 +229,7 @@ namespace CityPlanner
             var move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced;
             if (_map.ValidateStreet(move)
-                && ShoudTheAgentBuildAStrteet(move))
+                && ShouldTheAgentBuildAStreet(move))
             {
                 toBePlaced = Data.GridType.Street;
                 _streetCounter++;
