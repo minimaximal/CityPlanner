@@ -25,9 +25,9 @@ public class Map : ICloneable
         SizeX = x;
         SizeY = y;
         _map = new MapElement[x, y];
-        for (int i = 0; i < x; i++)
+        for (var i = 0; i < x; i++)
         {
-            for (int j = 0; j < y; j++)
+            for (var j = 0; j < y; j++)
             {
                 _map[i, j] = new MapElement();
             }
@@ -55,11 +55,11 @@ public class Map : ICloneable
     // Calculates Dependencies for the whole Map and every mapElement except for predefined elements and streets
     private void CalculateDependencies()
     {
-        for (int i = 0; i < SizeX; i++)
+        for (var i = 0; i < SizeX; i++)
         {
-            for (int j = 0; j < SizeY; j++)
+            for (var j = 0; j < SizeY; j++)
             {
-                MapElement mapElement = GetGridElement(i, j)!;
+                var mapElement = GetGridElement(i, j)!;
                 if (mapElement.GetGridType() == Data.GridType.Street
                     || mapElement.GetGridType() == Data.GridType.Blocked
                     || mapElement.GetGridType() == Data.GridType.Highway) continue;
@@ -96,12 +96,12 @@ public class Map : ICloneable
 
     private void AddDependenciesFor(Move move)
     {
-        int range = (int)Math.Ceiling(Data.GridTypeMaxRange[move.GridType]);
-        for (int x = move.X - range; x < move.X + range; x++)
+        var range = (int)Math.Ceiling(Data.GridTypeMaxRange[move.GridType]);
+        for (var x = move.X - range; x < move.X + range; x++)
         {
-            for (int y = move.Y - range; y < move.Y + range; y++)
+            for (var y = move.Y - range; y < move.Y + range; y++)
             {
-                double distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
+                var distance = Math.Sqrt(Math.Pow(move.X - x, 2) + Math.Pow(move.Y - y, 2));
                 if (distance <= Data.GridTypeMaxRange[move.GridType] && !(move.X == x && move.Y == y))
                 {
                     GetGridElement(x, y)?.AddDependency(move.GridType, distance);
@@ -114,9 +114,9 @@ public class Map : ICloneable
     public int CalculateScore()
     {
         _population = 0;
-        int globalScore = 0;
-        int industryAmount = 0;
-        int commercialAmount = 0;
+        var globalScore = 0;
+        var industryAmount = 0;
+        var commercialAmount = 0;
 
         CalculateDependencies();
 
@@ -138,13 +138,11 @@ public class Map : ICloneable
         }
 
         //Population Scoring
-
-        int factor = 100000;
+        const int factor = 100000;
         _populationScore = -2 * factor * 3 / _targetPopulation * Math.Abs(_population - _targetPopulation) + factor * 3;
         globalScore += _populationScore;
 
         //Import quota
-
         if (Data.OptimalIndustryAmount != 0)
         {
             _industryRatioScore =
@@ -154,7 +152,7 @@ public class Map : ICloneable
         }
 
         //commercial quota
-        int targetCommercial = (_targetPopulation / 550);
+        var targetCommercial = (_targetPopulation / 550);
         _commercialScore = -2 * factor / targetCommercial * Math.Abs(commercialAmount - targetCommercial) + factor;
         globalScore += _commercialScore;
 
@@ -192,10 +190,10 @@ public class Map : ICloneable
 
     public object Clone()
     {
-        Map clone = new Map(SizeX, SizeY, _targetPopulation);
-        for (int x = 0; x < SizeX; x++)
+        var clone = new Map(SizeX, SizeY, _targetPopulation);
+        for (var x = 0; x < SizeX; x++)
         {
-            for (int y = 0; y < SizeY; y++)
+            for (var y = 0; y < SizeY; y++)
             {
                 clone._map[x, y] = _map[x, y].Clone();
             }
@@ -227,9 +225,9 @@ public class Map : ICloneable
         Console.WriteLine("CommercialScore:" + _commercialScore);
 
 
-        for (int y = 0; y < SizeY; y++)
+        for (var y = 0; y < SizeY; y++)
         {
-            for (int x = 0; x < SizeX; x++)
+            for (var x = 0; x < SizeX; x++)
             {
                 switch (_map[x, y].GetGridType())
                 {

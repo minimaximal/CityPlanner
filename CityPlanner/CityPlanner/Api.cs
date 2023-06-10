@@ -20,12 +20,12 @@ public class Api
    public Api(int population, byte[,] byteMap, int importQuota, int numberAgents, double mutationChance)
    {
 
-      foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
+      foreach (var gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
       {
          _stats.Add(gridType, 0);
       }
       
-      Data.mutationChance = mutationChance;
+      Data.MutationChance = mutationChance;
       
       _byteMap = byteMap;
       _score = 0;
@@ -36,7 +36,7 @@ public class Api
 
    public void NextGeneration()
    {
-      Map newMap = _appController.NextGeneration();
+      var newMap = _appController.NextGeneration();
       if (GetGeneration() == 1) { SetNewMap(newMap); return; }
       if (newMap.GetScore() > _currentMap.GetScore())
       {

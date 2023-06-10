@@ -5,9 +5,9 @@ namespace CityPlanner
     public class Agent
     {
         private Map _map = null!;
-        private readonly List<Move> _parentMoves = new List<Move>();
-        private readonly List<Move> _moves = new List<Move>();
-        private List<Move> _possibleMoves = new List<Move>();
+        private readonly List<Move> _parentMoves = new();
+        private readonly List<Move> _moves = new();
+        private List<Move> _possibleMoves = new();
         private static Move _firstPossibleMove = null!;
         private static Move _lastPossibleMove = null!;
 
@@ -43,35 +43,35 @@ namespace CityPlanner
         }
 
         // Splits moves of parents at splitPoint and generates new move list
-        private List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
+        private static List<Move> SelectMovesFromParents(Agent parent1, Agent parent2, double split)
         {
-            List<Move> result = new List<Move>();
+            List<Move> result = new();
             if (split >= 1)
             {
                 split = 1;
             }
 
-            int shorterParentCount = parent1._moves.Count;
+            var shorterParentCount = parent1._moves.Count;
 
             if (parent2._moves.Count < parent1._moves.Count)
             {
                 shorterParentCount = parent2._moves.Count;
             }
 
-            for (int i = 0; i < shorterParentCount * split; i++)
+            for (var i = 0; i < shorterParentCount * split; i++)
             {
                 result.Add(new Move(parent1._moves.ElementAt(i)));
             }
 
-            for (int i = result.Count; i < parent2._moves.Count; i++)
+            for (var i = result.Count; i < parent2._moves.Count; i++)
             {
                 result.Add(new Move(parent2._moves.ElementAt(i)));
             }
 
 
-            if (shorterParentCount == parent2._moves.Count)
+            if (shorterParentCount != parent2._moves.Count) return result;
             {
-                for (int i = result.Count; i < parent1._moves.Count; i++)
+                for (var i = result.Count; i < parent1._moves.Count; i++)
                 {
                     result.Add(new Move(parent1._moves.ElementAt(i)));
                 }
@@ -85,7 +85,7 @@ namespace CityPlanner
             _possibleMoves.Insert(0, _firstPossibleMove);
             _possibleMoves.Add(_lastPossibleMove);
 
-            for (int i = 0; i < _possibleMoves.Count - 1; i++)
+            for (var i = 0; i < _possibleMoves.Count - 1; i++)
             {
                 if (_possibleMoves[i].IndexNumber() - _possibleMoves[i + 1].IndexNumber() < -1)
                 {
@@ -102,13 +102,13 @@ namespace CityPlanner
         // Gets called by FillGapsInMovesList()
         private void FillGapAt(int index)
         {
-            Move gapBeginning = _possibleMoves.ElementAt(index);
-            int gapOffset = 0;
+            var gapBeginning = _possibleMoves.ElementAt(index);
+            var gapOffset = 0;
             do
             {
-                int tmp = (gapBeginning.X + gapOffset + 1);
-                int x = tmp % _map.SizeX;
-                int y = gapBeginning.Y + tmp / _map.SizeX;
+                var tmp = (gapBeginning.X + gapOffset + 1);
+                var x = tmp % _map.SizeX;
+                var y = gapBeginning.Y + tmp / _map.SizeX;
                 if (_map.GetGridElement(x, y)!.GetGridType() == Data.GridType.Empty)
                 {
                     _possibleMoves.Insert(index + 1, new Move(x, y));
@@ -130,12 +130,10 @@ namespace CityPlanner
                 }
             }
 
-            if (_possibleMoves[^1].IndexNumber() != _lastPossibleMove.IndexNumber())
+            if (_possibleMoves[^1].IndexNumber() == _lastPossibleMove.IndexNumber()) return;
+            if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
             {
-                if (_map.GetGridElement(_lastPossibleMove)!.GetGridType() == Data.GridType.Empty)
-                {
-                    _possibleMoves.Add(new Move(_lastPossibleMove));
-                }
+                _possibleMoves.Add(new Move(_lastPossibleMove));
             }
         }
 
@@ -146,7 +144,7 @@ namespace CityPlanner
 
         public void MakeNMoves(int n)
         {
-            for (int move = 0; move < n; move++)
+            for (var move = 0; move < n; move++)
             {
                 MakeOneMove();
             }
@@ -155,7 +153,7 @@ namespace CityPlanner
         // Gets called by MakeNMoves(int)
         public void MakeOneMove()
         {
-            Random random = new Random();
+            var random = new Random();
             Move? move = null;
             if (_parentMoves.Count > 0)
             {
@@ -167,7 +165,7 @@ namespace CityPlanner
                 } while (_parentMoves.Count > 0 && !_possibleMoves.Contains(move));
             }
 
-            if (move == null || random.NextDouble() < Data.mutationChance ||
+            if (move == null || random.NextDouble() < Data.MutationChance ||
                 (IsIllegalStreet(move)))
             {
                 if (_possibleMoves.Count > 0)
@@ -194,77 +192,63 @@ namespace CityPlanner
             return !_map.ValidateStreet(move);
         }
 
-        public bool isOnGrid(Move move)
+        public static bool IsOnGrid(Move move)
         {
-            int x_off = Data.InitialStreets[0].Item1 % 7;
-            int y_off = Data.InitialStreets[0].Item2 % 7;
-            return (move.X % 7 == x_off || move.Y % 7 == x_off);
+            var xOff = Data.InitialStreets[0].Item1 % 7;
+            return (move.X % 7 == xOff || move.Y % 7 == xOff);
         }
 
-        public bool shoudUtiliseGrid()
+        public bool ShoudUtiliseGrid()
         {
          
-            Random random = new Random();
+            var random = new Random();
             return random.NextDouble() < (-0.025 * _streetCounter + 2);
         }
 
 
-        public bool shoudTheAgentBuildAStrteet(Move move)
+        public bool ShoudTheAgentBuildAStrteet(Move move)
         {
-            Random random = new Random();
-            if (isOnGrid(move) && shoudUtiliseGrid())
+            var random = new Random();
+            if (IsOnGrid(move) && ShoudUtiliseGrid())
             {
                 return true;
             }
-            if (random.NextDouble() < _map.GetGridElement(move)!.GetProbability())
-            {
-                return true;
-            }
-
-            return false;
+            return random.NextDouble() < _map.GetGridElement(move)!.GetProbability();
         }
 
         private Move GetRandomMove()
         {
-            Random random = new Random();
+            var random = new Random();
 
-            int pick = 0;
+            var pick = 0;
             if (_moves.Count>10 && _possibleMoves.Count > 10)
             {
                 pick = random.Next() % 10;
             }
 
-            Move move = _possibleMoves.ElementAt(pick);
+            var move = _possibleMoves.ElementAt(pick);
             Data.GridType toBePlaced;
             if (_map.ValidateStreet(move)
-                && shoudTheAgentBuildAStrteet(move))
+                && ShoudTheAgentBuildAStrteet(move))
             {
                 toBePlaced = Data.GridType.Street;
                 _streetCounter++;
             }
             else
             {
-                double rand = random.NextDouble();
-                if (rand < 0.5) // 50% Chance
+                var rand = random.NextDouble();
+                toBePlaced = rand switch
                 {
-                    toBePlaced = Data.GridType.Housing;
-                }
-                else if (rand < 0.78) // 28% Chance
-                {
-                    toBePlaced = Data.GridType.Commercial;
-                }
-                else if (rand < 0.93) // 15% Chance
-                {
-                    toBePlaced = Data.GridType.Industry;
-                }
-                else if (rand < 0.98) // 5% Chance
-                {
-                    toBePlaced = Data.GridType.Subway;
-                }
-                else // 2 % Chance
-                {
-                    toBePlaced = Data.GridType.Sight;
-                }
+                    // 50% Chance
+                    < 0.5 => Data.GridType.Housing,
+                    // 28% Chance
+                    < 0.78 => Data.GridType.Commercial,
+                    // 15% Chance
+                    < 0.93 => Data.GridType.Industry,
+                    // 5% Chance
+                    < 0.98 => Data.GridType.Subway,
+                    _ => Data.GridType.Sight
+                };
             }
 
             move.GridType = toBePlaced;
@@ -274,11 +258,11 @@ namespace CityPlanner
         // Gets called by MakeOneMove() in order to remove an already used move
         private void RemoveFromPossibleMoves(Move move)
         {
-            int index = _possibleMoves.IndexOf(move); // Index should always be 0
+            var index = _possibleMoves.IndexOf(move); // Index should always be 0
             // Removes the move from possibleMoves list and checks sorted neighbors for dupes 
             if (index > 0)
             {
-                Move inFrontOf = _possibleMoves[index - 1];
+                var inFrontOf = _possibleMoves[index - 1];
                 if (inFrontOf.X == move.X &&
                     inFrontOf.Y == move.Y)
                 {
@@ -288,7 +272,7 @@ namespace CityPlanner
 
             if (index + 1 < _possibleMoves.Count)
             {
-                Move justBehind = _possibleMoves[index + 1];
+                var justBehind = _possibleMoves[index + 1];
                 if (justBehind.X == move.X &&
                     justBehind.Y == move.Y)
                 {
@@ -309,16 +293,7 @@ namespace CityPlanner
 
         public List<int> IsInList(Move move)
         {
-            List<int> hits = new List<int>();
-            foreach (var m in _possibleMoves)
-            {
-                if (m.X == move.X && m.Y == move.Y)
-                {
-                    hits.Add(_possibleMoves.IndexOf(m));
-                }
-            }
-
-            return hits;
+            return (from m in _possibleMoves where m.X == move.X && m.Y == move.Y select _possibleMoves.IndexOf(m)).ToList();
         }
 
         #endregion

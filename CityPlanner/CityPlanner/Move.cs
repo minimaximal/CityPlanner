@@ -31,9 +31,9 @@ public class Move : IComparable
       double minDistance = 1000;
       foreach (var (x, y) in Data.InitialStreets)
       {
-         int a = X - x;
-         int b = Y - y;
-         double distance = Math.Sqrt(a * a + b * b);
+         var a = X - x;
+         var b = Y - y;
+         var distance = Math.Sqrt(a * a + b * b);
          if (distance < minDistance)
             minDistance = distance;
 
@@ -44,7 +44,7 @@ public class Move : IComparable
 
    public int CompareTo(object? obj)
    {
-      Move comp = (Move)obj!;
+      var comp = (Move)obj!;
 
       return IndexNumber() - comp.IndexNumber();
    }

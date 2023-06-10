@@ -7,8 +7,7 @@ public static class Data
    public static int ImportQuota;
    public static int OptimalIndustryAmount;
    public static List<(int, int)> InitialStreets = null!;
-
-   public static double mutationChance;
+    public static double MutationChance;
 
 
    // Empty must be the last entry in this list otherwise Agent.cs:getRandomMove() does not work
@@ -29,7 +28,7 @@ public static class Data
    // Holds the amount of grid types excluding Empty
    public static readonly int GridTypeAmount = Enum.GetValues(typeof(GridType)).Length - 1;
 
-   public static readonly Dictionary<GridType, double> GridTypeMaxRange = new Dictionary<GridType, double>()
+   public static readonly Dictionary<GridType, double> GridTypeMaxRange = new()
     {
         { GridType.Housing, 5 },
         { GridType.Commercial, 6.5 },

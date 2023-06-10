@@ -4,20 +4,20 @@
 
 using CityPlanner;
 
-Map map = new Map(40, 40, 50000);
-Move move = new Move(10, 10)
+Map map = new (40, 40, 50000);
+Move move = new(10, 10)
 {
    GridType = Data.GridType.Street
 };
 map.AddMove(move);
-Data.mutationChance = 0.001;
-AppController appController = new AppController( map, 0,20);
+Data.MutationChance = 0.001;
+AppController appController = new( map, 0,20);
 
 Map? bestMap = null;
 
-for (int j = 0; j < 100; j++)
+for (var j = 0; j < 100; j++)
 {
-   Map nextMap = appController.NextGeneration();
+   var nextMap = appController.NextGeneration();
 
    if (j % 100 == 0)
    {

@@ -18,7 +18,7 @@ public class AppController
 
    public Map NextGeneration()
    {
-      Agent bestAgent = _agentController.ExecuteEvolutionStep();
+      var bestAgent = _agentController.ExecuteEvolutionStep();
       _generation++;
       return bestAgent.GetMap();
    }

@@ -12,9 +12,9 @@ namespace CityPlanner
       [Test]
       public void CopyOfGrid_Deep()
       {
-         MapElement n1 = new MapElement();
-         MapElement n2 = n1.Clone();
-         Industry industry = new Industry(n2);
+         MapElement n1 = new();
+         var n2 = n1.Clone();
+         var industry = new Industry(n2);
          MapElement industry2 = industry.Clone();
 
          Assert.AreEqual(industry.GetGridType(), industry2.GetGridType());
@@ -25,8 +25,8 @@ namespace CityPlanner
       [Test]
       public void CopyOfMap_Deep()
       {
-         Map newMap = new Map(50, 50, 5000);
-         Move nextMove = new Move(49, 49)
+         var newMap = new Map(50, 50, 5000);
+         var nextMove = new Move(49, 49)
          {
             GridType = Data.GridType.Street
          };
@@ -36,11 +36,11 @@ namespace CityPlanner
             GridType = Data.GridType.Commercial
          };
          newMap.AddMove(nextMove);
-         Map clonedMap = (Map)newMap.Clone();
+         var clonedMap = (Map)newMap.Clone();
 
-         for (int i = 0; i < 50; i++)
+         for (var i = 0; i < 50; i++)
          {
-            for (int j = 0; j < 50; j++)
+            for (var j = 0; j < 50; j++)
             {
                Assert.AreEqual(newMap.GetGridElement(i, j)!.GetGridType(), clonedMap.GetGridElement(i, j)!.GetGridType());
                Assert.AreEqual(newMap.GetGridElement(i, j)!.GetLevel(), clonedMap.GetGridElement(i, j)!.GetLevel());
@@ -56,20 +56,20 @@ namespace CityPlanner
       public void MoveSort()
       {
          Data.SizeX = 5;
-         List<Move> actualList = new List<Move>
+         var actualList = new List<Move>
          {
-            new Move(3, 1),
-            new Move(1, 3),
-            new Move(1, 1),
-            new Move(1, 4),
-            new Move(1, 2),
-            new Move(3, 1),
-            new Move(3, 2)
+            new(3, 1),
+            new(1, 3),
+            new(1, 1),
+            new(1, 4),
+            new(1, 2),
+            new(3, 1),
+            new(3, 2)
          };
 
          actualList.Insert(4, new Move(5, 5));
 
-         List<Move> expectedList = new List<Move>
+         List<Move> expectedList = new()
          {
             new Move(1, 1),
             new Move(3, 1),
@@ -82,7 +82,7 @@ namespace CityPlanner
          expectedList.Insert(7, new Move(5, 5));
 
          actualList.Sort();
-         for (int i = 0; i < expectedList.Count; i++)
+         for (var i = 0; i < expectedList.Count; i++)
          {
             Assert.AreEqual(expectedList[i].X, actualList[i].X);
             Assert.AreEqual(expectedList[i].Y, actualList[i].Y);
@@ -94,23 +94,23 @@ namespace CityPlanner
       [Test]
       public void ValidAgent()
       {
-         Map newMap = new Map(50, 50, 5000);
-         Move nextMove = new Move(24, 24);
+         var newMap = new Map(50, 50, 5000);
+         var nextMove = new Move(24, 24);
          Data.InitialStreets = new List<(int, int)> { (24, 24) };
          nextMove.GridType = Data.GridType.Street;
          newMap.AddMove(nextMove);
-         Agent agent = new Agent(newMap);
+         var agent = new Agent(newMap);
 
-         for (int i = 0; i < 2499; i++)
+         for (var i = 0; i < 2499; i++)
          {
             agent.MakeOneMove();
          }
 
-         int moveCount = 0;
+         var moveCount = 0;
 
-         for (int i = 0; i < 50; i++)
+         for (var i = 0; i < 50; i++)
          {
-            for (int j = 0; j < 50; j++)
+            for (var j = 0; j < 50; j++)
             {
                if (newMap.GetGridElement(i, j)!.GetGridType() != Data.GridType.Empty)
                {
@@ -134,23 +134,23 @@ namespace CityPlanner
       [Test]
       public void CheckIfAgentIsChild()
       {
-         Map newMap = new Map(50, 50, 5000);
+         var newMap = new Map(50, 50, 5000);
          Data.InitialStreets = new List<(int, int)> { (24, 24) };
-         Move nextMove = new Move(24, 24)
+         var nextMove = new Move(24, 24)
          {
             GridType = Data.GridType.Street
          };
          newMap.AddMove(nextMove);
-         Agent parentAgent = new Agent((Map)newMap.Clone());
-         Agent parentAgent2 = new Agent((Map)newMap.Clone());
+         var parentAgent = new Agent((Map)newMap.Clone());
+         var parentAgent2 = new Agent((Map)newMap.Clone());
 
-         for (int i = 0; i < 10; i++)
+         for (var i = 0; i < 10; i++)
          {
             parentAgent.MakeOneMove();
             parentAgent2.MakeOneMove();
          }
 
-         Agent childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
+         var childAgent = new Agent(newMap, parentAgent, parentAgent2, 50);
 
          Assert.AreEqual(childAgent.IsInList(new Move(1, 1)), parentAgent.IsInList(new Move(1, 1)));
       }
@@ -160,41 +160,39 @@ namespace CityPlanner
       [Test]
       public void ValidStreets()
       {
-         Map newMap = new Map(50, 50, 5000);
-         Move nextMove = new Move(24, 24)
+         var newMap = new Map(50, 50, 5000);
+         var nextMove = new Move(24, 24)
          {
             GridType = Data.GridType.Street
          };
          Data.InitialStreets = new List<(int, int)> { (24, 24) };
          newMap.AddMove(nextMove);
-         Agent agent = new Agent(newMap);
+         var agent = new Agent(newMap);
 
-         for (int i = 0; i < 2499; i++)
+         for (var i = 0; i < 2499; i++)
          {
             agent.MakeOneMove();
          }
 
-         for (int i = 0; i < 50; i++)
+         for (var i = 0; i < 50; i++)
          {
-            for (int j = 0; j < 50; j++)
+            for (var j = 0; j < 50; j++)
             {
-               if (agent.GetMap().GetGridElement(i, j)!.GetGridType() == Data.GridType.Street)
-               {
-                  try
-                  {
-                     if (agent.GetMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
-                         agent.GetMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
-                         agent.GetMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
-                         agent.GetMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
-                     {
+                if (agent.GetMap().GetGridElement(i, j)!.GetGridType() != Data.GridType.Street) continue;
+                try
+                {
+                    if (agent.GetMap().GetGridElement(i - 1, j)!.GetGridType() != Data.GridType.Street &&
+                        agent.GetMap().GetGridElement(i, j - 1)!.GetGridType() != Data.GridType.Street &&
+                        agent.GetMap().GetGridElement(i + 1, j)!.GetGridType() != Data.GridType.Street &&
+                        agent.GetMap().GetGridElement(i, j + 1)!.GetGridType() != Data.GridType.Street)
+                    {
                         Assert.Fail();
-                     }
-                  }
-                  catch (Exception)
-                  {
-                     // ignored
-                  }
-               }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
          }
          Assert.Pass();
@@ -204,9 +202,9 @@ namespace CityPlanner
       [Test]
       public void ValidApiCalls()
       {
-         Api api = new Api(30000, new byte[20, 20], 0, 20, 0.001);
+         var api = new Api(30000, new byte[20, 20], 0, 20, 0.001);
 
-         for (int j = 0; j < 10; j++)
+         for (var j = 0; j < 10; j++)
          {
             api.NextGeneration();
             api.GetMapToFrontend();

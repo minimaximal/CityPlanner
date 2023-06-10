@@ -19,9 +19,9 @@ namespace CityPlanner
          Data.SizeX = map.SizeX;
          _agentAmount = agentAmount < 6 ? 6 : agentAmount;
          Data.InitialStreets = new List<(int, int)>();
-         for (int x = 0; x < map.SizeX; x++)
+         for (var x = 0; x < map.SizeX; x++)
          {
-            for (int y = 0; y < map.SizeY; y++)
+            for (var y = 0; y < map.SizeY; y++)
             {
                if (map.GetGridElement(x, y)!.GetGridType() == Data.GridType.Street)
                {
@@ -50,12 +50,11 @@ namespace CityPlanner
          _agents.AsParallel().ForAll(agent => agent.MakeNMoves(_moveLimit));
          _agents.AsParallel().ForAll(agent => agent.CalculateScore());
 
-         Agent generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
-         if (_bestOfAllTime == null || _bestOfAllTime.Score < generationalBestAgent.Score) 
-         {
-            _bestOfAllTime = generationalBestAgent;
-            _includeBestOfAllTime = false;
-         }
+         var generationalBestAgent = _agents.OrderByDescending(agent => agent.Score).First();
+         if (_bestOfAllTime != null && _bestOfAllTime.Score >= generationalBestAgent.Score)
+             return generationalBestAgent;
+         _bestOfAllTime = generationalBestAgent;
+         _includeBestOfAllTime = false;
          return generationalBestAgent;
       }
 
@@ -63,9 +62,9 @@ namespace CityPlanner
       private void CreateNewAgents(int amount)
       {
          _agents.Clear();
-         for (int i = 0; i < amount; i++)
+         for (var i = 0; i < amount; i++)
          {
-            Map map = (Map)_defaultMap.Clone();
+            var map = (Map)_defaultMap.Clone();
             _agents.Add(new Agent(map));
          }
       }
@@ -73,21 +72,21 @@ namespace CityPlanner
       // Creates new Agents with preceding Agents, used as parents in Agent.cs
       private void CreateNewAgents(int amount, IEnumerable<Agent> precedingAgents)
       {
-         List<Agent> bestThreeAgents = GetBestThreeAgents(precedingAgents);
+         var bestThreeAgents = GetBestThreeAgents(precedingAgents);
          if (_includeBestOfAllTime)
             bestThreeAgents[2] = _bestOfAllTime!;
          _agents.Clear();
          (int firstAgent, int secondAgent)[] combinations = new (int, int)[]
              { (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1) };
-         for (int i = 0; i < amount; i++)
+         for (var i = 0; i < amount; i++)
          {
-            Map map = (Map)_defaultMap.Clone();
+            var map = (Map)_defaultMap.Clone();
             _agents.Add(new Agent(map, bestThreeAgents[combinations[i % 6].firstAgent],
                 bestThreeAgents[combinations[i % 6].secondAgent], (i + 1) / (double)(amount + 1)));
          }
       }
 
-      private List<Agent> GetBestThreeAgents(IEnumerable<Agent> precedingAgents)
+      private static List<Agent> GetBestThreeAgents(IEnumerable<Agent> precedingAgents)
       {
          return precedingAgents.OrderByDescending(agent => agent.Score).Take(3).ToList();
       }
