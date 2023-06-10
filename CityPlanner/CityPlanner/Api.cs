@@ -70,7 +70,7 @@ public class Api
       {
          for (var y = 0; y < _currentMap.SizeY; y++)
          {
-            _byteMap[x, y] = TransformMapElementToByte(_currentMap.GetGridElement(x, y)!);
+            _byteMap[x, y] = TransformMapElementToByte(_currentMap.GetGridElement(x, y)!, new ArgumentOutOfRangeException());
          }
       }
 
@@ -118,7 +118,7 @@ public class Api
 
    // Transforms one MapElement from Object to Bytecode
    // from backend to frontend (map view)
-   private byte TransformMapElementToByte(MapElement input)
+   private byte TransformMapElementToByte(MapElement input, Exception argumentOutOfRangeException)
    {
       switch (input.GetGridType())
       {
@@ -177,6 +177,8 @@ public class Api
          case Data.GridType.Empty:
             _stats[Data.GridType.Empty]++;
             return 0;
+         default:
+             throw argumentOutOfRangeException;
       }
 
       return 255;
@@ -193,31 +195,37 @@ public class Api
       {
          for (var y = 0; y < sizeY; y++)
          {
-            if (byteMap[x, y] == 11)
-            {
-               var move = new Move(x, y)
-               {
-                  GridType = Data.GridType.Street
-               };
-               map.AddMove(move);
-               hasStreet = true;
-            }
-            else if (byteMap[x, y] == 21)
-            {
-               var move = new Move(x, y)
-               {
-                  GridType = Data.GridType.Blocked
-               };
-               map.AddMove(move);
-            }
-            else if (byteMap[x, y] == 32)
-            {
-               var move = new Move(x, y)
-               {
-                  GridType = Data.GridType.Highway
-               };
-               map.AddMove(move);
-            }
+             switch (byteMap[x, y])
+             {
+                 case 11:
+                 {
+                     var move = new Move(x, y)
+                     {
+                         GridType = Data.GridType.Street
+                     };
+                     map.AddMove(move);
+                     hasStreet = true;
+                     break;
+                 }
+                 case 21:
+                 {
+                     var move = new Move(x, y)
+                     {
+                         GridType = Data.GridType.Blocked
+                     };
+                     map.AddMove(move);
+                     break;
+                 }
+                 case 32:
+                 {
+                     var move = new Move(x, y)
+                     {
+                         GridType = Data.GridType.Highway
+                     };
+                     map.AddMove(move);
+                     break;
+                 }
+             }
          }
       }
 

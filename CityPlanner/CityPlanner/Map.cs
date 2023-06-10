@@ -134,6 +134,20 @@ public class Map : ICloneable
                 case Data.GridType.Commercial:
                     commercialAmount++;
                     break;
+                case Data.GridType.Subway:
+                    break;
+                case Data.GridType.Sight:
+                    break;
+                case Data.GridType.Street:
+                    break;
+                case Data.GridType.Blocked:
+                    break;
+                case Data.GridType.Highway:
+                    break;
+                case Data.GridType.Empty:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -273,6 +287,8 @@ public class Map : ICloneable
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.Write("_");
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
