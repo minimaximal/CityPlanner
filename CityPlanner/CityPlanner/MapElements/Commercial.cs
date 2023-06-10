@@ -4,9 +4,7 @@ namespace CityPlanner.MapElements;
 
 public class Commercial : MapElement
 {
-   public Commercial(MapElement mapElement) : base(mapElement)
-   {
-   }
+   public Commercial(MapElement mapElement) : base(mapElement) { }
 
    public override void AddDependency(Data.GridType gridType, double distance)
    {
@@ -28,6 +26,16 @@ public class Commercial : MapElement
             if (distance <= 1.5)
                Dependency[gridType].Add(distance);
             break;
+         case Data.GridType.Sight:
+             break;
+         case Data.GridType.Blocked:
+             break;
+         case Data.GridType.Highway:
+             break;
+         case Data.GridType.Empty:
+             break;
+         default:
+             throw new ArgumentOutOfRangeException(nameof(gridType), gridType, null);
       }
    }
 
@@ -43,16 +51,17 @@ public class Commercial : MapElement
          Score += 150;
       }
 
-      foreach (double commercial in Dependency[Data.GridType.Commercial])
+      foreach (var commercial in Dependency[Data.GridType.Commercial])
       {
-         if (commercial <= 2)
-         {
-            Score += 700;
-         }
-         else if (commercial > 3.5)
-         {
-            Score -= 500;
-         }
+          switch (commercial)
+          {
+              case <= 2:
+                  Score += 700;
+                  break;
+              case > 3.5:
+                  Score -= 500;
+                  break;
+          }
       }
 
       // Base cost

@@ -4,9 +4,7 @@ namespace CityPlanner.MapElements;
 
 public class Blocked : MapElement
 {
-   public Blocked(MapElement mapElement) : base(mapElement)
-   {
-   }
+   public Blocked(MapElement mapElement) : base(mapElement) { }
 
    public override Data.GridType GetGridType()
    {

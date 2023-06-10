@@ -4,9 +4,7 @@ namespace CityPlanner.MapElements;
 
 public class Industry : MapElement
 {
-   public Industry(MapElement mapElement) : base(mapElement)
-   {
-   }
+   public Industry(MapElement mapElement) : base(mapElement) { }
 
    public override void AddDependency(Data.GridType gridType, double distance)
    {
@@ -16,12 +14,26 @@ public class Industry : MapElement
          case Data.GridType.Street:
             Dependency[gridType].Add(distance);
             break;
-
-
          case Data.GridType.Industry:
             if (distance <= 3.5)
                Dependency[gridType].Add(distance);
             break;
+         case Data.GridType.Housing:
+             break;
+         case Data.GridType.Commercial:
+             break;
+         case Data.GridType.Subway:
+             break;
+         case Data.GridType.Sight:
+             break;
+         case Data.GridType.Blocked:
+             break;
+         case Data.GridType.Highway:
+             break;
+         case Data.GridType.Empty:
+             break;
+         default:
+             throw new ArgumentOutOfRangeException(nameof(gridType), gridType, null);
       }
    }
 

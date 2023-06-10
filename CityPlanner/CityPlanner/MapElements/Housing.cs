@@ -6,9 +6,7 @@ public class Housing : MapElement
 {
    private int _people;
 
-   public Housing(MapElement mapElement) : base(mapElement)
-   {
-   }
+   public Housing(MapElement mapElement) : base(mapElement) { }
 
    public override void AddDependency(Data.GridType gridType, double distance)
    {
@@ -32,6 +30,16 @@ public class Housing : MapElement
          case Data.GridType.Subway:
             Dependency[gridType].Add(distance);
             break;
+         case Data.GridType.Housing:
+             break;
+         case Data.GridType.Blocked:
+             break;
+         case Data.GridType.Highway:
+             break;
+         case Data.GridType.Empty:
+             break;
+         default:
+             throw new ArgumentOutOfRangeException(nameof(gridType), gridType, null);
       }
    }
 

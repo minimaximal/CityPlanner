@@ -4,9 +4,7 @@ namespace CityPlanner.MapElements;
 
 public class Sight : MapElement
 {
-    public Sight(MapElement mapElement) : base(mapElement)
-    {
-    }
+    public Sight(MapElement mapElement) : base(mapElement) { }
 
     public override void AddDependency(Data.GridType gridType, double distance)
     {
@@ -22,6 +20,18 @@ public class Sight : MapElement
                 if (distance <= 1)
                     Dependency[gridType].Add(distance);
                 break;
+            case Data.GridType.Commercial:
+                break;
+            case Data.GridType.Industry:
+                break;
+            case Data.GridType.Blocked:
+                break;
+            case Data.GridType.Highway:
+                break;
+            case Data.GridType.Empty:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(gridType), gridType, null);
         }
     }
 

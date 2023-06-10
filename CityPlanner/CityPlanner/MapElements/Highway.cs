@@ -5,9 +5,7 @@ namespace CityPlanner.MapElements;
 public class Highway : MapElement
 {
 
-   public Highway(MapElement mapElement) : base(mapElement)
-   {
-   }
+   public Highway(MapElement mapElement) : base(mapElement) { }
 
    public override void AddDependency(Data.GridType gridType, double distance)
    {

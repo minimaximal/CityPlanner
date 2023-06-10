@@ -12,7 +12,7 @@ public class MapElement
    // Basic Constructor for initializing map
    public MapElement()
    {
-      foreach (Data.GridType gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
+      foreach (var gridType in (Data.GridType[])Enum.GetValues(typeof(Data.GridType)))
       {
          Dependency.Add(gridType, new List<double>());
       }
@@ -28,11 +28,6 @@ public class MapElement
 
       Score = oldMapElement.Score;
       Level = oldMapElement.Level;
-   }
-
-   public int GetScore()
-   {
-      return Score;
    }
 
    public virtual int CalculateScore()
@@ -80,7 +75,7 @@ public class MapElement
       // Returns value between 0 and 1 
 
       Dependency[Data.GridType.Street].Sort();
-      int counter = 0;
+      var counter = 0;
       while (Dependency[Data.GridType.Street].Count > counter && Dependency[Data.GridType.Street][counter] <= 1)
       {
          counter++;

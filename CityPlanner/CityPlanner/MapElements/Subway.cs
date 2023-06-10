@@ -4,9 +4,7 @@ namespace CityPlanner.MapElements;
 
 public class Subway : MapElement
 {
-    public Subway(MapElement mapElement) : base(mapElement)
-    {
-    }
+    public Subway(MapElement mapElement) : base(mapElement) { }
 
     public override void AddDependency(Data.GridType gridType, double distance)
     {
@@ -21,14 +19,25 @@ public class Subway : MapElement
                 if (distance <= 4.5)
                     Dependency[gridType].Add(distance);
                 break;
+            case Data.GridType.Industry:
+                break;
+            case Data.GridType.Sight:
+                break;
+            case Data.GridType.Blocked:
+                break;
+            case Data.GridType.Highway:
+                break;
+            case Data.GridType.Empty:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(gridType), gridType, null);
         }
     }
 
     public override int CalculateScore()
     {
         Score = 0;
-
-
+        
         Score += Dependency[Data.GridType.Housing].Count * 50;
         // The closer another Subway is the more minus points it gets 
         Score += Dependency[Data.GridType.Subway].Count * -1500;
