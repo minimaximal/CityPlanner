@@ -10,12 +10,20 @@ namespace CityPlannerFrontend
 {
    public sealed partial class Settings : Page
    {
-       private int _sizeX = 40;
-       private int _sizeY = 40;
-       private int _population = 50000;
-       private int _importQuota; // 0 bis 100 (percent)
-       private int _numberAgents = 20;
-       private double _mutationChance = 0.001;
+       private const int DefaultSizeX = 40;
+       private const int DefaultSizeY = 40;
+       private const int DefaultPopulation = 50000;
+       private const int DefaultImportQuota = 0; // 0 bis 100 (percent)
+       private const int DefaultNumberAgents = 20;
+       private const double DefaultMutationChance = 0.001;
+
+
+       private int _sizeX = DefaultSizeX;
+       private int _sizeY = DefaultSizeY;
+       private int _population = DefaultPopulation;
+       private int _importQuota = DefaultImportQuota; 
+       private int _numberAgents = DefaultNumberAgents;
+       private double _mutationChance = DefaultMutationChance;
       
        private readonly MapTools _mapTool = new();
 
@@ -39,6 +47,16 @@ namespace CityPlannerFrontend
           base.OnNavigatedTo(e);
       }
 
+      // TODO: fix this method because it is not working
+      private void BtnResetParameter(object sender, RoutedEventArgs e)
+      {
+         _sizeX = DefaultSizeX;
+         _sizeY = DefaultSizeY;
+         _population = DefaultPopulation;
+         _importQuota = DefaultImportQuota;
+         _numberAgents = DefaultNumberAgents;
+         _mutationChance = DefaultMutationChance;
+      }
 
       private void BtnMainPage(object sender, RoutedEventArgs e)
       {

@@ -14,7 +14,9 @@
                               Click="BtnMainPage"
                               HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel VerticalAlignment="Center">
+            <Button Click="BtnResetParameter" Width="200" HorizontalAlignment="Right" Margin="0 0 45 30">Parameter zur&#252;cksetzen</Button>
             <Expander
+                Width="450"
                 HorizontalAlignment="Center"
                 IsExpanded="True"
                 ExpandDirection="Down"
@@ -33,6 +35,7 @@
             </Expander>
             <Expander
                 Margin="0 20 0 0"
+                Width="450"
                 HorizontalAlignment="Center"
                 IsExpanded="False"
                 ExpandDirection="Down"
