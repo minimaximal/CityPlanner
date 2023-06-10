@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
@@ -12,15 +12,36 @@
 
         <ScrollViewer Grid.Column="0" ZoomMode="Disabled" IsTabStop="True" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" IsHorizontalScrollChainingEnabled="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" ManipulationMode="TranslateX,TranslateY">
             <StackPanel>
-        
-            <HyperlinkButton Click="BtnSettings" Margin="1,5,1,5">zur&#252;ck zum Men&#252;</HyperlinkButton>
+                <Button Content="&lt;- Einstellelungen &lt;-" Click="BtnSettings" Margin="5,15,5,20" Width="240"/>
 
-            <Button Name="Btn0" Click="BtnMapElementToolBar" Tag="0" BorderThickness="3" BorderBrush="Red"> <Image Source="/Assets/Grid/0.png" Height="16" Width="16"/> </Button>
-            <Button Name="Btn11" Click="BtnMapElementToolBar" Tag="11"> <Image Source="/Assets/Grid/11.png" Height="16" Width="16"/> </Button>
-            <Button Name="Btn21" Click="BtnMapElementToolBar" Tag="21"> <Image Source="/Assets/Grid/21.png" Height="16" Width="16"/> </Button>
-            <Button Name="Btn32" Click="BtnMapElementToolBar" Tag="32"> <Image Source="/Assets/Grid/32.png" Height="16" Width="16"/> </Button>
+                <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="125"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+    
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="25,15,0,0" HorizontalAlignment="Left" Text="Startpunkt:"/>
+                        <Button Grid.Row="0" Grid.Column="1" Margin="10,15,0,0" Name="Btn11" Tag="11" Click="BtnMapElementToolBar"> <Image Source="/Assets/Grid/11.png" Height="16" Width="16"/> </Button>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="25,15,0,0" HorizontalAlignment="Left" Text="Autobahn:"/>
+                        <Button Grid.Row="1" Grid.Column="1" Margin="10,15,0,0" Name="Btn32" Tag="32" Click="BtnMapElementToolBar"> <Image Source="/Assets/Grid/32.png" Height="16" Width="16"/> </Button>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="25,15,0,0" HorizontalAlignment="Left" Text="Sperrfl&#228;che:"/>
+                        <Button Grid.Row="2" Grid.Column="1" Margin="10,15,0,0" Name="Btn21" Tag="21" Click="BtnMapElementToolBar"> <Image Source="/Assets/Grid/21.png" Height="16" Width="16"/> </Button>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="25,15,0,0" HorizontalAlignment="Left" Text="leere Fl&#228;che:"/>
+                        <Button Grid.Row="3" Grid.Column="1" Margin="10,15,0,0" Name="Btn0" Tag="0" Click="BtnMapElementToolBar" BorderThickness="3" BorderBrush="Red"> <Image Source="/Assets/Grid/0.png" Height="16" Width="16"/> </Button>
 
-            <Button Click="BtnMapView" HorizontalAlignment="Right" Margin="40">Simulation starten</Button>
+
+                    </Grid>
+
+                <Button Content="-> Simulation starten ->" Click="BtnMapView" Margin="5,45,5,0" Width="240"/>
+                
+
         </StackPanel>
         </ScrollViewer>
 
