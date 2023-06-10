@@ -148,12 +148,12 @@ namespace CityPlannerFrontend
          {
             Task.Run(() => { BackendLoopAsync(); });
             MapGridScrollViewer.Opacity = 1;
-            PauseButton.Content = "Pause";
+            ButtonPause.Content = "Pause";
          }
          else
          {
             MapGridScrollViewer.Opacity = 0.6;
-            PauseButton.Content = "Fortsetzen";
+            ButtonPause.Content = "Fortsetzen";
          }
          _pause = !_pause;
       }

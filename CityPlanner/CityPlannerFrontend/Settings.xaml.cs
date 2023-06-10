@@ -13,7 +13,7 @@ namespace CityPlannerFrontend
        private const int DefaultSizeX = 40;
        private const int DefaultSizeY = 40;
        private const int DefaultPopulation = 50000;
-       private const int DefaultImportQuota = 33; // 0 bis 100 (percent)
+       private const int DefaultImportQuota = 33; // 0 to 100 (percent)
        private const int DefaultNumberAgents = 20;
        private const double DefaultMutationChance = 0.1;
 
