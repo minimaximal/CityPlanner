@@ -223,7 +223,7 @@ public class Map : ICloneable
     }
     public int GetTargetPopulation()
     {
-        return _score;
+        return _targetPopulation;
     }
 
 
