@@ -9,13 +9,17 @@ using WinRT.Interop;
 namespace CityPlannerFrontend
 {
     public sealed partial class MainWindow
-   {
-      public MainWindow()
+    { 
+        // Object for the current window to set the title and resize the window from other pages
+        public static AppWindow MainAppWindow;
+
+       public MainWindow()
       {
          this.InitializeComponent();
 
-         var mAppWindow = GetAppWindowForCurrentWindow();
-         mAppWindow.Title = "City Planner";
+         MainAppWindow = GetAppWindowForCurrentWindow();
+         MainAppWindow.Title = "City Planner";
+         MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 800));
       }
       
       private AppWindow GetAppWindowForCurrentWindow()

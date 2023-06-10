@@ -48,6 +48,9 @@ namespace CityPlannerFrontend
               MutationChance.Value = DefaultMutationChance;
           }
           base.OnNavigatedTo(e);
+
+          // Resize window (back) to default size
+          MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 800));
       }
 
       private void BtnResetParameter(object sender, RoutedEventArgs e)
