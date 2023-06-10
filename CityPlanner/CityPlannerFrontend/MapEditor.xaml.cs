@@ -145,7 +145,7 @@ namespace CityPlannerFrontend
       // Create api to start simulation and navigate to map view
       private void BtnMapView(object sender, RoutedEventArgs e)
       { 
-         Api api = new (_population, _map, _importQuota, _numberAgents, _mutationChance*100.0);
+         Api api = new (_population, _map, _importQuota, _numberAgents, _mutationChance/100.0);
          ToMapView toMapView = new (_sizeX, _sizeY, _population, _importQuota, _numberAgents, _mutationChance, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }

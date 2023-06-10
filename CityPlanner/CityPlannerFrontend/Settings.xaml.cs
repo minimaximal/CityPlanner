@@ -68,7 +68,7 @@ namespace CityPlannerFrontend
       private void BtnMapView(object sender, RoutedEventArgs e)
       {
          if (!InputValidation()) return;
-         Api api = new ((int)Population.Value, new byte[(int)SizeX.Value, (int)SizeY.Value], (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value*100.0);
+         Api api = new ((int)Population.Value, new byte[(int)SizeX.Value, (int)SizeY.Value], (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value/100.0);
          ToMapView toMapView = new ((int)SizeX.Value, (int)SizeY.Value, (int)Population.Value, (int)ImportQuota.Value, (int)NumberAgents.Value, MutationChance.Value, _mapTool, api);
          Frame.Navigate(typeof(MapView), toMapView);
       }
