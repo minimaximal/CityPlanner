@@ -55,10 +55,10 @@ namespace CityPlannerFrontend
             base.OnNavigatedTo(e);
 
             // Resize window to fit the map and the statistics without scrolling and without empty space
-            MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(_sizeX * 16 + 250 + 25, _sizeX * 16 + 45));
+            MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(_sizeY * 16 + 250 + 25, _sizeX * 16 + 45));
 
             // Set ui elements to the values of the used parameters for the simulation (fixed values)
-            MapSize.Text = _sizeX + " x " + _sizeY + " (" + (_sizeX * _sizeY) + ")";
+            MapSize.Text = _sizeY + " x " + _sizeX + " (" + (_sizeX * _sizeY) + ")";
             TargetPopulation.Text = _targetPopulation.ToString();
             ImportQuota.Text = (_importQuota).ToString("0.00") + " %";
             NumberAgents.Text = _numberAgents.ToString();

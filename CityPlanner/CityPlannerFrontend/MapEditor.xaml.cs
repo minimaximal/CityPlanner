@@ -48,7 +48,7 @@ namespace CityPlannerFrontend
             base.OnNavigatedTo(e);
 
             // Resize window to fit the map and the statistics without scrolling and without empty space
-            MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(_sizeX * 16 + 250 + 25, _sizeX * 16 + 45));
+            MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(_sizeY * 16 + 250 + 25, _sizeX * 16 + 45));
 
             // Create and display default empty map
             _map = new byte[_sizeX, _sizeY];

@@ -20,9 +20,9 @@
                 Header="Parameter">
                 <StackPanel>
                     <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Kartenbreite (Rasteranzahl)"/>
-                    <NumberBox Name="SizeX"  HorizontalAlignment="Center" Width="200"/>
-                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Kartenl&#228;nge (Rasteranzahl)"/>
                     <NumberBox Name="SizeY"  HorizontalAlignment="Center" Width="200"/>
+                    <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Kartenl&#228;nge (Rasteranzahl)"/>
+                    <NumberBox Name="SizeX"  HorizontalAlignment="Center" Width="200"/>
                     <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Zielbev&#246;lkerung"/>
                     <NumberBox Name="Population"  HorizontalAlignment="Center" Width="200"/>
                     <TextBlock Margin="0 12 0 3" HorizontalAlignment="Center" Text="Importquote (in Prozent)"/>
