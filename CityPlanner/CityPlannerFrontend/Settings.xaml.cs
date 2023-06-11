@@ -50,7 +50,7 @@ namespace CityPlannerFrontend
           base.OnNavigatedTo(e);
 
           // Resize window (back) to default size
-          MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1500, 800));
+          MainWindow.MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1600, 900));
       }
 
       private void BtnResetParameter(object sender, RoutedEventArgs e)
@@ -85,13 +85,48 @@ namespace CityPlannerFrontend
 
       private bool InputValidation()
       {
-         if (SizeX.Value >= 5 && SizeY.Value >= 5)
+         if (SizeX.Value < 5 || SizeY.Value < 5)
          {
-            return true;
+                TtInputInvalid.Title = "Die Kartengröße ist zu klein\n";
+                TtInputInvalid.Subtitle = "Empfohlen ist eine Kartengröße von mindestens 10 mal 10 Rastern - Mindesteingabe: 5 mal 5";
+                TtInputInvalid.IsOpen = true;
+                return false;
          }
 
-         Maptoosmall.IsOpen = true;
-         return false;
+         if (Population.Value < 2000)
+         {
+                TtInputInvalid.Title = "Die Zielbevölkerung ist zu klein\n";
+                TtInputInvalid.Subtitle = "Empfohlen ist eine Zielbevölkerung von mindestens 10000 - Mindesteingabe: 2000";
+                TtInputInvalid.IsOpen = true;
+                return false;
+         }
+
+         if (ImportQuota.Value < 0 || ImportQuota.Value > 100)
+         {
+            TtInputInvalid.Title = "Die Importquote ist ungültig\n";
+            TtInputInvalid.Subtitle = "Die Importquote muss zwischen 0 % und 100 % liegen";
+            TtInputInvalid.IsOpen = true;
+            return false;
+         }
+
+         if (NumberAgents.Value < 1)
+         {
+            TtInputInvalid.Title = "Die Anzahl der gleichzeitigen Simulationen ist zu klein\n";
+            TtInputInvalid.Subtitle = "Empfohlen ist eine Anzahl von mindestens 5 gleichzeitigen Simulationen - Mindesteingabe: 1";
+            TtInputInvalid.IsOpen = true;
+            return false;
+         }
+
+         if (MutationChance.Value <= 0 || MutationChance.Value > 100)
+         {
+            TtInputInvalid.Title = "Die Mutationschance ist ungültig\n";
+            TtInputInvalid.Subtitle = "Die Mutationschance muss zwischen 0 % und 100 % liegen - 0 % ist nicht zulässig";
+            TtInputInvalid.IsOpen = true;
+            return false;
+         }
+
+         TtInputInvalid.IsOpen = false;
+         return true;
       }
    }
 }

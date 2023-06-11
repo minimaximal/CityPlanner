@@ -49,9 +49,9 @@
         </StackPanel>
         
         
-        <TeachingTip x:Name="Maptoosmall"
-                     Title="Die Karte ist zu klein"
-                     Subtitle="Empfohlen ist eine Mindestgr&#246;&#223;e von 10 mal 10"
+        <TeachingTip x:Name="TtInputInvalid"
+                     Title="Eingabe(n) ungültig"
+                     Subtitle="Bitte prüfen Sie Ihre Eingabe(n)"
                      PreferredPlacement="Auto"
                      PlacementMargin="20"
                      IsLightDismissEnabled="True"
