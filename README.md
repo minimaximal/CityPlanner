@@ -20,7 +20,7 @@ Die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans für 
 
 - Die Software verfügt über ein Hauptmenü. Von diesem gelangt man zum Erstellungsfenster einer neuen Simulation.
 - Das Erstellungsfenster für eine neue Simulation bietet folgende Möglichkeiten:
-  - Einstellen der Parameter: Kartenbreite, Kartenläng, Zielbevölkerung und Importquote
+  - Einstellen der Parameter: Kartenbreite, Kartenlänge, Zielbevölkerung und Importquote
   - Einstellen der erweiterten Parameter: Anzahl gleichzeitiger Simulationen und Mutationschance
   - Zurücksetzen der Parameter
   - Zurückkehren ins Hauptmenü
