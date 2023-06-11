@@ -52,3 +52,6 @@ Durch die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans
     - Sperrfläche
     - leere Fläche
  
+ ## Technische Spezifikationen
+ 
+ Das Spiel ist in C# mit .NET-Framework und Windows App SDK für die Grafikausgabe entwickelt. Es wird .NET-Version 6.0 mit der zugehörigen C# Version verwendet.
