@@ -200,7 +200,7 @@ namespace CityPlanner
 
         public bool ShouldUtiliseGrid()
         {
-         
+
             var random = new Random();
             return random.NextDouble() < (-0.025 * _streetCounter + 2);
         }
@@ -221,7 +221,7 @@ namespace CityPlanner
             var random = new Random();
 
             var pick = 0;
-            if (_moves.Count>10 && _possibleMoves.Count > 10)
+            if (_moves.Count > 10 && _possibleMoves.Count > 10)
             {
                 pick = random.Next() % 10;
             }
@@ -253,7 +253,7 @@ namespace CityPlanner
 
             if (toBePlaced == Data.GridType.Industry && Data.OptimalIndustryAmount == 0)
                 toBePlaced = Data.GridType.Housing;
-                
+
             move.GridType = toBePlaced;
             return move;
         }

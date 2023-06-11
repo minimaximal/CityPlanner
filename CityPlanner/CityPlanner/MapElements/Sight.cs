@@ -44,7 +44,7 @@ public class Sight : MapElement
         Score += Dependency[Data.GridType.Sight].Count * -1000;
         if (Dependency[Data.GridType.Subway].Any())
             Score += 100;
-            
+
 
         // Base cost
         Score += 20;

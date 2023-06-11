@@ -88,9 +88,9 @@ public class Map : ICloneable
     private void AddDependenciesFor(int x, int y)
     {
         AddDependenciesFor(new Move(x, y)
-            {
-                GridType = GetGridElement(x, y)!.GetGridType()
-            }
+        {
+            GridType = GetGridElement(x, y)!.GetGridType()
+        }
         );
     }
 

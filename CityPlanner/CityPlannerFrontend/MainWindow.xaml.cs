@@ -9,25 +9,25 @@ using WinRT.Interop;
 namespace CityPlannerFrontend
 {
     public sealed partial class MainWindow
-    { 
+    {
         // Object for the current window to set the title and resize the window from other pages
         public static AppWindow MainAppWindow;
 
-       public MainWindow()
-      {
-         this.InitializeComponent();
+        public MainWindow()
+        {
+            this.InitializeComponent();
 
-         MainAppWindow = GetAppWindowForCurrentWindow();
-         MainAppWindow.Title = "City Planner";
-         MainAppWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
-         MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1600, 900));
-      }
-      
-      private AppWindow GetAppWindowForCurrentWindow()
-      {
-         var hWnd = WindowNative.GetWindowHandle(this);
-         var wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
-         return AppWindow.GetFromWindowId(wndId);
-      }
-   }
+            MainAppWindow = GetAppWindowForCurrentWindow();
+            MainAppWindow.Title = "City Planner";
+            MainAppWindow.SetIcon("Assets/AppIcon/_AppIcon.ico");
+            MainAppWindow.Resize(new Windows.Graphics.SizeInt32(1600, 900));
+        }
+
+        private AppWindow GetAppWindowForCurrentWindow()
+        {
+            var hWnd = WindowNative.GetWindowHandle(this);
+            var wndId = Win32Interop.GetWindowIdFromWindow(hWnd);
+            return AppWindow.GetFromWindowId(wndId);
+        }
+    }
 }

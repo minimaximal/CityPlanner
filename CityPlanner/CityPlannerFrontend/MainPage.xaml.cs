@@ -5,16 +5,16 @@ using Microsoft.UI.Xaml;
 
 namespace CityPlannerFrontend
 {
-   public sealed partial class MainPage
-   {
-      public MainPage()
-      {
-         this.InitializeComponent();
-      }
+    public sealed partial class MainPage
+    {
+        public MainPage()
+        {
+            this.InitializeComponent();
+        }
 
-      private void BtnSettings(object sender, RoutedEventArgs e)
-      {
-         Frame.Navigate(typeof(Settings));
-      }
-   }
+        private void BtnSettings(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Settings));
+        }
+    }
 }

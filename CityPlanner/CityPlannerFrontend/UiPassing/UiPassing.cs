@@ -11,7 +11,7 @@ namespace CityPlannerFrontend.UiPassing
         private readonly int _importQuota;
         private readonly int _numberAgents;
         private readonly double _mutationChance;
-        
+
 
         public UiPassing(int sizeX, int sizeY, int population, int importQuota, int numberAgents, double mutationChance)
         {
@@ -33,7 +33,7 @@ namespace CityPlannerFrontend.UiPassing
         {
             return _sizeY;
         }
-        
+
         public int GetPopulation()
         {
             return _population;
