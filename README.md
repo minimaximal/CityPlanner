@@ -10,7 +10,7 @@ Dieses Projekt entstand als Projektentwurf der Vorlesung "Grundlagen des Softwar
 
 This project was part of the lecture "Software-Engineering Basics" at the DHBW (Baden-Wuerttemberg Coorperative State University) Mannheim. The project will be graded and was submitted by a team of 5 people from the course TINF21AI1.
 
-**This project shall not be used as reference for constructing an actual city**
+**This project shall not be used as reference for constructing an actual city!**
 
 ## Projektziel
 
