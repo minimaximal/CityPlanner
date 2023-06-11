@@ -14,7 +14,7 @@ This project was part of the lecture "Software-Engineering Basics" at the DHBW (
 
 ## Projektziel
 
-Durch die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans für eine organisch aufgebaute Wüstenstadt
+Die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans für eine organisch aufgebaute Wüstenstadt
 
 ## Funktionen in der Software
 
