@@ -1,4 +1,5 @@
 ﻿// @author: Leo Schnüll
+// @author for /Assets/: Leo Schnüll
 // App is the entry point of the application. It is responsible for creating the main window and navigating to the first page.
 
 using Microsoft.UI.Xaml;
