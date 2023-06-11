@@ -14,13 +14,13 @@ This project was part of the lecture "Software-Engineering Basics" at the DHBW (
 
 ## Projektziel
 
-Die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans für eine organisch aufgebaute Wüstenstadt
+Die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans für eine organisch aufgebaute Wüstenstadt.
 
 ## Funktionen in der Software
 
-- Die Software verfügt über ein Hauptmenü. Von diesem gelangt man zum Erstellungsfenster einer neuen Simulation
+- Die Software verfügt über ein Hauptmenü. Von diesem gelangt man zum Erstellungsfenster einer neuen Simulation.
 - Das Erstellungsfenster für eine neue Simulation bietet folgende Möglichkeiten:
-  - Einstellen der Parameter: Kartenbreite, Kartenläng, Zielbevölkerung und Importquote
+  - Einstellen der Parameter: Kartenbreite, Kartenlänge, Zielbevölkerung und Importquote
   - Einstellen der erweiterten Parameter: Anzahl gleichzeitiger Simulationen und Mutationschance
   - Zurücksetzen der Parameter
   - Zurückkehren ins Hauptmenü
