@@ -35,4 +35,20 @@ Durch die Softwarelösung "City Planner" ermöglicht die Generierung eines Plans
   - Vom Karteneditor aus kann die Simulation dann auch direkt gestartet werden
   - Bei Bedarf kann man vom Karteneditor auch zurück zu den Generierungs Einstellungen gelangen
 - Simulation
-  - 
+  - Die Simulation stellt während der Ausführung den besten Agent der Generation von Agents visuell auf der Karte dar
+  - Zusätzlich werden zur visuellen Darstellung auf der Karte werden auch die Statistiken des Agents angegeben
+  - Ebenfalls werden Statistiken zur Simulation selbst angegeben: aktuelle Generation und die zuletzt geladene Karte
+  - Des Weiteren gibt es eine übersicht über Gesetzte Paraneter und eine Legende, in der die einzelnen Feldtypen der Karte erklärt sind
+  - Die Simulation kann zu jeder Zeit pausiert werden
+- Feldtypen
+  - In der Simulaiton sind folgende Feldtypen vorhanden:
+    - Wohngebiet (Level 1 bis 3)
+    - Gewerbegebiert (Level 1 bis 3)
+    - Industriegebiet (Level 1 bis 3)
+    - Sehenswürdigkeit
+    - U-Bahn
+    - Straße
+    - Autobahn
+    - Sperrfläche
+    - leere Fläche
+ 
